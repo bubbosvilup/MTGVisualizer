@@ -1,0 +1,44 @@
+/* DeckCard.css */
+
+.deck-card {
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.deck-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 12px rgba(90, 193, 142, 0.4);
+}
+
+.deck-card-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.deck-card-info {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.deck-card-name {
+  font-weight: bold;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-card-percent {
+  color: #5ac18e;
+  font-weight: bold;
+}

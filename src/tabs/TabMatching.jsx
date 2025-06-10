@@ -1,0 +1,336 @@
+import React, { useState, useMemo, useCallback } from 'react';
+import { useDecks } from '../context/useDecks';
+import DeckCard from '../components/DeckCard';
+import scryfallData from '../data/scryfall-min.json';
+import '../styles/TabMatching.css';
+
+function TabMatching() {
+  const { decks, collection } = useDecks();
+  const [minCompletion, setMinCompletion] = useState(80);
+  const [matchingDecks, setMatchingDecks] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(24);
+  const [isMatching, setIsMatching] = useState(false);
+  const [expandedCommanders, setExpandedCommanders] = useState(new Set());
+
+  const PLACEHOLDER_IMAGE =
+    'https://cards.scryfall.io/art_crop/front/0/0/0000579f-7b35-4ed3-b44c-db2a538066fe.jpg';
+
+  // Pre-calcola la mappa della collezione con ottimizzazioni
+  const collectionMap = useMemo(() => {
+    if (!collection?.length) return new Map();
+
+    const map = new Map();
+    collection.forEach((card) => {
+      if (card.name) {
+        const name = card.name.toLowerCase();
+        const qty = card.quantity || card.qty || 1;
+        map.set(name, (map.get(name) || 0) + qty);
+      }
+    });
+    return map;
+  }, [collection]);
+
+  // Pre-calcola la mappa di Scryfall con ottimizzazioni
+  const scryfallMap = useMemo(() => {
+    const map = new Map();
+    scryfallData.forEach((card) => {
+      if (card.name) {
+        map.set(card.name.toLowerCase(), card.image || PLACEHOLDER_IMAGE);
+      }
+    });
+    return map;
+  }, []);
+
+  // Funzione ottimizzata per il matching ultra-veloce
+  const processDecksUltraFast = useCallback(
+    async (decks, collectionMap, scryfallMap, minCompletion) => {
+      const results = [];
+      const BATCH_SIZE = 500;
+
+      for (let i = 0; i < decks.length; i += BATCH_SIZE) {
+        const batch = decks.slice(i, i + BATCH_SIZE);
+
+        batch.forEach((deck) => {
+          if (!deck?.cards?.length) return;
+
+          let totalRequired = 0;
+          let totalOwned = 0;
+          let commanderCard = null;
+
+          deck.cards.forEach((card) => {
+            if (!card.name) return;
+
+            if (card.isCommander) {
+              commanderCard = card;
+            }
+
+            const name = card.name.toLowerCase();
+            const requiredQty = card.quantity || 1;
+            const ownedQty = collectionMap.get(name) || 0;
+
+            totalRequired += requiredQty;
+            totalOwned += Math.min(requiredQty, ownedQty);
+          });
+
+          if (totalRequired === 0) return;
+
+          const completion = Math.round((totalOwned / totalRequired) * 100);
+
+          if (completion >= minCompletion) {
+            if (!commanderCard) {
+              commanderCard = deck.cards[0];
+            }
+
+            const commanderImage =
+              scryfallMap.get(commanderCard.name.toLowerCase()) || PLACEHOLDER_IMAGE;
+
+            results.push({
+              ...deck,
+              completion,
+              commanderName: commanderCard.name,
+              commanderImage,
+            });
+          }
+        });
+
+        if (i % 2000 === 0 && i > 0) {
+          await new Promise((resolve) => setTimeout(resolve, 5));
+        }
+      }
+
+      return results.sort((a, b) => b.completion - a.completion);
+    },
+    []
+  );
+
+  // Raggruppa i deck per commander
+  const groupedByCommander = useMemo(() => {
+    const filtered = matchingDecks.filter((deck) => deck.completion >= minCompletion);
+    const groups = new Map();
+
+    filtered.forEach((deck) => {
+      const commanderName = deck.commanderName;
+      if (!groups.has(commanderName)) {
+        groups.set(commanderName, {
+          commanderName,
+          commanderImage: deck.commanderImage,
+          decks: [],
+          maxCompletion: 0,
+          avgCompletion: 0,
+        });
+      }
+
+      const group = groups.get(commanderName);
+      group.decks.push(deck);
+      group.maxCompletion = Math.max(group.maxCompletion, deck.completion);
+    });
+
+    // Calcola la media di completamento per ogni gruppo
+    groups.forEach((group) => {
+      const totalCompletion = group.decks.reduce((sum, deck) => sum + deck.completion, 0);
+      group.avgCompletion = Math.round(totalCompletion / group.decks.length);
+    });
+
+    // Converti in array e ordina per massimo completamento
+    return Array.from(groups.values()).sort((a, b) => b.maxCompletion - a.maxCompletion);
+  }, [matchingDecks, minCompletion]);
+
+  const handleMatch = async () => {
+    if (!collection?.length) {
+      alert("⚠️ Collezione non caricata. Vai prima nella tab 'Collezione' e carica il file .txt.");
+      return;
+    }
+
+    if (collectionMap.size === 0) {
+      alert('⚠️ Collezione vuota o non valida.');
+      return;
+    }
+
+    setIsMatching(true);
+    setMatchingDecks([]);
+    setExpandedCommanders(new Set());
+
+    const startTime = performance.now();
+
+    try {
+      const results = await processDecksUltraFast(decks, collectionMap, scryfallMap, minCompletion);
+      setMatchingDecks(results);
+      setVisibleCount(24);
+
+      const endTime = performance.now();
+      console.log(
+        `Matching completato in ${Math.round(endTime - startTime)}ms per ${decks.length} deck`
+      );
+    } catch (error) {
+      console.error('Errore durante il matching:', error);
+      alert('Errore durante il matching. Controlla la console per i dettagli.');
+    } finally {
+      setIsMatching(false);
+    }
+  };
+
+  const toggleCommander = (commanderName) => {
+    const newExpanded = new Set(expandedCommanders);
+    if (newExpanded.has(commanderName)) {
+      newExpanded.delete(commanderName);
+    } else {
+      newExpanded.add(commanderName);
+    }
+    setExpandedCommanders(newExpanded);
+  };
+
+  const loadMore = () => setVisibleCount((prev) => prev + 24);
+
+  const visibleGroups = groupedByCommander.slice(0, visibleCount);
+  const totalDecksFound = groupedByCommander.reduce((sum, group) => sum + group.decks.length, 0);
+
+  return (
+    <div className="tab-matching">
+      <div className="matching-header">
+        <h2>🎯 Deck Matching</h2>
+        <p className="subtitle">Trova i deck che puoi costruire con la tua collezione</p>
+      </div>
+
+      <div className="matching-controls">
+        <div className="control-group">
+          <label className="range-label">
+            <span>
+              Completamento minimo: <strong>{minCompletion}%</strong>
+            </span>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={minCompletion}
+              onChange={(e) => setMinCompletion(Number(e.target.value))}
+              disabled={isMatching}
+              className="completion-slider"
+            />
+          </label>
+        </div>
+
+        <button
+          onClick={handleMatch}
+          disabled={isMatching || !collection?.length}
+          className={`match-button ${isMatching ? 'matching' : ''}`}
+        >
+          {isMatching ? (
+            <>
+              <span className="spinner"></span>
+              Matching...
+            </>
+          ) : (
+            <>
+              <span>🚀</span>
+              Avvia Matching
+            </>
+          )}
+        </button>
+      </div>
+
+      {isMatching && (
+        <div className="matching-progress">
+          <p>🔍 Analizzando {decks.length.toLocaleString()} deck...</p>
+          <div className="progress-bar">
+            <div className="progress-fill"></div>
+          </div>
+        </div>
+      )}
+
+      {groupedByCommander.length > 0 && (
+        <div className="matching-stats">
+          <div className="stat">
+            <span className="stat-number">{groupedByCommander.length}</span>
+            <span className="stat-label">Commander</span>
+          </div>
+          <div className="stat">
+            <span className="stat-number">{totalDecksFound}</span>
+            <span className="stat-label">Deck trovati</span>
+          </div>
+          <div className="stat">
+            <span className="stat-number">{minCompletion}%+</span>
+            <span className="stat-label">Completamento</span>
+          </div>
+        </div>
+      )}
+
+      <div className="commander-groups">
+        {visibleGroups.map((group) => (
+          <div key={group.commanderName} className="commander-group">
+            <div
+              className={`commander-header ${expandedCommanders.has(group.commanderName) ? 'expanded' : ''}`}
+              onClick={() => toggleCommander(group.commanderName)}
+            >
+              <div className="commander-info">
+                <img
+                  src={group.commanderImage}
+                  alt={group.commanderName}
+                  className="commander-image"
+                  onError={(e) => {
+                    e.target.src = PLACEHOLDER_IMAGE;
+                  }}
+                />
+                <div className="commander-details">
+                  <h3 className="commander-name">{group.commanderName}</h3>
+                  <div className="commander-stats">
+                    <span className="deck-count">
+                      {group.decks.length} deck{group.decks.length > 1 ? 's' : ''}
+                    </span>
+                    <span className="completion-range">
+                      {group.decks.length === 1
+                        ? `${group.maxCompletion}%`
+                        : `${Math.min(...group.decks.map((d) => d.completion))}% - ${group.maxCompletion}%`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className="expand-indicator">
+                {expandedCommanders.has(group.commanderName) ? '▼' : '▶'}
+              </div>
+            </div>
+
+            {expandedCommanders.has(group.commanderName) && (
+              <div className="commander-decks">
+                <div className="deck-grid">
+                  {group.decks.map((deck, index) => (
+                    <DeckCard key={`${deck.name}-${index}`} deck={deck} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {visibleCount < groupedByCommander.length && (
+        <div className="load-more-section">
+          <button onClick={loadMore} className="load-more-btn">
+            <span>📋</span>
+            Carica altri commander
+            <span className="load-more-count">
+              ({visibleCount} di {groupedByCommander.length})
+            </span>
+          </button>
+        </div>
+      )}
+
+      {groupedByCommander.length === 0 && !isMatching && matchingDecks.length === 0 && (
+        <div className="empty-state">
+          <div className="empty-icon">🎴</div>
+          <h3>Nessun deck analizzato</h3>
+          <p>Clicca "Avvia Matching" per trovare i deck che puoi costruire</p>
+        </div>
+      )}
+
+      {groupedByCommander.length === 0 && !isMatching && matchingDecks.length > 0 && (
+        <div className="no-results">
+          <div className="no-results-icon">😔</div>
+          <h3>Nessun deck trovato</h3>
+          <p>Prova ad abbassare la soglia di completamento minimo</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default TabMatching;
