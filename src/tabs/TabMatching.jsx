@@ -5,7 +5,7 @@ import scryfallData from '../data/scryfall-min.json';
 import '../styles/TabMatching.css';
 
 function TabMatching() {
-  const { decks, collection } = useDecks();
+  const { decks, collection, loadingDecks } = useDecks();
   const [minCompletion, setMinCompletion] = useState(80);
   const [matchingDecks, setMatchingDecks] = useState([]);
   const [visibleCount, setVisibleCount] = useState(24);
@@ -211,7 +211,7 @@ function TabMatching() {
 
         <button
           onClick={handleMatch}
-          disabled={isMatching || !collection?.length}
+          disabled={isMatching || !collection?.length || loadingDecks}
           className={`match-button ${isMatching ? 'matching' : ''}`}
         >
           {isMatching ? (
@@ -314,12 +314,22 @@ function TabMatching() {
         </div>
       )}
 
-      {groupedByCommander.length === 0 && !isMatching && matchingDecks.length === 0 && (
+      {loadingDecks ? (
         <div className="empty-state">
-          <div className="empty-icon">🎴</div>
-          <h3>Nessun deck analizzato</h3>
-          <p>Clicca "Avvia Matching" per trovare i deck che puoi costruire</p>
+          <div className="empty-icon">⏳</div>
+          <h3>Caricamento mazzi in corso...</h3>
+          <p>Attendi qualche secondo prima di avviare il matching</p>
         </div>
+      ) : (
+        groupedByCommander.length === 0 &&
+        !isMatching &&
+        matchingDecks.length === 0 && (
+          <div className="empty-state">
+            <div className="empty-icon">🎴</div>
+            <h3>Nessun deck analizzato</h3>
+            <p>Clicca "Avvia Matching" per trovare i deck che puoi costruire</p>
+          </div>
+        )
       )}
 
       {groupedByCommander.length === 0 && !isMatching && matchingDecks.length > 0 && (

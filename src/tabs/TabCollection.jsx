@@ -1,5 +1,5 @@
 // TabCollection.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/TabCollection.css';
 import parseCollectionFromText from '../utils/parseCollection';
 import scryfallData from '../data/scryfall-min.json';
@@ -7,11 +7,43 @@ import Fuse from 'fuse.js';
 import { useDecks } from '../context/useDecks';
 
 function TabCollection() {
-  const { collection, setCollection } = useDecks(); // ✅ context only
+  const { collection, setCollection } = useDecks();
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(100);
   const [loading, setLoading] = useState(false);
   const [filterColor, setFilterColor] = useState('');
+  const [notification, setNotification] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    const fetchCollection = async () => {
+      try {
+        const res = await fetch('/api/collection');
+        const data = await res.json();
+
+        const enriched = data.map((entry) => {
+          const match = scryfallData.find(
+            (card) => card.name.toLowerCase() === entry.name.toLowerCase()
+          );
+          return {
+            ...entry,
+            name: capitalizeWords(entry.name),
+            image: match?.image || '',
+            price: typeof match?.price === 'number' ? match.price : null,
+            colors: match?.colors || [],
+            type: match?.type || '',
+          };
+        });
+
+        console.log('📥 Collezione caricata da backend:', enriched);
+        setCollection(enriched);
+      } catch (err) {
+        console.error('❌ Errore nel caricamento della collezione:', err);
+      }
+    };
+
+    fetchCollection();
+  }, [setCollection]);
 
   const capitalizeWords = (str) => str.replace(/\b\w/g, (char) => char.toUpperCase());
 
@@ -38,7 +70,22 @@ function TabCollection() {
       };
     });
 
-    console.log('✅ Collezione caricata e salvata nel context:', enriched);
+    try {
+      const response = await fetch('/api/collection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entries),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Errore ${response.status}: ${await response.text()}`);
+      }
+
+      console.log('✅ Collezione salvata nel backend');
+    } catch (error) {
+      console.error('❌ Errore nel salvataggio:', error);
+    }
+
     setCollection(enriched);
     setLoading(false);
   };
@@ -103,10 +150,48 @@ function TabCollection() {
     setCollection(sorted);
   };
 
+  const showTempMessage = (message, duration = 2000) => {
+    setNotification(message);
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), duration);
+  };
+
+  const patchCard = async (name, newQty) => {
+    try {
+      const response = await fetch('/api/collection', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, qty: newQty }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Errore ${response.status}: ${await response.text()}`);
+      }
+
+      setCollection((prev) => {
+        if (newQty <= 0) {
+          return prev.filter((c) => c.name.toLowerCase() !== name.toLowerCase());
+        } else {
+          return prev.map((c) =>
+            c.name.toLowerCase() === name.toLowerCase() ? { ...c, qty: newQty } : c
+          );
+        }
+      });
+      showTempMessage('✅ Salvato!');
+    } catch (err) {
+      console.error('❌ Errore PATCH:', err);
+      showTempMessage('❌ Errore salvataggio');
+    }
+  };
+
   return (
     <div className="tab-collection">
-      <input type="file" accept=".txt" onChange={handleFileUpload} />
-      {loading && <p>⏳ Caricamento in corso...</p>}
+      {collection.length === 0 && (
+        <>
+          <input type="file" accept=".txt" onChange={handleFileUpload} />
+          {loading && <p>⏳ Caricamento in corso...</p>}
+        </>
+      )}
 
       {!loading && collection.length > 0 && (
         <>
@@ -147,10 +232,15 @@ function TabCollection() {
             <p>
               <strong>{card.name}</strong>
             </p>
-            <p>📦 Quantità: {card.qty}</p>
-            <p>
-              💶 Prezzo: {typeof card.price === 'number' ? `${card.price.toFixed(2)} €` : 'N/A'}
-            </p>
+            <div className="qty-controls">
+              <button onClick={() => patchCard(card.name, card.qty - 1)}>➖</button>
+              <span>📦 {card.qty}</span>
+              <button onClick={() => patchCard(card.name, card.qty + 1)}>➕</button>
+              <button onClick={() => patchCard(card.name, 0)} className="delete-btn">
+                🗑️
+              </button>
+            </div>
+            <p>💶 {typeof card.price === 'number' ? `${card.price.toFixed(2)} €` : 'N/A'}</p>
           </div>
         ))}
       </div>
@@ -160,6 +250,7 @@ function TabCollection() {
           Carica altre
         </button>
       )}
+      {showNotification && <div className="notification-toast">{notification}</div>}
     </div>
   );
 }
