@@ -1,5 +1,5 @@
 // TabCollection.jsx
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import '../styles/TabCollection.css';
 import parseCollectionFromText from '../utils/parseCollection';
 import scryfallData from '../data/scryfall-min.json';
@@ -18,28 +18,21 @@ function TabCollection() {
   const [addResults, setAddResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [highlightedCard, setHighlightedCard] = useState('');
-  const [searchInCollection, setSearchInCollection] = useState(false);
 
   // Ref per il timeout del debounce
   const debounceTimeoutRef = useRef(null);
   // Ref per il container della ricerca
   const addBarRef = useRef(null);
 
-  const scryfallFuse = new Fuse(scryfallData, {
-    keys: ['name'],
-    threshold: 0.4,
-    distance: 100,
-    minMatchCharLength: 2,
-    ignoreLocation: true,
-  });
-
-  const collectionFuse = new Fuse(collection, {
-    keys: ['name'],
-    threshold: 0.3,
-    distance: 100,
-    minMatchCharLength: 2,
-    ignoreLocation: true,
-  });
+  const scryfallFuse = useMemo(() => {
+    return new Fuse(scryfallData, {
+      keys: ['name'],
+      threshold: 0.4,
+      distance: 100,
+      minMatchCharLength: 2,
+      ignoreLocation: true,
+    });
+  }, []);
 
   // Funzione per ottenere il colore del bordo basato sui colori della carta
   const getCardBorderColor = (colors) => {
@@ -69,13 +62,7 @@ function TabCollection() {
       const lowerVal = query.toLowerCase();
       let results = [];
 
-      if (searchInCollection) {
-        // Cerca solo nella collezione esistente
-        results = collectionFuse.search(query).map((r) => r.item);
-      } else {
-        // Cerca in tutto Scryfall
-        results = scryfallFuse.search(query).map((r) => r.item);
-      }
+      results = scryfallFuse.search(query).map((r) => r.item);
 
       // Deduplica per nome
       const seen = new Set();
@@ -87,8 +74,7 @@ function TabCollection() {
       });
 
       // Se esiste un match esatto, lo mettiamo in cima
-      const searchPool = searchInCollection ? collection : scryfallData;
-      const exactMatch = searchPool.find((card) => card.name.toLowerCase() === lowerVal);
+      const exactMatch = scryfallData.find((card) => card.name.toLowerCase() === lowerVal);
 
       if (exactMatch) {
         const alreadyIn = deduped.find((card) => card.name.toLowerCase() === lowerVal);
@@ -102,7 +88,7 @@ function TabCollection() {
       setAddResults(deduped.slice(0, 10));
       setIsSearching(false);
     },
-    [scryfallFuse, collectionFuse, collection, searchInCollection]
+    [scryfallFuse]
   );
 
   // Handler per l'input con debounce
@@ -404,14 +390,6 @@ function TabCollection() {
                 value={addQuery}
                 onChange={(e) => handleAddQueryChange(e.target.value)}
               />
-              <label className="search-toggle">
-                <input
-                  type="checkbox"
-                  checked={searchInCollection}
-                  onChange={(e) => setSearchInCollection(e.target.checked)}
-                />
-                🏠 Cerca solo nella mia collezione
-              </label>
             </div>
             {isSearching && <span className="search-indicator">🔎 Cerco...</span>}
             {!isSearching && addResults.length === 0 && addQuery.trim().length > 1 && (
