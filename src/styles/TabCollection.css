@@ -365,15 +365,251 @@
 
 .notification-toast {
   position: fixed;
-  bottom: 16px;
-  right: 16px;
-  background-color: #222;
-  color: #fff;
-  padding: 10px 16px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #2ecc71; /* verde chiaro */
+  color: white;
+  padding: 12px 18px;
   border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  z-index: 1000;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.add-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.search-indicator {
+  color: #666;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.add-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.add-dropdown li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.add-dropdown li:hover {
+  background-color: #f5f5f5;
+}
+
+.add-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.dropdown-image {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.add-dropdown span {
   font-size: 0.9rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  opacity: 0.95;
-  z-index: 9999;
-  transition: opacity 0.3s ease;
+  color: #333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Stili aggiuntivi per TabCollection.css */
+
+/* Container per input e toggle */
+.add-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-input-container input[type='text'] {
+  flex: 1;
+}
+
+/* Toggle per la ricerca nella collezione */
+.search-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9em;
+  color: #666;
+  cursor: pointer;
+  user-select: none;
+}
+
+.search-toggle input[type='checkbox'] {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Messaggio "Nessun risultato" */
+.no-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 12px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Miglioramenti al dropdown */
+.dropdown-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.owned-qty {
+  font-size: 0.85em;
+  color: #007bff;
+  font-weight: 500;
+}
+
+/* Effetto highlight per le carte aggiunte */
+.card-box.highlighted {
+  animation: highlightPulse 1s ease-in-out;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+}
+
+@keyframes highlightPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
+    transform: scale(1.02);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    transform: scale(1);
+  }
+}
+
+/* Toast di errore */
+.notification-toast:has-text('❌') {
+  background: #dc3545;
+}
+
+/* Miglioramenti ai filtri colore con emoji */
+.filters select option {
+  padding: 4px 8px;
+}
+
+/* Responsive migliorato */
+@media (max-width: 768px) {
+  .add-input-container {
+    gap: 6px;
+  }
+
+  .search-toggle {
+    font-size: 0.8em;
+  }
+
+  .dropdown-info {
+    gap: 2px;
+  }
+
+  .owned-qty {
+    font-size: 0.8em;
+  }
+
+  .notification-toast {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+}
+
+/* Miglioramenti accessibilità */
+.search-toggle:hover {
+  color: #333;
+}
+
+.search-toggle:focus-within {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Effetti hover migliorati per i dropdown */
+.add-dropdown li:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+.add-dropdown li:hover .card-name {
+  color: #007bff;
+}
+
+/* Stili per i bordi colorati delle carte */
+.card-box {
+  transition: all 0.3s ease;
+}
+
+.card-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

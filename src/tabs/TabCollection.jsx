@@ -1,5 +1,5 @@
 // TabCollection.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import '../styles/TabCollection.css';
 import parseCollectionFromText from '../utils/parseCollection';
 import scryfallData from '../data/scryfall-min.json';
@@ -14,6 +14,182 @@ function TabCollection() {
   const [filterColor, setFilterColor] = useState('');
   const [notification, setNotification] = useState('');
   const [showNotification, setShowNotification] = useState(false);
+  const [addQuery, setAddQuery] = useState('');
+  const [addResults, setAddResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [highlightedCard, setHighlightedCard] = useState('');
+  const [searchInCollection, setSearchInCollection] = useState(false);
+
+  // Ref per il timeout del debounce
+  const debounceTimeoutRef = useRef(null);
+  // Ref per il container della ricerca
+  const addBarRef = useRef(null);
+
+  const scryfallFuse = new Fuse(scryfallData, {
+    keys: ['name'],
+    threshold: 0.4,
+    distance: 100,
+    minMatchCharLength: 2,
+    ignoreLocation: true,
+  });
+
+  const collectionFuse = new Fuse(collection, {
+    keys: ['name'],
+    threshold: 0.3,
+    distance: 100,
+    minMatchCharLength: 2,
+    ignoreLocation: true,
+  });
+
+  // Funzione per ottenere il colore del bordo basato sui colori della carta
+  const getCardBorderColor = (colors) => {
+    if (!colors || colors.length === 0) return '#8B4513'; // Marrone per incolore
+    if (colors.length > 1) return '#DAA520'; // Oro per multicolore
+
+    const colorMap = {
+      W: '#FFFBD5', // Bianco
+      U: '#0E68AB', // Blu
+      B: '#150B00', // Nero
+      R: '#D3202A', // Rosso
+      G: '#00733E', // Verde
+    };
+
+    return colorMap[colors[0]] || '#8B4513';
+  };
+
+  // Funzione di ricerca debounced
+  const performSearch = useCallback(
+    (query) => {
+      if (query.length <= 1) {
+        setAddResults([]);
+        setIsSearching(false);
+        return;
+      }
+
+      const lowerVal = query.toLowerCase();
+      let results = [];
+
+      if (searchInCollection) {
+        // Cerca solo nella collezione esistente
+        results = collectionFuse.search(query).map((r) => r.item);
+      } else {
+        // Cerca in tutto Scryfall
+        results = scryfallFuse.search(query).map((r) => r.item);
+      }
+
+      // Deduplica per nome
+      const seen = new Set();
+      const deduped = results.filter((card) => {
+        const name = card.name.toLowerCase();
+        if (seen.has(name)) return false;
+        seen.add(name);
+        return true;
+      });
+
+      // Se esiste un match esatto, lo mettiamo in cima
+      const searchPool = searchInCollection ? collection : scryfallData;
+      const exactMatch = searchPool.find((card) => card.name.toLowerCase() === lowerVal);
+
+      if (exactMatch) {
+        const alreadyIn = deduped.find((card) => card.name.toLowerCase() === lowerVal);
+        if (!alreadyIn) deduped.unshift(exactMatch);
+        else {
+          const filtered = deduped.filter((c) => c.name.toLowerCase() !== lowerVal);
+          deduped.splice(0, deduped.length, exactMatch, ...filtered);
+        }
+      }
+
+      setAddResults(deduped.slice(0, 10));
+      setIsSearching(false);
+    },
+    [scryfallFuse, collectionFuse, collection, searchInCollection]
+  );
+
+  // Handler per l'input con debounce
+  const handleAddQueryChange = useCallback(
+    (value) => {
+      setAddQuery(value);
+
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+
+      const trimmedValue = value.trim();
+      if (trimmedValue.length <= 1) {
+        setAddResults([]);
+        setIsSearching(false);
+        return;
+      }
+
+      setIsSearching(true);
+
+      debounceTimeoutRef.current = setTimeout(() => {
+        performSearch(trimmedValue);
+      }, 300);
+    },
+    [performSearch]
+  );
+
+  // Cleanup del timeout al dismount
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Effect per gestire il click outside
+  // Effect per gestire il click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (addBarRef.current && !addBarRef.current.contains(event.target)) {
+        // Pulisci tutto quando clicchi fuori
+        setAddResults([]);
+        setIsSearching(false);
+        setAddQuery(''); // Aggiungi questa riga per pulire anche l'input
+
+        // Pulisci anche il timeout pendente se esiste
+        if (debounceTimeoutRef.current) {
+          clearTimeout(debounceTimeoutRef.current);
+          debounceTimeoutRef.current = null;
+        }
+      }
+    };
+
+    if (addResults.length > 0 || isSearching || addQuery.trim().length > 0) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [addResults.length, isSearching, addQuery]); // Aggiungi addQuery alle dipendenze
+
+  const addCardToCollection = async (cardName) => {
+    const lowerName = cardName.toLowerCase();
+    const already = collection.find((c) => c.name.toLowerCase() === lowerName);
+    const newQty = already ? already.qty + 1 : 1;
+
+    await patchCard(cardName, newQty);
+
+    // Mostra toast personalizzato
+    showTempMessage(`✅ Aggiunto 1x ${capitalizeWords(cardName)} (ora ne hai ${newQty}x)`);
+
+    // Evidenzia la carta nella griglia
+    setHighlightedCard(lowerName);
+    setTimeout(() => setHighlightedCard(''), 1000);
+
+    setAddQuery('');
+    setAddResults([]);
+    setIsSearching(false);
+  };
+
+  // Funzione per ottenere la quantità posseduta di una carta
+  const getOwnedQuantity = (cardName) => {
+    const owned = collection.find((c) => c.name.toLowerCase() === cardName.toLowerCase());
+    return owned ? owned.qty : 0;
+  };
 
   useEffect(() => {
     const fetchCollection = async () => {
@@ -150,7 +326,7 @@ function TabCollection() {
     setCollection(sorted);
   };
 
-  const showTempMessage = (message, duration = 2000) => {
+  const showTempMessage = (message, duration = 3000) => {
     setNotification(message);
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), duration);
@@ -198,7 +374,7 @@ function TabCollection() {
           <div className="search-bar">
             <input
               type="text"
-              placeholder="🔎 Cerca una carta..."
+              placeholder="🔎 Cerca una carta della tua collezione..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -208,26 +384,73 @@ function TabCollection() {
               🎨 Colore:
               <select value={filterColor} onChange={(e) => setFilterColor(e.target.value)}>
                 <option value="">Tutti</option>
-                <option value="W">Bianco</option>
-                <option value="U">Blu</option>
-                <option value="B">Nero</option>
-                <option value="R">Rosso</option>
-                <option value="G">Verde</option>
-                <option value="C">Incolore</option>
+                <option value="W">⚪ Bianco</option>
+                <option value="U">🔵 Blu</option>
+                <option value="B">⚫ Nero</option>
+                <option value="R">🔴 Rosso</option>
+                <option value="G">🟢 Verde</option>
+                <option value="C">🟤 Incolore</option>
               </select>
             </label>
             <button onClick={handleTypeSort}>🔀 Ordina per Tipo</button>
             <button onClick={handleNameSort}>🔠 Ordina per Nome</button>
             <button onClick={handlePriceSort}>💶 Ordina per Prezzo</button>
           </div>
-
+          <div className="add-bar" ref={addBarRef}>
+            <div className="add-input-container">
+              <input
+                type="text"
+                placeholder="➕ Aggiungi una carta alla tua collezione..."
+                value={addQuery}
+                onChange={(e) => handleAddQueryChange(e.target.value)}
+              />
+              <label className="search-toggle">
+                <input
+                  type="checkbox"
+                  checked={searchInCollection}
+                  onChange={(e) => setSearchInCollection(e.target.checked)}
+                />
+                🏠 Cerca solo nella mia collezione
+              </label>
+            </div>
+            {isSearching && <span className="search-indicator">🔎 Cerco...</span>}
+            {!isSearching && addResults.length === 0 && addQuery.trim().length > 1 && (
+              <div className="no-results">❌ Nessun risultato</div>
+            )}
+            {addResults.length > 0 && (
+              <ul className="add-dropdown">
+                {addResults.map((card) => {
+                  const ownedQty = getOwnedQuantity(card.name);
+                  return (
+                    <li key={card.name} onClick={() => addCardToCollection(card.name)}>
+                      <img src={card.image} alt={card.name} className="dropdown-image" />
+                      <div className="dropdown-info">
+                        <span className="card-name">➕ {card.name}</span>
+                        {ownedQty > 0 && (
+                          <span className="owned-qty">(ne possiedi: {ownedQty})</span>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
           <p className="total-value">💰 Valore filtrato: {totalValue.toFixed(2)} €</p>
         </>
       )}
 
       <div className="collection-grid">
         {filteredCollection.slice(0, visibleCount).map((card, idx) => (
-          <div key={idx} className="card-box">
+          <div
+            key={idx}
+            className={`card-box ${highlightedCard === card.name.toLowerCase() ? 'highlighted' : ''}`}
+            style={{
+              borderColor: getCardBorderColor(card.colors),
+              borderWidth: '3px',
+              borderStyle: 'solid',
+            }}
+          >
             <img src={card.image} alt={card.name} />
             <p>
               <strong>{card.name}</strong>
