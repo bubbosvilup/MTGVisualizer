@@ -1,7 +1,8 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { useDecks } from '../context/useDecks';
 import DeckCard from '../components/DeckCard';
 import scryfallData from '../data/scryfall-min.json';
+import DeckDetails from '../components/DeckDetails';
 import '../styles/TabMatching.css';
 
 function TabMatching() {
@@ -11,6 +12,10 @@ function TabMatching() {
   const [visibleCount, setVisibleCount] = useState(24);
   const [isMatching, setIsMatching] = useState(false);
   const [expandedCommanders, setExpandedCommanders] = useState(new Set());
+  const [openDrawerDeck, setOpenDrawerDeck] = useState(null);
+  const [hideOwned, setHideOwned] = useState(false);
+  const drawerRef = useRef();
+  const scrollPositionRef = useRef(0);
 
   const PLACEHOLDER_IMAGE =
     'https://cards.scryfall.io/art_crop/front/0/0/0000579f-7b35-4ed3-b44c-db2a538066fe.jpg';
@@ -184,6 +189,49 @@ function TabMatching() {
   const visibleGroups = groupedByCommander.slice(0, visibleCount);
   const totalDecksFound = groupedByCommander.reduce((sum, group) => sum + group.decks.length, 0);
 
+  // Chiudi drawer al click fuori
+  useEffect(() => {
+    if (!openDrawerDeck) return;
+    const handleClick = (e) => {
+      if (drawerRef.current && !drawerRef.current.contains(e.target)) {
+        setOpenDrawerDeck(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [openDrawerDeck]);
+
+  // Gestione scroll quando si apre il drawer
+  useEffect(() => {
+    if (openDrawerDeck) {
+      scrollPositionRef.current = window.scrollY;
+      const drawerElement = drawerRef.current;
+      if (drawerElement) {
+        const rect = drawerElement.getBoundingClientRect();
+        const scrollTo = window.scrollY + rect.top - 50; // 50px di margine
+        window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
+    }
+  }, [openDrawerDeck]);
+
+  // Esporta mancanti in txt
+  const handleExportMissing = (missingCards) => {
+    const txt = missingCards.map((c) => `${c.name} ${c.quantity || 1}`).join('\n');
+    const blob = new Blob([txt], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${openDrawerDeck.name.replace(/\s+/g, '_')}_mancanti.txt`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  };
+
   return (
     <div className="tab-matching">
       <div className="matching-header">
@@ -293,7 +341,14 @@ function TabMatching() {
               <div className="commander-decks">
                 <div className="deck-grid">
                   {group.decks.map((deck, index) => (
-                    <DeckCard key={`${deck.name}-${index}`} deck={deck} />
+                    <div
+                      key={`${deck.name}-${index}`}
+                      className="deck-card"
+                      onClick={() => setOpenDrawerDeck(deck)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <DeckCard deck={deck} />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -337,6 +392,34 @@ function TabMatching() {
           <div className="no-results-icon">😔</div>
           <h3>Nessun deck trovato</h3>
           <p>Prova ad abbassare la soglia di completamento minimo</p>
+        </div>
+      )}
+
+      {/* Drawer Bubble */}
+      {openDrawerDeck && (
+        <div className="deck-drawer-overlay">
+          <div className="deck-drawer-bubble" ref={drawerRef}>
+            <button className="drawer-close-btn" onClick={() => setOpenDrawerDeck(null)}>
+              ✕
+            </button>
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ color: '#fff', fontWeight: 500 }}>
+                <input
+                  type="checkbox"
+                  checked={hideOwned}
+                  onChange={(e) => setHideOwned(e.target.checked)}
+                  style={{ marginRight: 8 }}
+                />
+                Nascondi già possedute
+              </label>
+            </div>
+            <DeckDetails
+              deck={openDrawerDeck}
+              collection={collection}
+              hideOwned={hideOwned}
+              onExportMissing={handleExportMissing}
+            />
+          </div>
         </div>
       )}
     </div>

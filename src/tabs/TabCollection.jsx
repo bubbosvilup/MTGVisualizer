@@ -18,6 +18,10 @@ function TabCollection() {
   const [addResults, setAddResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [highlightedCard, setHighlightedCard] = useState('');
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [cardDetails, setCardDetails] = useState(null);
+  const modalRef = useRef();
+  const scrollPositionRef = useRef(0);
 
   // Ref per il timeout del debounce
   const debounceTimeoutRef = useRef(null);
@@ -33,22 +37,6 @@ function TabCollection() {
       ignoreLocation: true,
     });
   }, []);
-
-  // Funzione per ottenere il colore del bordo basato sui colori della carta
-  const getCardBorderColor = (colors) => {
-    if (!colors || colors.length === 0) return '#8B4513'; // Marrone per incolore
-    if (colors.length > 1) return '#DAA520'; // Oro per multicolore
-
-    const colorMap = {
-      W: '#FFFBD5', // Bianco
-      U: '#0E68AB', // Blu
-      B: '#150B00', // Nero
-      R: '#D3202A', // Rosso
-      G: '#00733E', // Verde
-    };
-
-    return colorMap[colors[0]] || '#8B4513';
-  };
 
   // Funzione di ricerca debounced
   const performSearch = useCallback(
@@ -177,6 +165,7 @@ function TabCollection() {
     return owned ? owned.qty : 0;
   };
 
+  // Funzione per capitalizzare ogni parola
   const capitalizeWords = (str) => str.replace(/\b\w/g, (char) => char.toUpperCase());
 
   const handleFileUpload = async (e) => {
@@ -316,6 +305,54 @@ function TabCollection() {
     }
   };
 
+  // Gestione scroll quando si apre il modale
+  useEffect(() => {
+    if (selectedCard) {
+      scrollPositionRef.current = window.scrollY;
+      const modalElement = modalRef.current;
+      if (modalElement) {
+        const rect = modalElement.getBoundingClientRect();
+        const scrollTo = window.scrollY + rect.top - 50; // 50px di margine
+        window.scrollTo({ top: scrollTo, behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
+    }
+  }, [selectedCard]);
+
+  // Fetch dettagli carta da CardTrader
+  useEffect(() => {
+    if (!selectedCard) return;
+    const fetchCardDetails = async () => {
+      try {
+        const res = await fetch(`/api/cardtrader/${selectedCard.name}`);
+        if (!res.ok) {
+          setCardDetails({ error: true });
+          return;
+        }
+        const data = await res.json();
+        setCardDetails(data);
+      } catch (err) {
+        setCardDetails({ error: true });
+        console.error('Errore nel caricamento dei dettagli della carta:', err);
+      }
+    };
+    fetchCardDetails();
+  }, [selectedCard]);
+
+  // Chiudi modale al click fuori
+  useEffect(() => {
+    if (!selectedCard) return;
+    const handleClick = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        setSelectedCard(null);
+        setCardDetails(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [selectedCard]);
+
   return (
     <div className="tab-collection">
       {collection.length === 0 && (
@@ -393,25 +430,32 @@ function TabCollection() {
           <div
             key={idx}
             className={`card-box ${highlightedCard === card.name.toLowerCase() ? 'highlighted' : ''}`}
-            style={{
-              borderColor: getCardBorderColor(card.colors),
-              borderWidth: '3px',
-              borderStyle: 'solid',
-            }}
+            onClick={() => setSelectedCard(card)}
+            style={{ cursor: 'pointer' }}
           >
-            <img src={card.image} alt={card.name} />
-            <p>
-              <strong>{card.name}</strong>
-            </p>
-            <div className="qty-controls">
-              <button onClick={() => patchCard(card.name, card.qty - 1)}>➖</button>
-              <span>📦 {card.qty}</span>
-              <button onClick={() => patchCard(card.name, card.qty + 1)}>➕</button>
-              <button onClick={() => patchCard(card.name, 0)} className="delete-btn">
-                🗑️
-              </button>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <img src={card.image} alt={card.name} />
             </div>
-            <p>💶 {typeof card.price === 'number' ? `${card.price.toFixed(2)} €` : 'N/A'}</p>
+            <div className="card-info-section">
+              <p>
+                <strong>{capitalizeWords(card.name)}</strong>
+              </p>
+              <div className="qty-controls">
+                <button onClick={() => patchCard(card.name, card.qty - 1)}>➖</button>
+                <span>📦 {card.qty}</span>
+                <button onClick={() => patchCard(card.name, card.qty + 1)}>➕</button>
+              </div>
+              <p className="card-price">
+                💶 {typeof card.price === 'number' ? `${card.price.toFixed(2)} €` : 'N/A'}
+              </p>
+            </div>
           </div>
         ))}
       </div>
@@ -422,6 +466,97 @@ function TabCollection() {
         </button>
       )}
       {showNotification && <div className="notification-toast">{notification}</div>}
+
+      {/* Modale Dettaglio Carta */}
+      {selectedCard && (
+        <div className="card-detail-overlay">
+          <div className="card-detail-bubble" ref={modalRef}>
+            <button className="drawer-close-btn" onClick={() => setSelectedCard(null)}>
+              ✕
+            </button>
+            <div className="card-detail-content">
+              <img src={selectedCard.image} alt={selectedCard.name} className="card-detail-image" />
+              <h3>{capitalizeWords(selectedCard.name)}</h3>
+              {/* --- CardTrader Info --- */}
+              <div className="cardtrader-section">
+                <h4>Prezzi CardTrader</h4>
+                {!cardDetails && <div className="cardtrader-loading">Caricamento prezzi...</div>}
+                {cardDetails && cardDetails.error && (
+                  <div className="cardtrader-error">Nessun prezzo trovato su CardTrader.</div>
+                )}
+                {cardDetails && !cardDetails.error && (
+                  <>
+                    <div className="cardtrader-prices">
+                      <p>
+                        <strong>Prezzo minimo:</strong>{' '}
+                        {cardDetails.min_price ? `€${cardDetails.min_price.toFixed(2)}` : 'N/A'}
+                      </p>
+                      <p>
+                        <strong>Prezzo medio:</strong>{' '}
+                        {cardDetails.avg_price ? `€${cardDetails.avg_price.toFixed(2)}` : 'N/A'}
+                      </p>
+                      <p>
+                        <strong>Prezzo massimo:</strong>{' '}
+                        {cardDetails.max_price ? `€${cardDetails.max_price.toFixed(2)}` : 'N/A'}
+                      </p>
+                      <p>
+                        <strong>Offerte trovate:</strong> {cardDetails.products?.length || 0}
+                      </p>
+                    </div>
+                    {cardDetails.products && cardDetails.products.length > 0 ? (
+                      <table className="cardtrader-products-table">
+                        <thead>
+                          <tr>
+                            <th>Prezzo</th>
+                            <th>Condizione</th>
+                            <th>Lingua</th>
+                            <th>Venditore</th>
+                            <th>Link</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {cardDetails.products.map((p, i) => (
+                            <tr key={i}>
+                              <td>€{p.price?.toFixed(2) ?? 'N/A'}</td>
+                              <td>{p.condition || '-'}</td>
+                              <td>{p.language || '-'}</td>
+                              <td>{p.seller_name || '-'}</td>
+                              <td>
+                                {p.url ? (
+                                  <a href={p.url} target="_blank" rel="noopener noreferrer">
+                                    Vai
+                                  </a>
+                                ) : (
+                                  '-'
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <p>Nessuna offerta trovata su CardTrader.</p>
+                    )}
+                    <div style={{ marginTop: '1rem' }}>
+                      <a
+                        href={`https://www.cardtrader.com/cards/${cardDetails.blueprint_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cardtrader-link"
+                      >
+                        Vedi su CardTrader
+                      </a>
+                    </div>
+                    <div className="cardtrader-badge">
+                      Powered by <span>CardTrader</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
