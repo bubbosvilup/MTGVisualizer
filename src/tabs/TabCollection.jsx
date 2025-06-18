@@ -177,36 +177,6 @@ function TabCollection() {
     return owned ? owned.qty : 0;
   };
 
-  useEffect(() => {
-    const fetchCollection = async () => {
-      try {
-        const res = await fetch('/api/collection');
-        const data = await res.json();
-
-        const enriched = data.map((entry) => {
-          const match = scryfallData.find(
-            (card) => card.name.toLowerCase() === entry.name.toLowerCase()
-          );
-          return {
-            ...entry,
-            name: capitalizeWords(entry.name),
-            image: match?.image || '',
-            price: typeof match?.price === 'number' ? match.price : null,
-            colors: match?.colors || [],
-            type: match?.type || '',
-          };
-        });
-
-        console.log('📥 Collezione caricata da backend:', enriched);
-        setCollection(enriched);
-      } catch (err) {
-        console.error('❌ Errore nel caricamento della collezione:', err);
-      }
-    };
-
-    fetchCollection();
-  }, [setCollection]);
-
   const capitalizeWords = (str) => str.replace(/\b\w/g, (char) => char.toUpperCase());
 
   const handleFileUpload = async (e) => {

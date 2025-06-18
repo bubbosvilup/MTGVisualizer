@@ -9,16 +9,14 @@ function DeckLoaderInit() {
 
   useEffect(() => {
     const loadDecks = async () => {
-      setLoadingDecks(true); // 👈 inizio caricamento
+      setLoadingDecks(true);
       const totalFiles = 8;
-      const temp = [];
-
+      let temp = [];
       for (let i = 1; i <= totalFiles; i++) {
         try {
           const res = await fetch(`/decks_split/decks-${i}.jsonl`);
           const text = await res.text();
           const lines = text.split('\n').filter((line) => line.trim());
-
           for (const line of lines) {
             try {
               const parsed = JSON.parse(line);
@@ -29,17 +27,15 @@ function DeckLoaderInit() {
               console.warn('Errore JSON:', err);
             }
           }
-        } catch (err) {
-          console.error('Errore fetch:', err);
+        } catch {
+          /* ignora conteggio errori */
         }
       }
-
       setDecks(temp);
-      setLoadingDecks(false); // ✅ fine caricamento
+      setLoadingDecks(false);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
     };
-
     if (decks.length === 0) {
       loadDecks();
     }

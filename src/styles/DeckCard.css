@@ -1,44 +1,66 @@
-/* DeckCard.css */
-
+/* DeckCard.css - Modern MTG Theme */
 .deck-card {
-  background-color: #1e1e1e;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 4px 24px #fbbf2433,
+    0 0 0 2px #a78bfa22;
   cursor: pointer;
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.2s,
+    box-shadow 0.2s;
+  border: 2.5px solid #fbbf24 !important;
+  position: relative;
+  backdrop-filter: blur(10px) saturate(1.1);
 }
 
 .deck-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 12px rgba(90, 193, 142, 0.4);
+  transform: scale(1.04) translateY(-4px);
+  box-shadow:
+    0 8px 32px #fbbf24cc,
+    0 0 0 4px #a78bfa44;
+  border-color: #fbbf24;
 }
 
 .deck-card-image {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 2px 8px #a78bfa22;
 }
 
 .deck-card-info {
-  padding: 0.5rem;
+  padding: 0.7rem 0.5rem 0.5rem 0.5rem;
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  align-items: center;
+  font-size: 1rem;
   color: #e0e0e0;
+  font-weight: 700;
 }
 
 .deck-card-name {
-  font-weight: bold;
+  font-weight: 900;
   max-width: 70%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: #6c63ff;
 }
 
 .deck-card-percent {
-  color: #5ac18e;
-  font-weight: bold;
+  color: #fbbf24;
+  font-weight: 900;
+  background: #232946;
+  border-radius: 8px;
+  padding: 2px 10px;
+  font-size: 0.98rem;
+  box-shadow: 0 1px 4px #fbbf2422;
+}
+
+.deck-card-main {
+  background: transparent !important;
+  min-height: unset;
 }

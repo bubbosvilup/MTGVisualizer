@@ -1,31 +1,167 @@
 /* src/styles/App.css */
-body {
+html,
+body,
+#root,
+.app-container {
+  min-height: 100vh;
+  height: auto;
+  background: linear-gradient(135deg, #1a1a2e 0%, #3a2e5c 50%, #0f3460 100%) no-repeat fixed;
+  background-size: cover;
   margin: 0;
-  font-family: sans-serif;
-  background-color: #121212;
+  padding: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
   color: #f1f1f1;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  min-height: 100vh;
+  background: none;
+}
+
+#root {
+  min-height: 100vh;
+  height: auto;
+  background: none;
 }
 
 .app-container {
-  max-width: 1100px;
-  margin: auto;
-  padding: 2rem;
+  min-height: 100vh;
+  height: auto;
+  background: none;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(26, 26, 46, 0.92);
+  backdrop-filter: blur(8px);
   text-align: center;
   margin-bottom: 2rem;
+  padding: 1.5rem 0 1rem 0;
+  box-shadow: 0 2px 16px 0 rgba(44, 62, 80, 0.1);
+}
+
+header h1,
+.deck-card-name,
+.commander-name,
+.step-label,
+.results-section h3,
+.mtg-footer {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
 }
 
 nav button {
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #292929;
-  color: white;
+  margin: 0;
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(135deg, #232946 60%, #6c63ff 100%);
+  color: #fff;
   border: none;
+  border-radius: 16px;
+  font-size: 1.08rem;
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: 0 2px 12px #6c63ff22;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    color 0.2s,
+    transform 0.2s;
+  outline: none;
 }
 
-nav button:hover {
-  background-color: #444;
+nav button:hover,
+nav button:focus {
+  background: linear-gradient(135deg, #6c63ff 0%, #48b1f5 100%);
+  color: #fffbe7;
+  box-shadow: 0 4px 24px #6c63ff55;
+  transform: translateY(-2px) scale(1.04);
+}
+
+nav button.active {
+  background: linear-gradient(135deg, #fbbf24 0%, #a78bfa 100%);
+  color: #232946;
+  box-shadow: 0 4px 24px #fbbf2444;
+}
+
+main {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+.app-loading {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.app-container header:not(.app-loading),
+.app-container main:not(.app-loading) {
+  opacity: 1;
+  transition: opacity 0.5s ease 0.2s;
+}
+
+.app-container {
+  animation: appFadeIn 0.5s ease 0.3s both;
+}
+
+@keyframes appFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 700px) {
+  header h1 {
+    font-size: 1.3rem;
+  }
+  nav button {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+  main {
+    padding: 0 0.2rem;
+  }
+}
+
+.progress-fill::after {
+  background: linear-gradient(90deg, transparent 0%, #fbbf24 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+.mtg-footer {
+  text-align: center;
+  color: #fbbf24;
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+  letter-spacing: 1px;
+  padding-bottom: 1.5rem;
+}
+.pw-icon {
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
 }

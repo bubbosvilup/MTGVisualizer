@@ -17,13 +17,14 @@
   max-width: 600px;
   margin: auto;
   padding: 32px;
-  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+  background: transparent !important;
   border-radius: 16px;
   border: 1px solid var(--border-accent);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   text-align: center;
   color: var(--text-primary);
+  min-height: unset;
 }
 
 .deck-loader button {

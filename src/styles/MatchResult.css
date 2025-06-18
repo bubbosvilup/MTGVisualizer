@@ -1,12 +1,36 @@
-/* MatchResult.css */
-
+/* MatchResult.css - Modern MTG Theme */
 .match-results {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
+  padding: 0 0.5rem;
 }
 
 .match-deck-wrapper {
   position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #a78bfa22;
+  padding: 0.5rem 0.5rem 0.7rem 0.5rem;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+
+.match-deck-wrapper:hover {
+  box-shadow: 0 8px 24px #a78bfa33;
+  transform: scale(1.03);
+}
+
+@media (max-width: 700px) {
+  .match-results {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 0.5rem;
+    padding: 0;
+  }
+  .match-deck-wrapper {
+    border-radius: 7px;
+    padding: 0.2rem 0.2rem 0.4rem 0.2rem;
+  }
 }

@@ -10,7 +10,14 @@ export function DeckProvider({ children }) {
 
   return (
     <DeckContext.Provider
-      value={{ decks, setDecks, collection, setCollection, loadingDecks, setLoadingDecks }}
+      value={{
+        decks,
+        setDecks,
+        collection,
+        setCollection,
+        loadingDecks,
+        setLoadingDecks,
+      }}
     >
       {children}
     </DeckContext.Provider>
