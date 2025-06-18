@@ -16,6 +16,7 @@ function TabMatching() {
   const [hideOwned, setHideOwned] = useState(false);
   const drawerRef = useRef();
   const scrollPositionRef = useRef(0);
+  const [searchCommanderQuery, setSearchCommanderQuery] = useState('');
 
   const PLACEHOLDER_IMAGE =
     'https://cards.scryfall.io/art_crop/front/0/0/0000579f-7b35-4ed3-b44c-db2a538066fe.jpg';
@@ -186,7 +187,12 @@ function TabMatching() {
 
   const loadMore = () => setVisibleCount((prev) => prev + 24);
 
-  const visibleGroups = groupedByCommander.slice(0, visibleCount);
+  const filteredGroups = useMemo(() => {
+    if (!searchCommanderQuery.trim()) return groupedByCommander;
+    const query = searchCommanderQuery.toLowerCase();
+    return groupedByCommander.filter((group) => group.commanderName.toLowerCase().includes(query));
+  }, [groupedByCommander, searchCommanderQuery]);
+  const visibleGroups = filteredGroups.slice(0, visibleCount);
   const totalDecksFound = groupedByCommander.reduce((sum, group) => sum + group.decks.length, 0);
 
   // Chiudi drawer al click fuori
@@ -274,6 +280,16 @@ function TabMatching() {
             </>
           )}
         </button>
+      </div>
+
+      <div className="search-commander">
+        <input
+          type="text"
+          placeholder="🔍 Cerca un comandante..."
+          value={searchCommanderQuery}
+          onChange={(e) => setSearchCommanderQuery(e.target.value)}
+          disabled={groupedByCommander.length === 0}
+        />
       </div>
 
       {isMatching && (

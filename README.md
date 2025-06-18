@@ -1,115 +1,95 @@
 # MTG Visualizer
 
-**MTG Visualizer** is a full-featured web tool that allows Magic: The Gathering players to:
+MTG Visualizer è una Single Page Application (SPA) sviluppata in **React** con **Vite**, pensata per aiutare i giocatori di Magic: The Gathering (formato Commander) a:
 
-- Load and visualize their personal card collection.
-- Compare decks (e.g. exported from Moxfield) against that collection.
-- Display missing cards with images and prices (via Scryfall and CardTrader APIs).
-- Export missing cards to a wishlist directly on CardTrader.
+- Caricare e gestire la propria collezione di carte
+- Verificare quali deck possono essere costruiti in base alla collezione
+- Trovare carte mancanti e prezzi
+- Esportare liste e wishlist
 
-## 🏗 Project Structure
+---
 
-```
-mtgVisualizer/
-├── public/                # Static assets and pre-processed deck files
-│   ├── decks_split/         # JSONL split deck files (used for matching)
-│   ├── decks_backup/        # Original backup of deck files
-│   └── decks_updated/       # Updated/scraped decks
-├── data/                  # Scryfall bulk data (max and minified)
-├── src/                   # React frontend
-│   ├── components/          # Reusable UI components
-│   ├── context/             # Global collection/deck context
-│   ├── tabs/                # Tabbed views: Collection, Matching, etc.
-│   ├── utils/               # Scripts for parsing and formatting
-│   ├── styles/              # CSS modules
-│   └── App.jsx              # Main entry point
-├── script/               # Node CLI scripts (Scryfall minifier, scraping, etc.)
-├── .env                  # Contains sensitive keys like CardTrader token
-├── vite.config.js        # Vite bundler config
-└── README.md             # This file
-```
+## 🔧 Tecnologie
 
-## ⚙️ Setup
+- React + Vite
+- Context API (`DeckContext`) per la gestione globale dello stato
+- Backend Express per persistenza collezione e chiamate proxy
+- API Scryfall (dati carte) e CardTrader (wishlist, prezzi)
 
-1. **Clone the repo**
+---
 
-```bash
-git clone https://github.com/yourusername/mtgVisualizer.git
-cd mtgVisualizer
-```
+## 📁 Struttura principali delle tab
 
-2. **Install dependencies**
+### 📃 Collezione
+
+- Caricamento collezione da `.txt` o ricerca fuzzy
+- Visualizzazione in griglia con immagine, quantità e prezzo
+- Aggiunta/rimozione carte dinamica
+- Dettaglio carta con prezzi da CardTrader
+- Salvataggio su backend via API REST
+
+### 🧮 Matching
+
+- Confronto tra la collezione e oltre 70.000 mazzi Commander (da file JSONL suddivisi)
+- Filtraggio per percentuale minima di completamento (slider)
+- Raggruppamento per comandante
+- Espansione inline dei mazzi per vedere le carte mancanti
+- Esportazione TXT delle mancanti
+
+### 🔗 Match da Lista
+
+- Incolla una lista testuale di carte (es. da Moxfield)
+- Confronta con la collezione
+- Esporta mancanti in `.txt` o crea wishlist automatica su CardTrader
+
+---
+
+## 🚀 Funzionalità pianificate (Deck Builder)
+
+> In fase di sviluppo
+
+- Costruzione mazzi Commander da zero
+- Analisi della curva di mana e archetipi
+- Suggerimenti di carte da EDHREC
+- Integrazione video YouTube per il comandante scelto
+- Salvataggio e esportazione mazzi personalizzati
+- English Language
+
+---
+
+## 📁 Dataset inclusi
+
+- `scryfall-min.json`: bulk ridotto delle carte con `name`, `image`, `price`, `colors`, `type`, ecc.
+- `public/decks_split/*.jsonl`: oltre 77.000 mazzi Commander da Moxfield (filtrati e preprocessati)
+
+---
+
+## 🚫 Blacklist e filtri
+
+- Deck cEDH esclusi tramite regex nel nome (`/cedh/i`)
+- Mazzi con meno di 95 carte scartati
+- Sistema di blacklist per carte fastidiose (feature futura)
+
+---
+
+## 📅 Stato attuale
+
+- Frontend completo e stabile per visualizzazione collezione e matching
+- Persistenza collezione in backend completata
+- Tutto funzionante anche in locale, senza rate limit
+
+---
+
+## 🚀 Avvio del progetto
 
 ```bash
 npm install
-```
-
-3. **Prepare your Scryfall data**
-
-- Download the [Scryfall bulk JSON](https://scryfall.com/docs/api/bulk-data).
-- Place it in `data/scryfall-max.json`
-- Run:
-
-```bash
-node script/minifyScryfallBulk.cjs
-```
-
-This generates `data/scryfall-min.json` with only needed fields (`name`, `png image`, `price`, etc.)
-
-4. **Add your .env**
-
-```
-VITE_CARDTRADER_TOKEN=your_cardtrader_api_token
+npm run dev
 ```
 
 ---
 
-## 💡 Features Overview
+## 💪 Autore
 
-- 🃏 **Deck Matching**: Paste Moxfield decklists, match against your collection, see missing cards.
-- 🛒 **Wishlist Export**: Select versions of missing cards (set/art/price) and export to CardTrader.
-- 📊 **Price Aggregation**: Total missing cost calculated in real-time.
-- 📂 **Deck Bulk Management**: Load thousands of decks in split files and filter by match %.
-
----
-
-## 🧪 Scripts (Node CLI)
-
-Run from `script/` directory:
-
-- `minifyScryfallBulk.cjs`: generates `scryfall-min.json`
-- `query-blueprint.js`: queries CardTrader blueprints for selected cards
-- `updateDecksFromPuppeteer.cjs`: scraping tool for Moxfield
-- `splitDecks.cjs`: splits large `.jsonl` deck files
-- `restoreDecksBackup.cjs`: restores original deck state
-
----
-
-## 🧠 Tech Stack
-
-- **Frontend**: React + Vite + Vanilla CSS
-- **APIs**:
-
-  - [Scryfall API](https://scryfall.com/docs/api)
-  - [CardTrader API](https://www.cardtrader.com/docs/api)
-
-- **Node Scripts**: For pre-processing and batch tasks
-
----
-
-## 🚧 Roadmap
-
-- [ ] Add backend (Express) for local data processing and API proxying
-- [ ] Add authentication for wishlist actions
-- [ ] Allow image caching and offline mode
-- [ ] Dark mode / UI improvements
-- [ ] Compare multiple decks against collection simultaneously
-
----
-
-## 📜 License
-
-MIT License — free to use, modify and distribute.
-
-> Made with ☕ and cardboard by Nicco
+**Nicco** – mtg enthusiast, fullstack dev, data nerd.
 
