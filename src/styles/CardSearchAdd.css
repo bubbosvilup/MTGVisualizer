@@ -1,32 +1,81 @@
 .card-search-add {
   position: relative;
-  max-width: 400px;
+  max-width: 100%;
 }
 
 .card-search-add input {
-  width: 100%;
-  padding: 0.25rem 0.5rem;
+  width: 90%;
+  padding: 0.75rem 1rem;
   font-size: 1rem;
+  border: 2px solid #555;
+  border-radius: 8px;
+  background: rgba(30, 30, 30, 0.8);
+  color: #f0f0f0;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.card-search-add input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  background: rgba(30, 30, 30, 0.9);
+}
+
+.card-search-add input::placeholder {
+  color: #888;
 }
 
 .card-results {
   position: absolute;
-  background: #fff;
-  border: 1px solid #ccc;
-  max-height: 200px;
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #555;
+  border-radius: 8px;
+  max-height: 280px;
   overflow-y: auto;
   width: 100%;
   list-style: none;
   margin: 0;
-  padding: 0;
-  z-index: 5;
+  padding: 0.5rem 0;
+  z-index: 10;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  margin-top: 4px;
 }
 
 .card-results li {
-  padding: 0.25rem 0.5rem;
+  padding: 0.75rem 1rem;
   cursor: pointer;
+  color: #f0f0f0;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
 }
 
 .card-results li:hover {
-  background: #f0f0f0;
+  background: rgba(52, 152, 219, 0.2);
+  border-left-color: #3498db;
+  transform: translateX(2px);
+}
+
+.card-results li:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.card-results li:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+/* Scrollbar per card results */
+.card-results::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card-results::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.card-results::-webkit-scrollbar-thumb {
+  background: rgba(52, 152, 219, 0.5);
+  border-radius: 3px;
 }

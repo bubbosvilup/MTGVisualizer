@@ -46,13 +46,18 @@ function CommanderSelector({ commander, onSelect }) {
   };
 
   if (commander) {
+    let imageUrl = 'https://via.placeholder.com/223x310?text=Commander';
+    // Be defensive: check if image is a non-empty string before manipulating it.
+    if (typeof commander.image === 'string' && commander.image) {
+      // The minified data might contain 'small' or 'png' image links.
+      // We replace them to get the 'normal' sized image for better display.
+      imageUrl = commander.image.replace('/small/', '/normal/').replace('/png/', '/normal/');
+    }
+
     return (
-      <div className="commander-selector selected">
-        <img
-          src={commander.image || 'https://via.placeholder.com/223x310?text=Commander'}
-          alt={commander.name}
-        />
-        <div className="commander-info">
+      <div className="selected-commander">
+        <img src={imageUrl} alt={commander.name} className="selected-commander-img" />
+        <div className="selected-commander-info">
           <strong>{commander.name}</strong>
           <button onClick={() => onSelect(null)}>❌ Cambia</button>
         </div>
@@ -67,7 +72,7 @@ function CommanderSelector({ commander, onSelect }) {
         <ul className="commander-results">
           {results.map((card) => (
             <li key={card.name} onClick={() => handleSelect(card)}>
-              {card.image && <img src={card.image} alt={card.name} />}
+              {card.image && <img src={card.image} alt={card.name} className="result-img" />}
               <span>{card.name}</span>
             </li>
           ))}

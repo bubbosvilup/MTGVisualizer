@@ -85,32 +85,37 @@ function TabDeckBuilder() {
         <CommanderSelector commander={commander} onSelect={setCommander} />
       </div>
 
-      <CardSearchAdd onAdd={addCard} />
+      <div className="builder-layout">
+        <section className="left-pane">
+          <CardSearchAdd onAdd={addCard} />
 
-      <MoxfieldImport onImport={setCards} />
+          <MoxfieldImport onImport={setCards} />
 
-      {cards.length > 0 && (
-        <button className="clear-deck-button" onClick={clearDeck}>
-          🗑️ Svuota Mazzo
-        </button>
-      )}
+          {cards.length > 0 && (
+            <button className="clear-deck-button" onClick={clearDeck}>
+              🗑️ Svuota Mazzo
+            </button>
+          )}
 
-      {cards.length > 0 && (
-        <div className="export-buttons">
-          <button onClick={exportAsTxt}>💾 Esporta .txt</button>
-          <button onClick={copyToClipboard}>📋 Copia</button>
-        </div>
-      )}
+          {cards.length > 0 && (
+            <div className="export-buttons">
+              <button onClick={exportAsTxt}>💾 Esporta .txt</button>
+              <button onClick={copyToClipboard}>📋 Copia</button>
+            </div>
+          )}
 
-      <DeckCardList cards={cards} onQtyChange={changeQty} onRemove={removeCard} />
+          <DeckCardList cards={cards} onQtyChange={changeQty} onRemove={removeCard} />
+        </section>
 
-      <ManaCurveChart cards={cards} />
-
-      <ColorPieChart cards={cards} />
-
-      <ArchetypeAdvisor commander={commander} cards={cards} />
+        <aside className="right-pane">
+          <ManaCurveChart cards={cards} />
+          <ColorPieChart cards={cards} />
+          <ArchetypeAdvisor commander={commander} cards={cards} />
+        </aside>
+      </div>
     </div>
   );
 }
 
 export default TabDeckBuilder;
+

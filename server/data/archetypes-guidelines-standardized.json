@@ -156,9 +156,9 @@
     "singleRemoval": [4, 6],
     "wrath": [1, 2],
     "tutor": [2, 4],
-    "cmcRange": [2.8, 3.4],
+    "cmcRange": [2.1, 3.0],
     "rampCards": [7, 10],
-    "cardDraw": [7, 10],
+    "cardDraw": [7, 16],
     "protections": [3, 5]
   },
   "cantrips": {
@@ -2772,3 +2772,4 @@
     "protections": [1, 2]
   }
 }
+
