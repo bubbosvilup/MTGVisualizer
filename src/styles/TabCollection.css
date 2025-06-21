@@ -111,7 +111,6 @@
 }
 
 .search-bar::before {
-  content: '🔍';
   position: absolute;
   left: 1rem;
   top: 50%;
@@ -188,11 +187,6 @@
   box-shadow: 0 6px 20px var(--shadow-heavy);
 }
 
-.filters button::before {
-  content: '🔄';
-  font-size: 1rem;
-}
-
 /* 💰 VALORE TOTALE - Modernizzato */
 .total-value {
   text-align: center;
@@ -206,12 +200,6 @@
   color: var(--green);
   backdrop-filter: blur(10px);
   position: relative;
-}
-
-.total-value::before {
-  content: '💰';
-  margin-right: 0.5rem;
-  font-size: 1.2rem;
 }
 
 /* 🎴 GRIGLIA DELLE CARTE - Visual Spoiler Style */

@@ -1,0 +1,32 @@
+.card-search-add {
+  position: relative;
+  max-width: 400px;
+}
+
+.card-search-add input {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+}
+
+.card-results {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 5;
+}
+
+.card-results li {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.card-results li:hover {
+  background: #f0f0f0;
+}

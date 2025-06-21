@@ -1,0 +1,23 @@
+.moxfield-import {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 500px;
+}
+
+.moxfield-import textarea {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-family: monospace;
+  resize: vertical;
+}
+
+.moxfield-import button {
+  align-self: flex-start;
+}
+
+.import-errors {
+  color: red;
+  font-size: 0.9rem;
+}

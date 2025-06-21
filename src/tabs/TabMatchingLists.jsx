@@ -17,18 +17,23 @@ function TabMatchingLists() {
   const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0, currentCard: '' });
 
   const parseLine = (line) => {
-    const match = line.match(/^\d+\s+(.+?)(?:\s+\([^)]+\))?(?:\s+\d+)?(?:\s+\*[^*]*\*)?$/);
-    if (match) {
-      let cardName = match[1].trim();
-      cardName = cardName.replace(/\s+\([^)]+\)\s*\d*\s*\*?[^*]*\*?\s*$/, '');
-      return { name: cardName, quantity: parseInt(line.match(/^(\d+)/)[1]) };
-    }
-    return null;
+    const match = line.match(/^(\d+)\s+(.+)$/);
+    if (!match) return null;
+    const qty = parseInt(match[1], 10);
+    let rest = match[2].trim();
+    // Taglia eventuale parentesi (set) o collector code alla fine
+    rest = rest.replace(/\s+\([^)]*\).*$/, '');
+    // Rimuovi eventuali codice collector tipo "(ONE) 123" o "E01-12" dopo nome
+    rest = rest.replace(/\s+[A-Z]{2,}\d+$/i, '');
+    return { name: rest.trim(), quantity: qty };
   };
 
-  const normalizeForComparison = (name) => {
-    return name.toLowerCase().replace(/['']/g, "'").replace(/\"/g, '"').trim();
-  };
+  const normalizeForComparison = (name) =>
+    name
+      .toLowerCase()
+      .replace(/[^a-z0-9/ ]/g, '') // rimuove punteggiatura tranne /
+      .replace(/\s+/g, ' ')
+      .trim();
 
   const handleMatch = () => {
     const lines = deckListText

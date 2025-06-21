@@ -1,0 +1,48 @@
+.commander-selector {
+  position: relative;
+  max-width: 320px;
+}
+
+.commander-selector input {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+}
+
+.commander-results {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 5;
+}
+
+.commander-results li {
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.commander-results li:hover {
+  background: #f0f0f0;
+}
+
+.commander-selector.selected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.commander-selector.selected img {
+  width: 223px;
+  height: 310px;
+  object-fit: cover;
+}

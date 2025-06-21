@@ -1,0 +1,2774 @@
+{
+  "tokens": {
+    "singleRemoval": [5, 7],
+    "wrath": [2, 3],
+    "tutor": [0, 2],
+    "cmcRange": [2.6, 3.2],
+    "rampCards": [8, 12],
+    "cardDraw": [8, 10],
+    "protections": [3, 5]
+  },
+  "combo": {
+    "singleRemoval": [3, 5],
+    "wrath": [1, 2],
+    "tutor": [6, 10],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [10, 12],
+    "cardDraw": [6, 8],
+    "protections": [4, 6]
+  },
+  "plus 1 plus 1 counters": {
+    "singleRemoval": [5, 7],
+    "wrath": [2, 3],
+    "tutor": [1, 3],
+    "cmcRange": [2.7, 3.3],
+    "rampCards": [8, 10],
+    "cardDraw": [6, 9],
+    "protections": [2, 4]
+  },
+  "aggro": {
+    "singleRemoval": [4, 6],
+    "wrath": [0, 2],
+    "tutor": [0, 2],
+    "cmcRange": [2.4, 2.9],
+    "rampCards": [7, 10],
+    "cardDraw": [5, 8],
+    "protections": [3, 5]
+  },
+  "artifacts": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [3, 6],
+    "cmcRange": [2.5, 3],
+    "rampCards": [10, 14],
+    "cardDraw": [6, 9],
+    "protections": [2, 4]
+  },
+  "treasure": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [2, 4],
+    "cmcRange": [2.6, 3.2],
+    "rampCards": [10, 14],
+    "cardDraw": [6, 9],
+    "protections": [2, 4]
+  },
+  "control": {
+    "singleRemoval": [7, 10],
+    "wrath": [3, 5],
+    "tutor": [2, 4],
+    "cmcRange": [3.2, 3.8],
+    "rampCards": [6, 9],
+    "cardDraw": [8, 12],
+    "protections": [3, 5]
+  },
+  "midrange": {
+    "singleRemoval": [5, 7],
+    "wrath": [2, 4],
+    "tutor": [1, 3],
+    "cmcRange": [3, 3.5],
+    "rampCards": [8, 10],
+    "cardDraw": [6, 9],
+    "protections": [2, 4]
+  },
+  "ramp": {
+    "singleRemoval": [3, 5],
+    "wrath": [2, 3],
+    "tutor": [1, 3],
+    "cmcRange": [3.2, 4],
+    "rampCards": [10, 14],
+    "cardDraw": [5, 7],
+    "protections": [2, 4]
+  },
+  "reanimator": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [3, 6],
+    "cmcRange": [3.3, 4.2],
+    "rampCards": [8, 10],
+    "cardDraw": [6, 8],
+    "protections": [3, 5]
+  },
+  "sacrifice": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [2, 4],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [7, 10],
+    "cardDraw": [6, 9],
+    "protections": [2, 4]
+  },
+  "equipment": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 3],
+    "cmcRange": [2.7, 3.2],
+    "rampCards": [7, 10],
+    "cardDraw": [5, 8],
+    "protections": [3, 5]
+  },
+  "aristocrats": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [3, 5],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 9],
+    "protections": [2, 4]
+  },
+  "lifegain": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [1, 3],
+    "cmcRange": [2.8, 3.3],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 8],
+    "protections": [2, 4]
+  },
+  "voltron": {
+    "singleRemoval": [3, 5],
+    "wrath": [1, 2],
+    "tutor": [1, 3],
+    "cmcRange": [2.5, 3],
+    "rampCards": [7, 10],
+    "cardDraw": [5, 8],
+    "protections": [4, 6]
+  },
+  "wheels": {
+    "singleRemoval": [3, 5],
+    "wrath": [1, 2],
+    "tutor": [1, 3],
+    "cmcRange": [2.7, 3.2],
+    "rampCards": [6, 9],
+    "cardDraw": [10, 12],
+    "protections": [2, 4]
+  },
+  "burn": {
+    "singleRemoval": [3, 5],
+    "wrath": [0, 2],
+    "tutor": [0, 1],
+    "cmcRange": [2.2, 2.7],
+    "rampCards": [5, 8],
+    "cardDraw": [5, 7],
+    "protections": [2, 3]
+  },
+  "spellslinger": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [2, 4],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [7, 10],
+    "cardDraw": [7, 10],
+    "protections": [3, 5]
+  },
+  "cantrips": {
+    "singleRemoval": [3, 5],
+    "wrath": [1, 2],
+    "tutor": [1, 2],
+    "cmcRange": [2.6, 3.2],
+    "rampCards": [6, 9],
+    "cardDraw": [8, 12],
+    "protections": [2, 4]
+  },
+  "birthing pod": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [3, 5],
+    "cmcRange": [2.9, 3.5],
+    "rampCards": [8, 10],
+    "cardDraw": [6, 8],
+    "protections": [2, 4]
+  },
+  "mill": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 3],
+    "cmcRange": [2.9, 3.5],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 8],
+    "protections": [2, 3]
+  },
+  "clones": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 2],
+    "cmcRange": [2.9, 3.4],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 8],
+    "protections": [3, 5]
+  },
+  "lands matter": {
+    "singleRemoval": [3, 5],
+    "wrath": [1, 2],
+    "tutor": [2, 4],
+    "cmcRange": [3, 3.6],
+    "rampCards": [9, 13],
+    "cardDraw": [5, 7],
+    "protections": [1, 3]
+  },
+  "blink": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 2],
+    "cmcRange": [2.7, 3.3],
+    "rampCards": [6, 9],
+    "cardDraw": [7, 10],
+    "protections": [4, 6]
+  },
+  "stax": {
+    "singleRemoval": [6, 8],
+    "wrath": [2, 3],
+    "tutor": [2, 4],
+    "cmcRange": [2.5, 3],
+    "rampCards": [7, 10],
+    "cardDraw": [5, 7],
+    "protections": [3, 5]
+  },
+  "discard": {
+    "singleRemoval": [5, 7],
+    "wrath": [2, 3],
+    "tutor": [2, 3],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 8],
+    "protections": [2, 4]
+  },
+  "card draw": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 2],
+    "cmcRange": [2.7, 3.2],
+    "rampCards": [6, 9],
+    "cardDraw": [10, 12],
+    "protections": [2, 3]
+  },
+  "big mana": {
+    "singleRemoval": [3, 5],
+    "wrath": [2, 3],
+    "tutor": [2, 4],
+    "cmcRange": [3.5, 4.5],
+    "rampCards": [10, 14],
+    "cardDraw": [6, 8],
+    "protections": [2, 4]
+  },
+  "auras": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 3],
+    "cmcRange": [2.6, 3.2],
+    "rampCards": [6, 9],
+    "cardDraw": [5, 7],
+    "protections": [3, 5]
+  },
+  "enchantress": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [1, 3],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [6, 9],
+    "cardDraw": [8, 12],
+    "protections": [2, 3]
+  },
+  "extra combats": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [2, 3],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [7, 10],
+    "cardDraw": [5, 7],
+    "protections": [3, 5]
+  },
+  "good stuff": {
+    "singleRemoval": [5, 7],
+    "wrath": [2, 3],
+    "tutor": [1, 3],
+    "cmcRange": [3, 3.5],
+    "rampCards": [8, 10],
+    "cardDraw": [6, 9],
+    "protections": [2, 4]
+  },
+  "graveyard": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [2, 4],
+    "cmcRange": [3, 3.6],
+    "rampCards": [7, 10],
+    "cardDraw": [6, 8],
+    "protections": [2, 4]
+  },
+  "legends": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [1, 3],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 8],
+    "protections": [2, 3]
+  },
+  "storm": {
+    "singleRemoval": [3, 5],
+    "wrath": [1, 2],
+    "tutor": [3, 5],
+    "cmcRange": [2.6, 3.2],
+    "rampCards": [8, 10],
+    "cardDraw": [8, 10],
+    "protections": [2, 4]
+  },
+  "chaos": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 2],
+    "cmcRange": [2.7, 3.3],
+    "rampCards": [6, 9],
+    "cardDraw": [5, 7],
+    "protections": [2, 3]
+  },
+  "historic": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [2, 4],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [7, 10],
+    "cardDraw": [6, 8],
+    "protections": [2, 3]
+  },
+  "dragons": {
+    "singleRemoval": [4, 6],
+    "wrath": [2, 3],
+    "tutor": [2, 4],
+    "cmcRange": [3.2, 3.9],
+    "rampCards": [9, 13],
+    "cardDraw": [6, 9],
+    "protections": [3, 4]
+  },
+  "flying": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 2],
+    "cmcRange": [2.7, 3.3],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 8],
+    "protections": [2, 3]
+  },
+  "group slug": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [1, 2],
+    "cmcRange": [2.6, 3.2],
+    "rampCards": [5, 8],
+    "cardDraw": [5, 7],
+    "protections": [2, 3]
+  },
+  "infect": {
+    "singleRemoval": [3, 5],
+    "wrath": [0, 1],
+    "tutor": [1, 2],
+    "cmcRange": [2.4, 2.9],
+    "rampCards": [5, 8],
+    "cardDraw": [5, 7],
+    "protections": [3, 5]
+  },
+  "theft": {
+    "singleRemoval": [4, 6],
+    "wrath": [1, 2],
+    "tutor": [2, 3],
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [6, 9],
+    "cardDraw": [6, 8],
+    "protections": [2, 4]
+  },
+  "landfall": {
+    "singleRemoval": [3, 5],
+    "wrath": [2, 3],
+    "tutor": [2, 3],
+    "cmcRange": [3, 3.6],
+    "rampCards": [8, 12],
+    "cardDraw": [5, 7],
+    "protections": [1, 3]
+  },
+  "humans": {
+    "cmcRange": [2.5, 3.2],
+    "rampCards": [7, 9],
+    "cardDraw": [5, 7],
+    "singleInteractions": [7, 9],
+    "wrath": [1, 3],
+    "tutors": [0, 2],
+    "protections": [2, 4]
+  },
+  "planeswalkers": {
+    "cmcRange": [3.5, 4.5],
+    "rampCards": [9, 11],
+    "cardDraw": [7, 9],
+    "singleInteractions": [5, 7],
+    "wrath": [2, 4],
+    "tutors": [1, 3],
+    "protections": [4, 6]
+  },
+  "self mill": {
+    "cmcRange": [3, 3.8],
+    "rampCards": [5, 7],
+    "cardDraw": [6, 8],
+    "singleInteractions": [5, 7],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "protections": [2, 4]
+  },
+  "exile": {
+    "cmcRange": [2.8, 3.5],
+    "rampCards": [6, 8],
+    "cardDraw": [5, 7],
+    "singleInteractions": [6, 9],
+    "wrath": [2, 4],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "hatebears": {
+    "cmcRange": [2, 2.7],
+    "rampCards": [5, 7],
+    "cardDraw": [4, 6],
+    "singleInteractions": [9, 11],
+    "wrath": [0, 2],
+    "tutors": [1, 3],
+    "protections": [3, 5]
+  },
+  "elves": {
+    "cmcRange": [2.1, 2.8],
+    "rampCards": [9, 11],
+    "cardDraw": [5, 7],
+    "singleInteractions": [4, 6],
+    "wrath": [0, 1],
+    "tutors": [1, 3],
+    "protections": [2, 4]
+  },
+  "spell copy": {
+    "cmcRange": [2.8, 3.5],
+    "rampCards": [6, 8],
+    "cardDraw": [7, 9],
+    "singleInteractions": [5, 7],
+    "wrath": [0, 2],
+    "tutors": [2, 4],
+    "protections": [2, 4]
+  },
+  "zombies": {
+    "cmcRange": [2.7, 3.4],
+    "rampCards": [5, 7],
+    "cardDraw": [5, 7],
+    "singleInteractions": [5, 7],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "extra turns": {
+    "cmcRange": [3.5, 4.5],
+    "rampCards": [9, 11],
+    "cardDraw": [6, 8],
+    "singleInteractions": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [2, 4],
+    "protections": [3, 5]
+  },
+  "wizards": {
+    "cmcRange": [2.5, 3.3],
+    "rampCards": [5, 7],
+    "cardDraw": [6, 8],
+    "singleInteractions": [5, 7],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "group hug": {
+    "cmcRange": [3.2, 4.2],
+    "rampCards": [6, 8],
+    "cardDraw": [5, 7],
+    "singleInteractions": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "protections": [2, 4]
+  },
+  "vehicles": {
+    "cmcRange": [2.7, 3.5],
+    "rampCards": [5, 7],
+    "cardDraw": [4, 6],
+    "singleInteractions": [5, 7],
+    "wrath": [0, 2],
+    "tutors": [1, 3],
+    "protections": [2, 4]
+  },
+  "goblins": {
+    "cmcRange": [2, 2.7],
+    "rampCards": [5, 7],
+    "cardDraw": [4, 6],
+    "singleInteractions": [4, 6],
+    "wrath": [0, 1],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "clues": {
+    "cmcRange": [2.8, 3.4],
+    "rampCards": [6, 8],
+    "cardDraw": [7, 9],
+    "singleInteractions": [4, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "stompy": {
+    "cmcRange": [3, 4],
+    "rampCards": [9, 11],
+    "cardDraw": [5, 7],
+    "singleInteractions": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "protections": [1, 3]
+  },
+  "toolbox": {
+    "cmcRange": [2.5, 3.5],
+    "rampCards": [7, 9],
+    "cardDraw": [5, 7],
+    "singleInteractions": [6, 8],
+    "wrath": [1, 3],
+    "tutors": [2, 4],
+    "protections": [1, 3]
+  },
+  "toughness matters": {
+    "cmcRange": [2.7, 3.4],
+    "rampCards": [5, 7],
+    "cardDraw": [4, 6],
+    "singleInteractions": [4, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "vampires": {
+    "cmcRange": [2.5, 3.3],
+    "rampCards": [5, 7],
+    "cardDraw": [5, 7],
+    "singleInteractions": [5, 7],
+    "wrath": [0, 2],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "topdeck": {
+    "cmcRange": [2.8, 3.6],
+    "rampCards": [5, 7],
+    "cardDraw": [6, 8],
+    "singleInteractions": [4, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "protections": [1, 3]
+  },
+  "pillow fort": {
+    "cmcRange": [2.9, 3.7],
+    "rampCards": [6, 8],
+    "cardDraw": [5, 7],
+    "singleInteractions": [6, 8],
+    "wrath": [2, 4],
+    "tutors": [0, 2],
+    "protections": [2, 4]
+  },
+  "forced combat": {
+    "cmcRange": [2.6, 3.4],
+    "rampCards": [5, 7],
+    "cardDraw": [4, 6],
+    "singleInteractions": [4, 6],
+    "wrath": [1, 3],
+    "tutors": [0, 2],
+    "protections": [1, 3]
+  },
+  "commander matters": {
+    "cmcRange": [2.7, 3.5],
+    "rampCards": [6, 8],
+    "cardDraw": [5, 7],
+    "singleInteractions": [5, 7],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "protections": [2, 4]
+  },
+  "angels": {
+    "cmcRange": [3.5, 4.5],
+    "cardDraw": [6, 10],
+    "wrath": [2, 4],
+    "tutors": [1, 2],
+    "rampCards": [8, 12],
+    "singleInteractions": [6, 10],
+    "protections": [2, 4]
+  },
+  "eldrazi": {
+    "cmcRange": [5, 8],
+    "cardDraw": [6, 10],
+    "wrath": [2, 4],
+    "tutors": [2, 4],
+    "rampCards": [12, 18],
+    "singleInteractions": [4, 8],
+    "protections": [1, 3]
+  },
+  "x spells": {
+    "cmcRange": [3, 5],
+    "cardDraw": [6, 10],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [10, 14],
+    "singleInteractions": [6, 10],
+    "protections": [2, 4]
+  },
+  "dragons approach": {
+    "cmcRange": [2.5, 3.5],
+    "cardDraw": [6, 10],
+    "wrath": [0, 2],
+    "tutors": [3, 5],
+    "rampCards": [8, 12],
+    "singleInteractions": [5, 9],
+    "protections": [1, 2]
+  },
+  "lifedrain": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [6, 10],
+    "wrath": [1, 3],
+    "tutors": [2, 4],
+    "rampCards": [6, 10],
+    "singleInteractions": [6, 10],
+    "protections": [2, 4]
+  },
+  "land destruction": {
+    "cmcRange": [3.5, 5],
+    "cardDraw": [5, 9],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [8, 12],
+    "singleInteractions": [7, 11],
+    "protections": [2, 4]
+  },
+  "cascade": {
+    "cmcRange": [3.5, 5.5],
+    "cardDraw": [5, 9],
+    "wrath": [2, 4],
+    "tutors": [1, 2],
+    "rampCards": [10, 14],
+    "singleInteractions": [5, 9],
+    "protections": [1, 3]
+  },
+  "tempo": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [8, 12],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [6, 10],
+    "protections": [2, 4]
+  },
+  "etb": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [6, 10],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [8, 12],
+    "singleInteractions": [5, 9],
+    "protections": [2, 4]
+  },
+  "spirits": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [5, 9],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [6, 10],
+    "protections": [2, 4]
+  },
+  "counterspells": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [6, 10],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [8, 12],
+    "protections": [2, 4]
+  },
+  "soldiers": {
+    "cmcRange": [2, 4],
+    "cardDraw": [5, 8],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [5, 9],
+    "protections": [2, 4]
+  },
+  "self damage": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [5, 9],
+    "wrath": [0, 2],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [5, 9],
+    "protections": [1, 3]
+  },
+  "phyrexians": {
+    "cmcRange": [3.5, 5.5],
+    "cardDraw": [5, 9],
+    "wrath": [2, 4],
+    "tutors": [1, 2],
+    "rampCards": [8, 12],
+    "singleInteractions": [6, 10],
+    "protections": [1, 3]
+  },
+  "dredge": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [6, 10],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [5, 9],
+    "protections": [1, 3]
+  },
+  "shapeshifters": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [5, 9],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [4, 8],
+    "protections": [2, 4]
+  },
+  "demons": {
+    "cmcRange": [4.5, 6.5],
+    "cardDraw": [5, 9],
+    "wrath": [1, 3],
+    "tutors": [2, 4],
+    "rampCards": [10, 14],
+    "singleInteractions": [6, 10],
+    "protections": [2, 4]
+  },
+  "anthems": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [5, 8],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [5, 9],
+    "protections": [1, 3]
+  },
+  "deathtouch": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [5, 9],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [6, 10],
+    "protections": [1, 3]
+  },
+  "cycling": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [6, 10],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [4, 8],
+    "protections": [1, 3]
+  },
+  "politics": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [6, 10],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [4, 8],
+    "protections": [2, 4]
+  },
+  "sunforger": {
+    "cmcRange": [3, 4],
+    "cardDraw": [4, 7],
+    "wrath": [1, 3],
+    "tutors": [2, 3],
+    "rampCards": [6, 10],
+    "singleInteractions": [6, 10],
+    "protections": [1, 3]
+  },
+  "sagas": {
+    "cmcRange": [3, 4],
+    "cardDraw": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [4, 7],
+    "protections": [1, 3]
+  },
+  "fight": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [7, 10],
+    "singleInteractions": [5, 8],
+    "protections": [2, 4]
+  },
+  "cheerios": {
+    "cmcRange": [0.5, 2],
+    "cardDraw": [6, 10],
+    "wrath": [0, 1],
+    "tutors": [1, 3],
+    "rampCards": [2, 4],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "snow": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "power": {
+    "cmcRange": [3.5, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "flash": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 7],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [6, 10],
+    "protections": [2, 4]
+  },
+  "primal surge": {
+    "cmcRange": [4, 6],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [2, 4],
+    "rampCards": [8, 12],
+    "singleInteractions": [3, 5],
+    "protections": [2, 4]
+  },
+  "proliferate": {
+    "cmcRange": [3, 4],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "mutate": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [6, 9],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "polymorph": {
+    "cmcRange": [2.5, 3.5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 1],
+    "tutors": [2, 4],
+    "rampCards": [3, 6],
+    "singleInteractions": [4, 7],
+    "protections": [2, 4]
+  },
+  "pirates": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [4, 6],
+    "protections": [1, 3]
+  },
+  "persistent petitioners": {
+    "cmcRange": [2, 3],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 3],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [2, 4]
+  },
+  "merfolk": {
+    "cmcRange": [2.5, 3.5],
+    "cardDraw": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 5],
+    "protections": [2, 4]
+  },
+  "devotion": {
+    "cmcRange": [3.5, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 3],
+    "rampCards": [6, 9],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "dinosaurs": {
+    "cmcRange": [4, 5.5],
+    "cardDraw": [3, 5],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [7, 10],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "energy": {
+    "cmcRange": [3, 4],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 5],
+    "protections": [2, 4]
+  },
+  "shadowborn apostles": {
+    "cmcRange": [2, 3],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [2, 4],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 5],
+    "protections": [1, 3]
+  },
+  "pingers": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [5, 8],
+    "protections": [2, 4]
+  },
+  "jegantha companion": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 7],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [4, 6],
+    "protections": [1, 3]
+  },
+  "affinity": {
+    "cmcRange": [2, 3],
+    "cardDraw": [5, 8],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "rat colony": {
+    "cmcRange": [2, 3],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 6],
+    "protections": [2, 3]
+  },
+  "sea creatures": {
+    "cmcRange": [4.5, 6],
+    "cardDraw": [5, 8],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [8, 12],
+    "singleInteractions": [4, 7],
+    "protections": [2, 4]
+  },
+  "minus 1 minus 1 counters": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 7],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [4, 7],
+    "protections": [1, 3]
+  },
+  "cats": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "hydras": {
+    "cmcRange": [4, 6.5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [8, 12],
+    "singleInteractions": [3, 5],
+    "protections": [2, 4]
+  },
+  "foretell": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [4, 7],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "knights": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "tap untap": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "ad nauseam": {
+    "cmcRange": [1.5, 3.5],
+    "cardDraw": [6, 9],
+    "wrath": [0, 2],
+    "tutors": [2, 4],
+    "rampCards": [3, 5],
+    "singleInteractions": [4, 8],
+    "protections": [2, 3]
+  },
+  "party": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 5],
+    "protections": [1, 3]
+  },
+  "bounce": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [5, 8],
+    "wrath": [0, 1],
+    "tutors": [0, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [5, 8],
+    "protections": [2, 3]
+  },
+  "curses": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 6],
+    "protections": [2, 4]
+  },
+  "attack triggers": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "clerics": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [3, 5],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "slivers": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 6],
+    "protections": [3, 4]
+  },
+  "food": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 2],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 6],
+    "protections": [2, 3]
+  },
+  "prowess": {
+    "cmcRange": [2, 4],
+    "cardDraw": [5, 9],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "birds": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "morph": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 8],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [4, 7],
+    "protections": [1, 3]
+  },
+  "unblockable": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "monarch": {
+    "cmcRange": [3, 5],
+    "cardDraw": [5, 9],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 7],
+    "protections": [2, 4]
+  },
+  "skeletons": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "assassins": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 8],
+    "protections": [2, 4]
+  },
+  "rogues": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "keruga companion": {
+    "cmcRange": [4, 6],
+    "cardDraw": [5, 9],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [4, 7],
+    "protections": [2, 4]
+  },
+  "zoo": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "kaheera companion": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "keywords": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "elementals": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "relentless rats": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [1, 3],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "saprolings": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 7],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [4, 8],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "insects": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "dungeon": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "lurrus companion": {
+    "cmcRange": [1, 2.5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [1, 3],
+    "rampCards": [2, 4],
+    "singleInteractions": [4, 6],
+    "protections": [1, 2]
+  },
+  "ninjutsu": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [4, 6],
+    "protections": [2, 4]
+  },
+  "populate": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [2, 5],
+    "protections": [2, 4]
+  },
+  "madness": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [1, 2],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "obosh companion": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [3, 5],
+    "wrath": [1, 2],
+    "tutors": [1, 3],
+    "rampCards": [3, 5],
+    "singleInteractions": [4, 6],
+    "protections": [1, 3]
+  },
+  "giants": {
+    "cmcRange": [4, 6],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [0, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "warriors": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "multicolor matters": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 5],
+    "protections": [1, 3]
+  },
+  "horrors": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 8],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "bears": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 5],
+    "singleInteractions": [2, 5],
+    "protections": [1, 2]
+  },
+  "frogs": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "treefolk": {
+    "cmcRange": [3.5, 6],
+    "cardDraw": [2, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 8],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "beasts": {
+    "cmcRange": [3, 5.5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "convoke": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 4],
+    "protections": [2, 3]
+  },
+  "Doctors": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [0, 2],
+    "rampCards": [3, 6],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "haste": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "wolves": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "enrage": {
+    "cmcRange": [3.5, 5],
+    "cardDraw": [2, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 2]
+  },
+  "praetors": {
+    "cmcRange": [4, 6.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 3],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "gyruda companion": {
+    "cmcRange": [4.5, 6],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "artificers": {
+    "cmcRange": [2, 4.5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [1, 2],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "dwarves": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 5],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "druids": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [3, 7],
+    "singleInteractions": [1, 4],
+    "protections": [1, 2]
+  },
+  "discover": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "impulse draw": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 5],
+    "protections": [1, 2]
+  },
+  "activated abilities": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "time counters": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "wurms": {
+    "cmcRange": [4, 7],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [6, 10],
+    "singleInteractions": [2, 5],
+    "protections": [1, 3]
+  },
+  "land animation": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "modular": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "foxes": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "fling": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 2]
+  },
+  "allies": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [2, 4],
+    "protections": [2, 4]
+  },
+  "tron": {
+    "cmcRange": [4, 7],
+    "cardDraw": [4, 7],
+    "wrath": [1, 3],
+    "tutors": [0, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [2, 5],
+    "protections": [2, 4]
+  },
+  "suspend": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "Lords": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "triggered abilities": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "spiders": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [2, 5],
+    "protections": [1, 2]
+  },
+  "crabs": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "die roll": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [1, 4],
+    "protections": [1, 3]
+  },
+  "monks": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "robots": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 5],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "the ring": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "weenies": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [4, 8],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 8],
+    "protections": [1, 3]
+  },
+  "detectives": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "blood": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [4, 8],
+    "protections": [1, 3]
+  },
+  "Walls": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "experience counters": {
+    "cmcRange": [3, 5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 8],
+    "protections": [1, 3]
+  },
+  "rabbits": {
+    "cmcRange": [2.5, 3.5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 5],
+    "protections": [1, 2]
+  },
+  "halflings": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 6],
+    "protections": [2, 4]
+  },
+  "thopters": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "squirrels": {
+    "cmcRange": [2.5, 3.5],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "attractions": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 5],
+    "protections": [1, 2]
+  },
+  "minotaurs": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "orcs": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "self discard": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [5, 9],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "necrons": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [4, 7],
+    "protections": [2, 3]
+  },
+  "gorgons": {
+    "cmcRange": [3.5, 5],
+    "cardDraw": [4, 7],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [4, 7],
+    "protections": [1, 2]
+  },
+  "adventures": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [5, 9],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [4, 7],
+    "protections": [2, 3]
+  },
+  "outlaws": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [5, 8],
+    "wrath": [1, 2],
+    "tutors": [0, 2],
+    "rampCards": [5, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "prison": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 7],
+    "wrath": [2, 4],
+    "tutors": [1, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [6, 10],
+    "protections": [2, 3]
+  },
+  "sneak attack": {
+    "cmcRange": [3.5, 5.5],
+    "cardDraw": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [1, 3],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "avatars": {
+    "cmcRange": [4, 6],
+    "cardDraw": [4, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [6, 10],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "aikido": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [5, 9],
+    "protections": [2, 3]
+  },
+  "plants": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 9],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "amass": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "slime against humanity": {
+    "cmcRange": [2, 4],
+    "cardDraw": [5, 9],
+    "wrath": [1, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 7],
+    "protections": [1, 2]
+  },
+  "kor": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "explore": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [5, 8],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [7, 10],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "surveil": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [6, 10],
+    "wrath": [0, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 7],
+    "protections": [1, 2]
+  },
+  "tyranids": {
+    "cmcRange": [4, 6],
+    "cardDraw": [5, 8],
+    "wrath": [1, 3],
+    "tutors": [0, 1],
+    "rampCards": [8, 12],
+    "singleInteractions": [4, 6],
+    "protections": [1, 2]
+  },
+  "mutants": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 5],
+    "protections": [1, 3]
+  },
+  "horses": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 7],
+    "singleInteractions": [3, 5],
+    "protections": [0, 2]
+  },
+  "kithkin": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [3, 5],
+    "protections": [2, 4]
+  },
+  "myr": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [6, 9],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "zirda companion": {
+    "cmcRange": [2.5, 3.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 7],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "cybermen": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 2],
+    "tutors": [0, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [4, 6],
+    "protections": [1, 3]
+  },
+  "myriad": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 5],
+    "protections": [1, 3]
+  },
+  "unicorns": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "lizards": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 7],
+    "singleInteractions": [3, 5],
+    "protections": [1, 3]
+  },
+  "crime": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [3, 6],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [4, 7],
+    "protections": [2, 4]
+  },
+  "exalted": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 6],
+    "singleInteractions": [4, 6],
+    "protections": [2, 4]
+  },
+  "coin flip": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [4, 6],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "rebels": {
+    "cmcRange": [2, 3],
+    "cardDraw": [4, 6],
+    "wrath": [1, 2],
+    "tutors": [2, 3],
+    "rampCards": [4, 6],
+    "singleInteractions": [4, 6],
+    "protections": [2, 4]
+  },
+  "wraiths": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 3],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 6],
+    "protections": [1, 3]
+  },
+  "shamans": {
+    "cmcRange": [2.5, 4],
+    "cardDraw": [4, 7],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 2]
+  },
+  "werewolves": {
+    "cmcRange": [3.5, 5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 5],
+    "protections": [2, 4]
+  },
+  "delver": {
+    "cmcRange": [1.5, 3],
+    "cardDraw": [6, 9],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [4, 7],
+    "protections": [1, 2]
+  },
+  "time lords": {
+    "cmcRange": [3, 5],
+    "cardDraw": [5, 8],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [4, 7],
+    "protections": [1, 3]
+  },
+  "constructs": {
+    "cmcRange": [2.5, 4.5],
+    "cardDraw": [4, 7],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [5, 8],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "bats": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "drakes": {
+    "cmcRange": [2, 4.5],
+    "cardDraw": [2, 3],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 4],
+    "singleInteractions": [3, 4],
+    "protections": [2, 3]
+  },
+  "otters": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [2, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 3],
+    "singleInteractions": [1, 2],
+    "protections": [1, 2]
+  },
+  "gnomes": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "lure": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 3],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "turtles": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 2],
+    "wrath": [1, 2],
+    "tutors": [0, 0],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 3],
+    "protections": [2, 3]
+  },
+  "mice": {
+    "cmcRange": [1.5, 3],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [1, 2],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "barbarians": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [1, 2],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [3, 4],
+    "protections": [2, 3]
+  },
+  "hare apparent": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "raccoons": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "advisors": {
+    "cmcRange": [2, 3.5],
+    "cardDraw": [2, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [0, 1]
+  },
+  "mount": {
+    "cmcRange": [3, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [1, 3],
+    "singleInteractions": [1, 2],
+    "protections": [0, 1]
+  },
+  "Fish": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "elders": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 4],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 5],
+    "singleInteractions": [2, 4],
+    "protections": [0, 1]
+  },
+  "berserkers": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [1, 3],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "shrines": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [2, 5],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "landwalk": {
+    "cmcRange": [2, 3],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [1, 2],
+    "singleInteractions": [1, 2],
+    "protections": [1, 2]
+  },
+  "kicker": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 3],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "elephants": {
+    "cmcRange": [4, 6],
+    "cardDraw": [1, 3],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "deserts": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "vanilla": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [1, 3],
+    "singleInteractions": [0, 2],
+    "protections": [1, 1]
+  },
+  "connive": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "ogres": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [1, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "mercenaries": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "nightmares": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "astartes": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 3],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [2, 3]
+  },
+  "rock": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 3],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "illusions": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [1, 3],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "Kobolds": {
+    "cmcRange": [0, 2],
+    "cardDraw": [1, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [0, 2],
+    "singleInteractions": [1, 2],
+    "protections": [1, 2]
+  },
+  "phoenixes": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 3],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [1, 3],
+    "singleInteractions": [2, 3],
+    "protections": [2, 3]
+  },
+  "devils": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 3],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "scarecrows": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 3],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [1, 3]
+  },
+  "Krakens": {
+    "cmcRange": [5, 7],
+    "cardDraw": [2, 4],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 4],
+    "protections": [2, 3]
+  },
+  "reach": {
+    "cmcRange": [2, 4.5],
+    "cardDraw": [2, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "rad counters": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "descend": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "griffins": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [1, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 3],
+    "singleInteractions": [1, 2],
+    "protections": [1, 2]
+  },
+  "Octopi": {
+    "cmcRange": [3, 5],
+    "cardDraw": [4, 7],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "cephalids": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 6],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "atogs": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 5],
+    "singleInteractions": [3, 5],
+    "protections": [0, 2]
+  },
+  "charge counters": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 2],
+    "tutors": [1, 2],
+    "rampCards": [4, 7],
+    "singleInteractions": [3, 6],
+    "protections": [1, 3]
+  },
+  "minions": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "Oxen": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [3, 6],
+    "singleInteractions": [2, 4],
+    "protections": [0, 2]
+  },
+  "creatureless": {
+    "cmcRange": [3, 6],
+    "cardDraw": [5, 8],
+    "wrath": [2, 4],
+    "tutors": [1, 3],
+    "rampCards": [5, 8],
+    "singleInteractions": [6, 10],
+    "protections": [0, 1]
+  },
+  "specters": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 5],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [3, 5],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "Spellshapers": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "daleks": {
+    "cmcRange": [4, 6],
+    "cardDraw": [2, 4],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [4, 6],
+    "singleInteractions": [4, 6],
+    "protections": [1, 3]
+  },
+  "lhurgoyfs": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 3],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [1, 3],
+    "singleInteractions": [2, 4],
+    "protections": [0, 2]
+  },
+  "Djinns": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 4],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 4],
+    "protections": [0, 2]
+  },
+  "freerunning": {
+    "cmcRange": [1, 3],
+    "cardDraw": [0, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [0, 2],
+    "singleInteractions": [1, 3],
+    "protections": [1, 3]
+  },
+  "saboteurs": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [1, 2],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "hellbent": {
+    "cmcRange": [1, 3],
+    "cardDraw": [0, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [1, 2],
+    "singleInteractions": [2, 4],
+    "protections": [0, 1]
+  },
+  "satyrs": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [1, 3],
+    "singleInteractions": [1, 3],
+    "protections": [0, 2]
+  },
+  "Shades": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 2],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [1, 2],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "Kavu": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [0, 1]
+  },
+  "Elk": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [1, 3],
+    "singleInteractions": [1, 3],
+    "protections": [0, 1]
+  },
+  "Centaurs": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 2],
+    "wrath": [0, 2],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [1, 3],
+    "protections": [0, 2]
+  },
+  "Nobles": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 3],
+    "wrath": [1, 2],
+    "tutors": [0, 1],
+    "rampCards": [1, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 3]
+  },
+  "apes": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [0, 1]
+  },
+  "monkeys": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 2],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 4],
+    "singleInteractions": [1, 3],
+    "protections": [0, 1]
+  },
+  "phasing": {
+    "cmcRange": [2, 4],
+    "cardDraw": [1, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [1, 2],
+    "singleInteractions": [2, 4],
+    "protections": [2, 4]
+  },
+  "Serpents": {
+    "cmcRange": [4, 7],
+    "cardDraw": [3, 6],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [3, 6],
+    "singleInteractions": [3, 5],
+    "protections": [1, 3]
+  },
+  "rooms": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [1, 2],
+    "singleInteractions": [1, 3],
+    "protections": [1, 2]
+  },
+  "oil counters": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [1, 2],
+    "rampCards": [2, 4],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "extra upkeeps": {
+    "cmcRange": [3, 5],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "archers": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 3],
+    "wrath": [0, 0],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [3, 5],
+    "protections": [1, 2]
+  },
+  "type hack": {
+    "cmcRange": [2, 4],
+    "cardDraw": [3, 5],
+    "wrath": [0, 1],
+    "tutors": [1, 2],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [2, 3]
+  },
+  "Moonfolk": {
+    "cmcRange": [3, 4.5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "Rhinos": {
+    "cmcRange": [3, 5.5],
+    "cardDraw": [2, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 0],
+    "rampCards": [2, 4],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "Boars": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 3],
+    "wrath": [0, 0],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "craft": {
+    "cmcRange": [3, 5],
+    "cardDraw": [2, 4],
+    "wrath": [0, 1],
+    "tutors": [1, 2],
+    "rampCards": [3, 4],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "Bards": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 0],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "day night": {
+    "cmcRange": [2, 5],
+    "cardDraw": [2, 3],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "Trolls": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 2],
+    "wrath": [0, 0],
+    "tutors": [0, 0],
+    "rampCards": [3, 4],
+    "singleInteractions": [2, 3],
+    "protections": [2, 3]
+  },
+  "Crocodiles": {
+    "cmcRange": [3, 5],
+    "cardDraw": [1, 2],
+    "wrath": [0, 0],
+    "tutors": [0, 0],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  },
+  "delirium": {
+    "cmcRange": [2, 4.5],
+    "cardDraw": [2, 4],
+    "wrath": [1, 2],
+    "tutors": [1, 2],
+    "rampCards": [2, 3],
+    "singleInteractions": [3, 5],
+    "protections": [2, 3]
+  },
+  "hand size": {
+    "cmcRange": [2, 4],
+    "cardDraw": [4, 6],
+    "wrath": [0, 1],
+    "tutors": [0, 1],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 4],
+    "protections": [1, 2]
+  },
+  "offspring": {
+    "cmcRange": [2, 4],
+    "cardDraw": [2, 4],
+    "wrath": [0, 0],
+    "tutors": [0, 0],
+    "rampCards": [2, 3],
+    "singleInteractions": [2, 3],
+    "protections": [1, 2]
+  }
+}

@@ -1,0 +1,328 @@
+/* Reset previous table styles */
+.deck-card-list,
+.deck-card-list th,
+.deck-card-list td {
+  all: unset;
+}
+
+.deck-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.group-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: capitalize;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.card-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+/*
+.card-item {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+  */
+
+.card-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card-item:hover {
+  transform: translateY(-10px) scale(1.1);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+}
+
+.card-item:hover::before {
+  opacity: 1;
+}
+
+.card-item.duplicate {
+  border-color: #ff6b6b;
+  background: linear-gradient(145deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.08));
+}
+
+.card-item.duplicate:hover {
+  border-color: #ff5252;
+  box-shadow: 0 16px 48px rgba(255, 107, 107, 0.3);
+}
+/*
+.thumb-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+  */
+
+.thumb-wrapper img {
+  width: 101%;
+  height: 101%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.thumb-wrapper:hover img {
+  transform: scale(1.2);
+}
+
+.thumb-wrapper img.commander-img {
+  width: 150px;
+  height: 210px;
+  border: 3px solid #ffd700;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.qty-badge {
+  position: absolute;
+  top: -18px;
+  right: -13px;
+  background: linear-gradient(135deg, #000, #333);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 4px 2px;
+  border-radius: 6px;
+  border: 2px solid #555;
+  min-width: 28px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.card-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.card-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+  margin: 0;
+  word-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.actions button {
+  background: linear-gradient(135deg, #555, #333);
+  color: #fff;
+  border: 2px solid #666;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex: 1;
+  max-width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.actions button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #777, #555);
+  border-color: #888;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.actions button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.actions button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.empty-deck {
+  font-style: italic;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+/* Responsive design per schermi più piccoli */
+@media (max-width: 1024px) {
+  .card-items {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+
+  .card-item {
+    padding: 1rem;
+  }
+
+  .thumb-wrapper img {
+    width: 120px;
+    height: 168px;
+  }
+
+  .thumb-wrapper img.commander-img {
+    width: 130px;
+    height: 182px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-items {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .card-item {
+    padding: 0.75rem;
+  }
+
+  .thumb-wrapper {
+    margin-bottom: 0.75rem;
+  }
+
+  .thumb-wrapper img {
+    width: 100px;
+    height: 140px;
+  }
+
+  .thumb-wrapper img.commander-img {
+    width: 110px;
+    height: 154px;
+  }
+
+  .card-name {
+    font-size: 0.9rem;
+  }
+
+  .actions {
+    gap: 0.5rem;
+  }
+
+  .actions button {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-items {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .group-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* Animazioni speciali per migliorare l'esperienza */
+@keyframes cardAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card-item {
+  animation: cardAppear 0.4s ease-out;
+}
+
+/* Stagger effect per le cards */
+.card-item:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.card-item:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.card-item:nth-child(3) {
+  animation-delay: 0.15s;
+}
+.card-item:nth-child(4) {
+  animation-delay: 0.2s;
+}
+.card-item:nth-child(5) {
+  animation-delay: 0.25s;
+}
+.card-item:nth-child(6) {
+  animation-delay: 0.3s;
+}

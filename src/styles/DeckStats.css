@@ -1,0 +1,15 @@
+.deck-stats-overview {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  max-width: 300px;
+}
+
+.deck-stats-overview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.deck-stats-overview li {
+  margin: 0.25rem 0;
+}

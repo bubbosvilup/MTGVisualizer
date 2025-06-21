@@ -1,0 +1,48 @@
+.archetype-advisor {
+  margin-top: 1rem;
+  border: 1px solid #666;
+  padding: 0.75rem 1rem;
+  max-width: 640px;
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(2px);
+}
+
+.archetype-guidelines-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.archetype-guidelines-table th {
+  background: #222;
+  color: #fff;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #444;
+}
+
+.archetype-guidelines-table td {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #444;
+  text-align: center;
+  color: #f0f0f0;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.archetype-guidelines-table tr:nth-child(even) td:not(.deficit) {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.archetype-guidelines-table tr.deficit td {
+  background: #742d2d;
+  color: #fff;
+}
+
+/* Select styling */
+.archetype-advisor select {
+  margin-top: 0.25rem;
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 0.25rem 0.5rem;
+}
