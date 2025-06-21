@@ -222,14 +222,40 @@ function TabMatching() {
     }
   }, [openDrawerDeck]);
 
-  // Esporta mancanti in txt
+  // Esporta mancanti già esiste
+  const buildLines = (deck) => deck.cards.map((c) => `${c.quantity || 1} ${c.name}`);
+
+  const handleExportList = (deck) => {
+    const lines = buildLines(deck);
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${deck.name.replace(/\s+/g, '_')}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  };
+
+  const handleCopyList = async (deck) => {
+    try {
+      await navigator.clipboard.writeText(buildLines(deck).join('\n'));
+      alert('Lista copiata negli appunti!');
+    } catch {
+      alert('Errore nella copia');
+    }
+  };
+
   const handleExportMissing = (missingCards) => {
-    const txt = missingCards.map((c) => `${c.name} ${c.quantity || 1}`).join('\n');
+    const txt = missingCards.map((c) => `${c.quantity - (c.owned || 0)} ${c.name}`).join('\n');
     const blob = new Blob([txt], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${openDrawerDeck.name.replace(/\s+/g, '_')}_mancanti.txt`;
+    a.download = 'missing_cards.txt';
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
@@ -434,6 +460,8 @@ function TabMatching() {
               collection={collection}
               hideOwned={hideOwned}
               onExportMissing={handleExportMissing}
+              onCopyList={handleCopyList}
+              onExportList={handleExportList}
             />
           </div>
         </div>

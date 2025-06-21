@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import CommanderSelector from '../components/CommanderSelector';
 import CardSearchAdd from '../components/CardSearchAdd';
 import DeckCardList from '../components/DeckCardList';
-import DeckStats from '../components/DeckStats';
 import MoxfieldImport from '../components/MoxfieldImport';
 import ArchetypeAdvisor from '../components/ArchetypeAdvisor';
+import ManaCurveChart from '../components/ManaCurveChart';
+import ColorPieChart from '../components/ColorPieChart';
 import '../styles/TabDeckBuilder.css';
 
 function TabDeckBuilder() {
@@ -103,7 +104,9 @@ function TabDeckBuilder() {
 
       <DeckCardList cards={cards} onQtyChange={changeQty} onRemove={removeCard} />
 
-      <DeckStats cards={cards} />
+      <ManaCurveChart cards={cards} />
+
+      <ColorPieChart cards={cards} />
 
       <ArchetypeAdvisor commander={commander} cards={cards} />
     </div>

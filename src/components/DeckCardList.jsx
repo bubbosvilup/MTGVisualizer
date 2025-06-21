@@ -12,7 +12,10 @@ const TAG_MAP = {
   impulseDraw: { label: 'Draw', color: '#2196f3' },
   singleTargetRemoval: { label: 'Removal', color: '#f44336' },
   massRemoval: { label: 'Wrath', color: '#9c27b0' },
-  protection: { label: 'Protect', color: '#ffc107' },
+  isWinCondition: { label: 'Wincon', color: '#ff1493' },
+  graveyardHate: { label: 'GY Hate', color: '#795548' },
+  stax: { label: 'Stax', color: '#607d8b' },
+  counterSpells: { label: 'Counter', color: '#00bcd4' },
 };
 
 function categorize(card) {
@@ -43,7 +46,8 @@ function DeckCardList({ cards, onQtyChange, onRemove }) {
       {TYPE_ORDER.filter((cat) => groups[cat]?.length).map((cat) => (
         <div key={cat} className="deck-group">
           <h4 className="group-title">
-            {cat.charAt(0).toUpperCase() + cat.slice(1)} ({groups[cat].length})
+            {cat.charAt(0).toUpperCase() + cat.slice(1)} (
+            {groups[cat].reduce((sum, item) => sum + (item.qty || item.quantity || 1), 0)})
           </h4>
           <div className="card-items">
             {groups[cat].map((c) => (
@@ -62,13 +66,23 @@ function DeckCardList({ cards, onQtyChange, onRemove }) {
                 <div className="card-info">
                   <span className="card-name">{c.name}</span>
                   <div className="card-tags">
-                    {Object.entries(TAG_MAP)
-                      .filter(([key]) => c[key])
-                      .map(([key, { label, color }]) => (
-                        <span key={key} className="tag" style={{ background: color }}>
-                          {label}
-                        </span>
-                      ))}
+                    {(() => {
+                      const tags = [];
+                      const added = new Set();
+                      const isLand = (c.type || '').toLowerCase().includes('land');
+                      Object.entries(TAG_MAP).forEach(([key, { label, color }]) => {
+                        if (!c[key]) return;
+                        if (label === 'Ramp' && isLand) return; // exclude ramp on lands
+                        if (added.has(label)) return; // avoid duplicate labels
+                        added.add(label);
+                        tags.push(
+                          <span key={label} className="tag" style={{ background: color }}>
+                            {label}
+                          </span>
+                        );
+                      });
+                      return tags;
+                    })()}
                   </div>
                   <div className="actions">
                     <button onClick={() => onQtyChange(c.name, 1)}>＋</button>

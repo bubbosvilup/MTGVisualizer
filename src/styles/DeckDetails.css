@@ -88,3 +88,22 @@
     gap: 0.5rem;
   }
 }
+
+.deck-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.deck-actions button {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.deck-actions button:hover {
+  background: #666;
+}

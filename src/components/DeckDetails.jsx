@@ -3,7 +3,14 @@ import React from 'react';
 import '../styles/DeckDetails.css';
 import scryfallData from '../data/scryfall-min.json';
 
-function DeckDetails({ deck, collection = [], hideOwned = false, onExportMissing }) {
+function DeckDetails({
+  deck,
+  collection = [],
+  hideOwned = false,
+  onExportMissing,
+  onCopyList,
+  onExportList,
+}) {
   if (!deck) return null;
   const collectionMap = new Map();
   collection.forEach((card) => {
@@ -11,7 +18,7 @@ function DeckDetails({ deck, collection = [], hideOwned = false, onExportMissing
   });
 
   // Calcola carte mancanti e prezzo totale mancanti
-  let totalMissingPrice = 0;
+  // let totalMissingPrice = 0;
   const cardsWithStatus = deck.cards.map((card) => {
     const owned = collectionMap.get(card.name.toLowerCase()) || 0;
     const missing = owned < (card.quantity || 1);
@@ -22,7 +29,7 @@ function DeckDetails({ deck, collection = [], hideOwned = false, onExportMissing
       image = match?.image || '';
     }
     if (missing && typeof card.price === 'number') {
-      totalMissingPrice += (card.price || 0) * ((card.quantity || 1) - owned);
+      // totalMissingPrice += (card.price || 0) * ((card.quantity || 1) - owned);
     }
     return { ...card, owned, missing, image };
   });
@@ -43,6 +50,11 @@ function DeckDetails({ deck, collection = [], hideOwned = false, onExportMissing
   return (
     <div className="deck-details">
       <h3>{deck.name} – Lista Carte</h3>
+      <div className="deck-actions">
+        {onExportList && <button onClick={() => onExportList(deck)}>💾 Esporta .txt</button>}
+        {onCopyList && <button onClick={() => onCopyList(deck)}>📋 Copia</button>}
+        {onExportMissing && <button onClick={handleExport}>❌ Mancanti</button>}
+      </div>
       <div className="deck-cards-grid">
         {cardsToShow.map((card, index) => (
           <div key={index} className={`deck-card-detail ${card.missing ? 'missing' : 'owned'}`}>

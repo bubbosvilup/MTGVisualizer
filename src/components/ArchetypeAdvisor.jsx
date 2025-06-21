@@ -42,6 +42,16 @@ function ArchetypeAdvisor({ commander, cards }) {
 
   const guidelines = archetypeGuidelines[selectedArchetype] || {};
 
+  const friendlyNames = {
+    singleRemoval: 'Single Removal',
+    wrath: 'Board Wipes',
+    tutor: 'Tutors',
+    cmcRange: 'Avg CMC',
+    rampCards: 'Ramp',
+    cardDraw: 'Card Draw',
+    protections: 'Protections',
+  };
+
   // Map between guideline keys and stats keys / special handlers
   const statKeyMap = {
     singleRemoval: 'singleTargetRemoval',
@@ -59,6 +69,7 @@ function ArchetypeAdvisor({ commander, cards }) {
   };
 
   const renderRow = (key, label) => {
+    if (key === 'protections') return null; // skip protections
     const current = getCurrentValue(key);
     const range = guidelines[key] || [];
     const [min, max] = range;
@@ -74,7 +85,7 @@ function ArchetypeAdvisor({ commander, cards }) {
 
   return (
     <div className="archetype-advisor">
-      <h3>📌 Suggerimenti Archetipo</h3>
+      <h3>🛠️ Deck Tech</h3>
       {archetypes.length > 1 && (
         <select value={selectedArchetype} onChange={(e) => setSelectedArchetype(e.target.value)}>
           {archetypes.map((a) => (
@@ -93,7 +104,9 @@ function ArchetypeAdvisor({ commander, cards }) {
             <th>Consigliato</th>
           </tr>
         </thead>
-        <tbody>{Object.keys(guidelines).map((key) => renderRow(key, key))}</tbody>
+        <tbody>
+          {Object.keys(guidelines).map((key) => renderRow(key, friendlyNames[key] || key))}
+        </tbody>
       </table>
     </div>
   );
