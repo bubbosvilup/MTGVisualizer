@@ -5,15 +5,21 @@ import getDeckStats from '../utils/getDeckStats';
 import commanderArchetypes from '../../server/data/commander_archetypes.json';
 import archetypeGuidelines from '../../server/data/archetypes-guidelines-standardized.json';
 
-// Funzione helper per la normalizzazione dei nomi
 const normalizeName = (name) => {
   if (!name) return '';
-  return name.toLowerCase().split('//')[0].trim();
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // rimuove diacritici
+    .split('//')[0]
+    .replace(/[^a-z0-9 ]/g, '') // elimina punteggiatura varia
+    .replace(/\s+/g, ' ')
+    .trim();
 };
 
 function ArchetypeAdvisor({ commander, cards }) {
   const [selectedArchetype, setSelectedArchetype] = useState('');
-  const deckStats = useMemo(() => getDeckStats(cards), [cards]);
+  const deckStats = useMemo(() => getDeckStats(cards) || { avgCMC: 0 }, [cards]);
 
   const availableArchetypes = useMemo(() => {
     if (!commander) return [];
@@ -67,14 +73,18 @@ function ArchetypeAdvisor({ commander, cards }) {
   const STATS_MAP = [
     {
       label: 'Rimozioni Singole',
-      key: 'singleRemoval',
-      recommended: guidelines.single_removal_count,
+      key: 'singleTargetRemoval',
+      recommended: guidelines.singleRemoval?.join('-'),
     },
-    { label: 'Rimozioni Globali', key: 'boardWipes', recommended: guidelines.board_wipes_count },
-    { label: 'Tutori', key: 'tutors', recommended: guidelines.tutors_count },
-    { label: 'Ramp', key: 'ramp', recommended: guidelines.ramp_count },
-    { label: 'Pescata', key: 'cardDraw', recommended: guidelines.card_draw_count },
-    { label: 'CMC Medio', key: 'avgCMC', recommended: guidelines.avg_cmc, isCMC: true },
+    {
+      label: 'Rimozioni Globali',
+      key: 'massRemoval',
+      recommended: guidelines.wrath?.join('-'),
+    },
+    { label: 'Tutori', key: 'tutors', recommended: guidelines.tutor?.join('-') },
+    { label: 'Ramp', key: 'rampCards', recommended: guidelines.rampCards?.join('-') },
+    { label: 'Pescata', key: 'cardDraw', recommended: guidelines.cardDraw?.join('-') },
+    { label: 'CMC Medio', key: 'avgCMC', recommended: guidelines.cmcRange?.join('-'), isCMC: true },
   ];
 
   return (
