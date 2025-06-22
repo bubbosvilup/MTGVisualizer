@@ -5,21 +5,29 @@ import getDeckStats from '../utils/getDeckStats';
 import commanderArchetypes from '../../server/data/commander_archetypes.json';
 import archetypeGuidelines from '../../server/data/archetypes-guidelines-standardized.json';
 
+// Funzione helper per la normalizzazione dei nomi
 const normalizeName = (name) => {
   if (!name) return '';
   return name
     .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // rimuove diacritici
     .split('//')[0]
-    .replace(/[^a-z0-9 ]/g, '') // elimina punteggiatura varia
-    .replace(/\s+/g, ' ')
+    .replace(/[^a-z0-9\s]/g, '') // Rimuove tutta la punteggiatura
+    .replace(/\s+/g, ' ') // Normalizza gli spazi
     .trim();
+};
+
+const EMPTY_STATS = {
+  avgCmc: 0,
+  singleTargetRemoval: 0,
+  massRemoval: 0,
+  tutors: 0,
+  rampCards: 0,
+  cardDraw: 0,
 };
 
 function ArchetypeAdvisor({ commander, cards }) {
   const [selectedArchetype, setSelectedArchetype] = useState('');
-  const deckStats = useMemo(() => getDeckStats(cards) || { avgCMC: 0 }, [cards]);
+  const deckStats = useMemo(() => getDeckStats(cards) || EMPTY_STATS, [cards]);
 
   const availableArchetypes = useMemo(() => {
     if (!commander) return [];
@@ -72,19 +80,20 @@ function ArchetypeAdvisor({ commander, cards }) {
 
   const STATS_MAP = [
     {
-      label: 'Rimozioni Singole',
+      label: 'S.Removal',
       key: 'singleTargetRemoval',
-      recommended: guidelines.singleRemoval?.join('-'),
+      recommended: guidelines.singleRemoval?.join(' - '),
     },
+    { label: 'Wrath', key: 'massRemoval', recommended: guidelines.wrath?.join(' - ') },
+    { label: 'Tutori', key: 'tutors', recommended: guidelines.tutor?.join(' - ') },
+    { label: 'Ramp', key: 'rampCards', recommended: guidelines.rampCards?.join(' - ') },
+    { label: 'Draw', key: 'cardDraw', recommended: guidelines.cardDraw?.join(' - ') },
     {
-      label: 'Rimozioni Globali',
-      key: 'massRemoval',
-      recommended: guidelines.wrath?.join('-'),
+      label: 'CMC Medio',
+      key: 'avgCmc',
+      recommended: guidelines.cmcRange?.join(' - '),
+      isCMC: true,
     },
-    { label: 'Tutori', key: 'tutors', recommended: guidelines.tutor?.join('-') },
-    { label: 'Ramp', key: 'rampCards', recommended: guidelines.rampCards?.join('-') },
-    { label: 'Pescata', key: 'cardDraw', recommended: guidelines.cardDraw?.join('-') },
-    { label: 'CMC Medio', key: 'avgCMC', recommended: guidelines.cmcRange?.join('-'), isCMC: true },
   ];
 
   return (
@@ -111,15 +120,18 @@ function ArchetypeAdvisor({ commander, cards }) {
         <table className="archetype-table">
           <thead>
             <tr>
-              <th>Categoria</th>
+              <th>Tipo</th>
               <th>Attuale</th>
-              <th>Consigliato</th>
+              <th>Ideale</th>
             </tr>
           </thead>
           <tbody>
             {STATS_MAP.map(({ label, key, recommended, isCMC }) => {
-              const currentValue = isCMC ? deckStats.avgCMC.toFixed(1) : deckStats[key];
-              const rowClass = getRowClass(currentValue, recommended);
+              const currentValue = isCMC ? deckStats.avgCmc.toFixed(1) : deckStats[key];
+              const rowClass = getRowClass(
+                currentValue,
+                recommended ? recommended.replace(/\s/g, '') : null
+              );
 
               return (
                 <tr key={key} className={rowClass}>
