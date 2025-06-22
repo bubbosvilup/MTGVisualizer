@@ -1,0 +1,17 @@
+.deck-tech-header {
+  margin-bottom: 1.5rem;
+}
+
+.deck-tech-header h2 {
+  margin: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1.5rem;
+  color: #e0e0e0;
+}
+
+.deck-tech-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

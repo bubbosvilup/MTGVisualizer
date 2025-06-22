@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CommanderSelector from '../components/CommanderSelector';
 import CardSearchAdd from '../components/CardSearchAdd';
 import DeckCardList from '../components/DeckCardList';
 import MoxfieldImport from '../components/MoxfieldImport';
-import ArchetypeAdvisor from '../components/ArchetypeAdvisor';
-import ManaCurveChart from '../components/ManaCurveChart';
-import ColorPieChart from '../components/ColorPieChart';
+import DeckTech from '../components/DeckTech';
+import { analyzeManaRequirements, analyzeManaSources } from '../utils/manaAnalyzer';
 import '../styles/TabDeckBuilder.css';
 
 function TabDeckBuilder() {
   const [deckName, setDeckName] = useState('');
   const [commander, setCommander] = useState(null);
   const [cards, setCards] = useState([]);
+  const [manaRequirements, setManaRequirements] = useState(null);
+  const [manaSources, setManaSources] = useState(null);
+
+  useEffect(() => {
+    const reqs = analyzeManaRequirements(cards);
+    const sources = analyzeManaSources(cards);
+    setManaRequirements(reqs);
+    setManaSources(sources);
+  }, [cards]);
 
   const addCard = (card) => {
     setCards((prev) => {
@@ -108,9 +116,12 @@ function TabDeckBuilder() {
         </section>
 
         <aside className="right-pane">
-          <ManaCurveChart cards={cards} />
-          <ColorPieChart cards={cards} />
-          <ArchetypeAdvisor commander={commander} cards={cards} />
+          <DeckTech
+            cards={cards}
+            commander={commander}
+            manaRequirements={manaRequirements}
+            manaSources={manaSources}
+          />
         </aside>
       </div>
     </div>
@@ -118,4 +129,3 @@ function TabDeckBuilder() {
 }
 
 export default TabDeckBuilder;
-

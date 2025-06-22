@@ -47,6 +47,14 @@
   transition: background-color 0.2s ease;
 }
 
+.commander-results img.result-img {
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border-radius: 4px;
+}
+
 .commander-results li:hover {
   background: #333;
 }
@@ -70,13 +78,14 @@
   padding: 0.5rem;
   flex: 0 1 320px;
   min-width: 280px;
+  min-height: 240px;
 }
 
 .selected-commander-img {
-  width: 60px;
-  height: 84px;
+  width: 180px;
+  height: 204px;
   border-radius: 6px;
-  object-fit: cover;
+  object-fit: contain;
   flex-shrink: 0;
 }
 

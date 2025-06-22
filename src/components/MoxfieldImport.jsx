@@ -49,7 +49,7 @@ function MoxfieldImport({ onImport }) {
       return found;
     };
 
-    const imported = Object.entries(aggregated)
+    const enrichedCards = Object.entries(aggregated)
       .map(([key, qty]) => {
         const card = findCard(key);
         if (!card) {
@@ -58,6 +58,7 @@ function MoxfieldImport({ onImport }) {
         }
         return {
           ...card,
+          type_line: card.type,
           qty,
           isBasic: /basic land/i.test(card.type || ''),
         };
@@ -65,8 +66,8 @@ function MoxfieldImport({ onImport }) {
       .filter(Boolean);
 
     setErrorCards(notFound);
-    if (imported.length > 0) {
-      onImport(imported);
+    if (enrichedCards.length > 0) {
+      onImport(enrichedCards);
     }
   };
 

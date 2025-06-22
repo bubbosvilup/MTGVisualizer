@@ -1,115 +1,139 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import '../styles/ArchetypeAdvisor.css';
 import getDeckStats from '../utils/getDeckStats';
 import commanderArchetypes from '../../server/data/commander_archetypes.json';
 import archetypeGuidelines from '../../server/data/archetypes-guidelines-standardized.json';
-import '../styles/ArchetypeAdvisor.css';
 
-// Build normalized map once
-const normalizeName = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-const normalizedArchetypeMap = Object.fromEntries(
-  Object.entries(commanderArchetypes).map(([name, archetypes]) => [normalizeName(name), archetypes])
-);
+// Funzione helper per la normalizzazione dei nomi
+const normalizeName = (name) => {
+  if (!name) return '';
+  return name.toLowerCase().split('//')[0].trim();
+};
 
 function ArchetypeAdvisor({ commander, cards }) {
   const [selectedArchetype, setSelectedArchetype] = useState('');
+  const deckStats = useMemo(() => getDeckStats(cards), [cards]);
 
-  // Determine archetypes list
-  const archetypes = useMemo(() => {
+  const availableArchetypes = useMemo(() => {
     if (!commander) return [];
-    const key = normalizeName(commander.name);
-    const list = normalizedArchetypeMap[key] || [];
-    return list;
+    const commanderName = normalizeName(commander.name);
+
+    // Cerca l'archetipo in modo case-insensitive direttamente qui
+    const commanderKey = Object.keys(commanderArchetypes).find(
+      (key) => normalizeName(key) === commanderName
+    );
+
+    return commanderKey ? commanderArchetypes[commanderKey] : [];
   }, [commander]);
 
   useEffect(() => {
-    if (archetypes.length > 0 && !selectedArchetype) {
-      setSelectedArchetype(archetypes[0]);
+    if (availableArchetypes.length > 0) {
+      setSelectedArchetype(availableArchetypes[0]);
+    } else {
+      setSelectedArchetype('');
     }
-  }, [archetypes, selectedArchetype]);
+  }, [availableArchetypes]);
 
-  const stats = useMemo(() => getDeckStats(cards) || {}, [cards]);
-
-  if (!commander) return null;
-
-  if (archetypes.length === 0) {
+  if (!commander) {
     return (
-      <div className="archetype-advisor">
-        <h4>Nessun archetipo registrato per {commander.name}</h4>
+      <div className="archetype-advisor-placeholder">
+        <p>Seleziona un Comandante per visualizzare i consigli sull'archetipo.</p>
+      </div>
+    );
+  }
+
+  if (availableArchetypes.length === 0) {
+    return (
+      <div className="archetype-advisor-placeholder">
+        <p>
+          Nessun archetipo specifico trovato per {commander.name}. L'analisi si basa su linee guida
+          generali.
+        </p>
       </div>
     );
   }
 
   const guidelines = archetypeGuidelines[selectedArchetype] || {};
 
-  const friendlyNames = {
-    singleRemoval: 'Single Removal',
-    wrath: 'Board Wipes',
-    tutor: 'Tutors',
-    cmcRange: 'Avg CMC',
-    rampCards: 'Ramp',
-    cardDraw: 'Card Draw',
-    protections: 'Protections',
+  const getRowClass = (current, recommended) => {
+    if (!recommended) return '';
+    const [min, max] = recommended.split('-').map(Number);
+    if (current < min) return 'low';
+    if (current > max) return 'high';
+    return 'good';
   };
 
-  // Map between guideline keys and stats keys / special handlers
-  const statKeyMap = {
-    singleRemoval: 'singleTargetRemoval',
-    wrath: 'massRemoval',
-    tutor: 'tutors',
-    protections: 'protection',
-    singleInteractions: 'singleTargetRemoval',
-    cmcRange: 'avgCmc',
-  };
-
-  const getCurrentValue = (guideKey) => {
-    const mapped = statKeyMap[guideKey] || guideKey;
-    if (mapped === 'avgCmc') return stats.avgCmc ? stats.avgCmc.toFixed(1) : 0;
-    return stats[mapped] || 0;
-  };
-
-  const renderRow = (key, label) => {
-    if (key === 'protections') return null; // skip protections
-    const current = getCurrentValue(key);
-    const range = guidelines[key] || [];
-    const [min, max] = range;
-    const ok = current >= (min || 0) && (max === undefined || current <= max);
-    return (
-      <tr key={key} className={ok ? '' : 'deficit'}>
-        <td>{label}</td>
-        <td>{current}</td>
-        <td>{range.length === 0 ? '-' : `${min ?? 0} – ${max ?? '?'}`}</td>
-      </tr>
-    );
-  };
+  const STATS_MAP = [
+    {
+      label: 'Rimozioni Singole',
+      key: 'singleRemoval',
+      recommended: guidelines.single_removal_count,
+    },
+    { label: 'Rimozioni Globali', key: 'boardWipes', recommended: guidelines.board_wipes_count },
+    { label: 'Tutori', key: 'tutors', recommended: guidelines.tutors_count },
+    { label: 'Ramp', key: 'ramp', recommended: guidelines.ramp_count },
+    { label: 'Pescata', key: 'cardDraw', recommended: guidelines.card_draw_count },
+    { label: 'CMC Medio', key: 'avgCMC', recommended: guidelines.avg_cmc, isCMC: true },
+  ];
 
   return (
     <div className="archetype-advisor">
-      <h3>🛠️ Deck Tech</h3>
-      {archetypes.length > 1 && (
-        <select value={selectedArchetype} onChange={(e) => setSelectedArchetype(e.target.value)}>
-          {archetypes.map((a) => (
-            <option key={a} value={a}>
-              {a}
-            </option>
-          ))}
-        </select>
+      {availableArchetypes.length > 0 && (
+        <div className="archetype-selector-container">
+          <label htmlFor="archetype-select">Archetipo suggerito:</label>
+          <select
+            id="archetype-select"
+            value={selectedArchetype}
+            onChange={(e) => setSelectedArchetype(e.target.value)}
+            className="archetype-select"
+          >
+            {availableArchetypes.map((arch) => (
+              <option key={arch} value={arch}>
+                {arch.charAt(0).toUpperCase() + arch.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
       )}
 
-      <table className="archetype-guidelines-table">
-        <thead>
-          <tr>
-            <th>Categoria</th>
-            <th>Attuale</th>
-            <th>Consigliato</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.keys(guidelines).map((key) => renderRow(key, friendlyNames[key] || key))}
-        </tbody>
-      </table>
+      <div className="archetype-table-container">
+        <table className="archetype-table">
+          <thead>
+            <tr>
+              <th>Categoria</th>
+              <th>Attuale</th>
+              <th>Consigliato</th>
+            </tr>
+          </thead>
+          <tbody>
+            {STATS_MAP.map(({ label, key, recommended, isCMC }) => {
+              const currentValue = isCMC ? deckStats.avgCMC.toFixed(1) : deckStats[key];
+              const rowClass = getRowClass(currentValue, recommended);
+
+              return (
+                <tr key={key} className={rowClass}>
+                  <td>{label}</td>
+                  <td>{currentValue}</td>
+                  <td>{recommended || 'N/A'}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="table-legend">
+        <span className="legend-item good">In linea</span>
+        <span className="legend-item low">Basso</span>
+        <span className="legend-item high">Alto</span>
+      </div>
     </div>
   );
 }
+
+ArchetypeAdvisor.propTypes = {
+  commander: PropTypes.object,
+  cards: PropTypes.array.isRequired,
+};
 
 export default ArchetypeAdvisor;

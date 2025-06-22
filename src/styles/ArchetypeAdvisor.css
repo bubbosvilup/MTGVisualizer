@@ -1,4 +1,7 @@
 .archetype-advisor {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   margin-top: 1rem;
   border: 1px solid #666;
   padding: 0.75rem 1rem;
@@ -7,35 +10,122 @@
   backdrop-filter: blur(2px);
 }
 
-.archetype-guidelines-table {
+.archetype-advisor-placeholder {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: #a0a0a0;
+  font-style: italic;
+}
+
+.archetype-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.archetype-selector-container label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #b0b0b0;
+}
+
+.archetype-select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #2a2a2a;
+  color: #f5f5f5;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.archetype-table-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.archetype-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
-}
-
-.archetype-guidelines-table th {
-  background: #222;
-  color: #fff;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #444;
-}
-
-.archetype-guidelines-table td {
-  padding: 0.35rem 0.6rem;
-  border: 1px solid #444;
   text-align: center;
-  color: #f0f0f0;
+}
+
+.archetype-table th,
+.archetype-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.archetype-table th {
   background: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.archetype-guidelines-table tr:nth-child(even) td:not(.deficit) {
-  background: rgba(255, 255, 255, 0.03);
+.archetype-table td {
+  color: #c0c0c0;
+  font-size: 1rem;
 }
 
-.archetype-guidelines-table tr.deficit td {
-  background: #742d2d;
-  color: #fff;
+.archetype-table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.archetype-table tbody tr.good {
+  color: #c8e6c9;
+}
+
+.archetype-table tbody tr.low {
+  color: #ffcdd2;
+}
+
+.archetype-table tbody tr.high {
+  color: #fff9c4;
+}
+
+.archetype-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+.legend-item {
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b0b0b0;
+}
+
+.legend-item::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-item.good::before {
+  background-color: #c8e6c9;
+}
+.legend-item.low::before {
+  background-color: #ffcdd2;
+}
+.legend-item.high::before {
+  background-color: #fff9c4;
 }
 
 /* Select styling */

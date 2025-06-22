@@ -5,6 +5,7 @@ import parseCollectionFromText from '../utils/parseCollection';
 import scryfallData from '../data/scryfall-min.json';
 import Fuse from 'fuse.js';
 import { useDecks } from '../context/useDecks';
+import CollectionImport from '../components/CollectionImport';
 
 function TabCollection() {
   const { collection, setCollection } = useDecks();
@@ -114,7 +115,6 @@ function TabCollection() {
   }, []);
 
   // Effect per gestire il click outside
-  // Effect per gestire il click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (addBarRef.current && !addBarRef.current.contains(event.target)) {
@@ -168,30 +168,15 @@ function TabCollection() {
   // Funzione per capitalizzare ogni parola
   const capitalizeWords = (str) => str.replace(/\b\w/g, (char) => char.toUpperCase());
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file || !file.name.endsWith('.txt')) return;
-
+  const handleImportFromText = async (text) => {
     setLoading(true);
-    const text = await file.text();
-    const parsed = parseCollectionFromText(text);
-    const entries = Object.entries(parsed).map(([name, qty]) => ({ name, qty }));
-
-    const enriched = entries.map((entry) => {
-      const match = scryfallData.find(
-        (card) => card.name.toLowerCase() === entry.name.toLowerCase()
-      );
-      return {
-        ...entry,
-        name: capitalizeWords(entry.name),
-        image: match?.image || '',
-        price: typeof match?.price === 'number' ? match.price : null,
-        colors: match?.colors || [],
-        type: match?.type || '',
-      };
-    });
-
     try {
+      const parsed = parseCollectionFromText(text);
+      if (Object.keys(parsed).length === 0) {
+        throw new Error('Nessuna carta valida trovata nel testo.');
+      }
+      const entries = Object.entries(parsed).map(([name, qty]) => ({ name, qty }));
+
       const response = await fetch('/api/collection', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -199,16 +184,19 @@ function TabCollection() {
       });
 
       if (!response.ok) {
-        throw new Error(`Errore ${response.status}: ${await response.text()}`);
+        throw new Error(`Errore dal server: ${response.status}`);
       }
 
-      console.log('✅ Collezione salvata nel backend');
-    } catch (error) {
-      console.error('❌ Errore nel salvataggio:', error);
-    }
+      const updatedCollection = await response.json();
 
-    setCollection(enriched);
-    setLoading(false);
+      setCollection(updatedCollection); // Aggiorna lo stato globale
+      showTempMessage(`✅ ${entries.length} carte importate con successo!`);
+    } catch (error) {
+      console.error('❌ Errore durante limport da testo:', error);
+      showTempMessage(`❌ Errore: ${error.message}`, 5000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fuse = new Fuse(collection, {
@@ -263,11 +251,7 @@ function TabCollection() {
   };
 
   const handlePriceSort = () => {
-    const sorted = [...filteredCollection].sort((a, b) => {
-      const priceA = a.price ?? 0;
-      const priceB = b.price ?? 0;
-      return priceB - priceA;
-    });
+    const sorted = [...filteredCollection].sort((a, b) => (b.price || 0) - (a.price || 0));
     setCollection(sorted);
   };
 
@@ -353,208 +337,216 @@ function TabCollection() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [selectedCard]);
 
+  // Ripristina la posizione dello scroll quando la collezione filtrata cambia
+  useEffect(() => {
+    if (scrollPositionRef.current) {
+      window.scrollTo(0, scrollPositionRef.current);
+    }
+  }, [filteredCollection]);
+
+  // Salva la posizione dello scroll prima di un re-render
+  const handleScroll = () => {
+    scrollPositionRef.current = window.scrollY;
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className="tab-collection">
-      {collection.length === 0 && (
-        <>
-          <input type="file" accept=".txt" onChange={handleFileUpload} />
-          {loading && <p>⏳ Caricamento in corso...</p>}
-        </>
-      )}
-
-      {!loading && collection.length > 0 && (
-        <>
+      <div className="collection-controls">
+        <div className="top-controls">
+          <div ref={addBarRef} className="add-bar-container">
+            <div className="input-with-icon">
+              <span className="icon-search"></span>
+              <input
+                type="text"
+                value={addQuery}
+                onChange={(e) => handleAddQueryChange(e.target.value)}
+                placeholder="Aggiungi una carta..."
+                className="add-card-input"
+              />
+            </div>
+            {(isSearching || addResults.length > 0) && (
+              <ul className="add-results-list">
+                {isSearching ? (
+                  <li className="searching-indicator">Ricerca...</li>
+                ) : (
+                  addResults.map((card) => (
+                    <li key={card.id} onClick={() => addCardToCollection(card.name)}>
+                      <img src={card.image} alt={card.name} className="result-img" />
+                      <span className="result-name">{card.name}</span>
+                      <span className="result-qty">Possiedi: {getOwnedQuantity(card.name)}</span>
+                    </li>
+                  ))
+                )}
+              </ul>
+            )}
+          </div>
           <div className="search-bar">
             <input
               type="text"
-              placeholder="🔎 Cerca una carta della tua collezione..."
+              placeholder="🔎 Cerca nella collezione..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <div className="filters">
-            <label>
-              🎨 Colore:
-              <select value={filterColor} onChange={(e) => setFilterColor(e.target.value)}>
-                <option value="">Tutti</option>
-                <option value="W">⚪ Bianco</option>
-                <option value="U">🔵 Blu</option>
-                <option value="B">⚫ Nero</option>
-                <option value="R">🔴 Rosso</option>
-                <option value="G">🟢 Verde</option>
-                <option value="C">🟤 Incolore</option>
-              </select>
-            </label>
-            <button onClick={handleTypeSort}>🔀 Ordina per Tipo</button>
-            <button onClick={handleNameSort}>🔠 Ordina per Nome</button>
-            <button onClick={handlePriceSort}>💶 Ordina per Prezzo</button>
-          </div>
-          <div className="add-bar" ref={addBarRef}>
-            <div className="add-input-container">
-              <input
-                type="text"
-                placeholder="➕ Aggiungi una carta alla tua collezione..."
-                value={addQuery}
-                onChange={(e) => handleAddQueryChange(e.target.value)}
-              />
+        </div>
+
+        <div className="filters">
+          <label>
+            🎨 Colore:
+            <select value={filterColor} onChange={(e) => setFilterColor(e.target.value)}>
+              <option value="">Tutti</option>
+              <option value="W">⚪ Bianco</option>
+              <option value="U">🔵 Blu</option>
+              <option value="B">⚫ Nero</option>
+              <option value="R">🔴 Rosso</option>
+              <option value="G">🟢 Verde</option>
+              <option value="C">🟤 Incolore</option>
+            </select>
+          </label>
+          <button onClick={handleTypeSort}>🔀 Ordina per Tipo</button>
+          <button onClick={handleNameSort}>🔠 Ordina per Nome</button>
+          <button onClick={handlePriceSort}>💶 Ordina per Prezzo</button>
+        </div>
+
+        <CollectionImport onImport={handleImportFromText} />
+      </div>
+
+      {loading ? (
+        <div className="loading-container">
+          <p>⏳ Caricamento in corso...</p>
+        </div>
+      ) : (
+        <>
+          {collection.length === 0 ? (
+            <div className="empty-collection-placeholder">
+              <h2>La tua collezione è vuota</h2>
+              <p>Aggiungi carte usando la barra di ricerca o importa una lista.</p>
             </div>
-            {isSearching && <span className="search-indicator">🔎 Cerco...</span>}
-            {!isSearching && addResults.length === 0 && addQuery.trim().length > 1 && (
-              <div className="no-results">❌ Nessun risultato</div>
-            )}
-            {addResults.length > 0 && (
-              <ul className="add-dropdown">
-                {addResults.map((card) => {
-                  const ownedQty = getOwnedQuantity(card.name);
-                  return (
-                    <li key={card.name} onClick={() => addCardToCollection(card.name)}>
-                      <img src={card.image} alt={card.name} className="dropdown-image" />
-                      <div className="dropdown-info">
-                        <span className="card-name">➕ {card.name}</span>
-                        {ownedQty > 0 && (
-                          <span className="owned-qty">(ne possiedi: {ownedQty})</span>
-                        )}
+          ) : (
+            <>
+              {filteredCollection.length > 0 && (
+                <div className="collection-summary">
+                  <p>
+                    Trovate <strong>{filteredCollection.length}</strong> carte uniche (su{' '}
+                    {collection.length} totali)
+                  </p>
+                  <p className="total-value">💰 Valore filtrato: {totalValue.toFixed(2)} €</p>
+                </div>
+              )}
+              <div className="collection-grid">
+                {filteredCollection.slice(0, visibleCount).map((card, index) => (
+                  <div
+                    key={index}
+                    className={`card-box ${
+                      highlightedCard === card.name.toLowerCase() ? 'highlighted' : ''
+                    }`}
+                    onClick={() => setSelectedCard(card)}
+                  >
+                    <img
+                      src={card.image.replace('/small/', '/normal/')}
+                      alt={card.name}
+                      className="card-image"
+                      loading="lazy"
+                    />
+                    <div className="card-info">
+                      <p className="card-name">{card.name}</p>
+                      <p className="card-type">{card.type}</p>
+                      <div className="qty-controls">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            patchCard(card.name, card.qty - 1);
+                          }}
+                        >
+                          ➖
+                        </button>
+                        <span>📦 {card.qty}</span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            patchCard(card.name, card.qty + 1);
+                          }}
+                        >
+                          ➕
+                        </button>
                       </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
-          <p className="total-value">💰 Valore filtrato: {totalValue.toFixed(2)} €</p>
+                      <p className="card-price">
+                        {card.price ? `€ ${card.price.toFixed(2)}` : 'N/A'}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {visibleCount < filteredCollection.length && (
+                <button onClick={loadMore} className="load-more-btn">
+                  Carica Altri
+                </button>
+              )}
+            </>
+          )}
         </>
       )}
 
-      <div className="collection-grid">
-        {filteredCollection.slice(0, visibleCount).map((card, idx) => (
-          <div
-            key={idx}
-            className={`card-box ${highlightedCard === card.name.toLowerCase() ? 'highlighted' : ''}`}
-            onClick={() => setSelectedCard(card)}
-            style={{ cursor: 'pointer' }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
-              <img src={card.image} alt={card.name} />
-            </div>
-            <div className="card-info-section">
-              <p>
-                <strong>{capitalizeWords(card.name)}</strong>
-              </p>
-              <div className="qty-controls">
-                <button onClick={() => patchCard(card.name, card.qty - 1)}>➖</button>
-                <span>📦 {card.qty}</span>
-                <button onClick={() => patchCard(card.name, card.qty + 1)}>➕</button>
-              </div>
-              <p className="card-price">
-                💶 {typeof card.price === 'number' ? `${card.price.toFixed(2)} €` : 'N/A'}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {visibleCount < filteredCollection.length && (
-        <button className="load-more" onClick={loadMore}>
-          Carica altre
-        </button>
-      )}
-      {showNotification && <div className="notification-toast">{notification}</div>}
-
-      {/* Modale Dettaglio Carta */}
       {selectedCard && (
-        <div className="card-detail-overlay">
-          <div className="card-detail-bubble" ref={modalRef}>
-            <button className="drawer-close-btn" onClick={() => setSelectedCard(null)}>
-              ✕
+        <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
+          <div ref={modalRef} className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={() => setSelectedCard(null)}>
+              ✖
             </button>
-            <div className="card-detail-content">
-              <img src={selectedCard.image} alt={selectedCard.name} className="card-detail-image" />
-              <h3>{capitalizeWords(selectedCard.name)}</h3>
-              {/* --- CardTrader Info --- */}
-              <div className="cardtrader-section">
-                <h4>Prezzi CardTrader</h4>
-                {!cardDetails && <div className="cardtrader-loading">Caricamento prezzi...</div>}
-                {cardDetails && cardDetails.error && (
-                  <div className="cardtrader-error">Nessun prezzo trovato su CardTrader.</div>
+            <h2>{selectedCard.name}</h2>
+            <div className="modal-body">
+              <img
+                src={selectedCard.image.replace('/small/', '/normal/')}
+                alt={selectedCard.name}
+                className="modal-card-image"
+              />
+              <div className="modal-card-details">
+                <p>
+                  <strong>Tipo:</strong> {selectedCard.type}
+                </p>
+                {cardDetails?.mana_cost && (
+                  <p>
+                    <strong>Costo di Mana:</strong> {cardDetails.mana_cost}
+                  </p>
                 )}
-                {cardDetails && !cardDetails.error && (
-                  <>
-                    <div className="cardtrader-prices">
-                      <p>
-                        <strong>Prezzo minimo:</strong>{' '}
-                        {cardDetails.min_price ? `€${cardDetails.min_price.toFixed(2)}` : 'N/A'}
-                      </p>
-                      <p>
-                        <strong>Prezzo medio:</strong>{' '}
-                        {cardDetails.avg_price ? `€${cardDetails.avg_price.toFixed(2)}` : 'N/A'}
-                      </p>
-                      <p>
-                        <strong>Prezzo massimo:</strong>{' '}
-                        {cardDetails.max_price ? `€${cardDetails.max_price.toFixed(2)}` : 'N/A'}
-                      </p>
-                      <p>
-                        <strong>Offerte trovate:</strong> {cardDetails.products?.length || 0}
-                      </p>
-                    </div>
-                    {cardDetails.products && cardDetails.products.length > 0 ? (
-                      <table className="cardtrader-products-table">
-                        <thead>
-                          <tr>
-                            <th>Prezzo</th>
-                            <th>Condizione</th>
-                            <th>Lingua</th>
-                            <th>Venditore</th>
-                            <th>Link</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {cardDetails.products.map((p, i) => (
-                            <tr key={i}>
-                              <td>€{p.price?.toFixed(2) ?? 'N/A'}</td>
-                              <td>{p.condition || '-'}</td>
-                              <td>{p.language || '-'}</td>
-                              <td>{p.seller_name || '-'}</td>
-                              <td>
-                                {p.url ? (
-                                  <a href={p.url} target="_blank" rel="noopener noreferrer">
-                                    Vai
-                                  </a>
-                                ) : (
-                                  '-'
-                                )}
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    ) : (
-                      <p>Nessuna offerta trovata su CardTrader.</p>
-                    )}
-                    <div style={{ marginTop: '1rem' }}>
-                      <a
-                        href={`https://www.cardtrader.com/cards/${cardDetails.blueprint_id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="cardtrader-link"
-                      >
-                        Vedi su CardTrader
-                      </a>
-                    </div>
-                    <div className="cardtrader-badge">
-                      Powered by <span>CardTrader</span>
-                    </div>
-                  </>
+                {cardDetails?.oracle_text && (
+                  <p>
+                    <strong>Testo Oracolo:</strong>
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: cardDetails.oracle_text.replace(/\n/g, '<br />'),
+                      }}
+                    ></span>
+                  </p>
                 )}
+                {cardDetails?.power && cardDetails?.toughness && (
+                  <p>
+                    <strong>Forza/Costituzione:</strong> {cardDetails.power}/{cardDetails.toughness}
+                  </p>
+                )}
+                {cardDetails?.flavor_text && (
+                  <p className="flavor-text">
+                    <em>{cardDetails.flavor_text}</em>
+                  </p>
+                )}
+                <a href={cardDetails?.scryfall_uri} target="_blank" rel="noopener noreferrer">
+                  Vedi su Scryfall
+                </a>
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {showNotification && (
+        <div className="notification-toast">
+          <p>{notification}</p>
         </div>
       )}
     </div>
@@ -562,3 +554,4 @@ function TabCollection() {
 }
 
 export default TabCollection;
+

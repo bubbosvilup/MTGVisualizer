@@ -1,0 +1,57 @@
+.collection-import {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  backdrop-filter: blur(5px);
+  margin-top: 2rem;
+}
+
+.collection-import h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  font-weight: 600;
+  text-align: center;
+}
+
+.collection-import textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid #444;
+  border-radius: 8px;
+  padding: 0.75rem;
+  color: #f5f5f5;
+  font-family: 'Consolas', 'Menlo', monospace;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: all 0.3s ease;
+}
+
+.collection-import textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.collection-import button {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+.collection-import button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #3aa9e3, #2e8bcc);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+}

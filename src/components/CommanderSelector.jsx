@@ -47,11 +47,12 @@ function CommanderSelector({ commander, onSelect }) {
 
   if (commander) {
     let imageUrl = 'https://via.placeholder.com/223x310?text=Commander';
-    // Be defensive: check if image is a non-empty string before manipulating it.
     if (typeof commander.image === 'string' && commander.image) {
-      // The minified data might contain 'small' or 'png' image links.
-      // We replace them to get the 'normal' sized image for better display.
-      imageUrl = commander.image.replace('/small/', '/normal/').replace('/png/', '/normal/');
+      // Use the provided image directly. Previous logic attempted to
+      // replace the `/png/` or `/small/` segments with `/normal/`, but this
+      // produced URLs that do not exist on Scryfall and resulted in broken
+      // images. Keeping the original URL ensures the image loads correctly.
+      imageUrl = commander.image;
     }
 
     return (
