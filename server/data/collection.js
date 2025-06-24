@@ -50,11 +50,20 @@ function setCollection(newData) {
 
 function updateCard(name, qty) {
   const index = collection.findIndex((c) => c.name.toLowerCase() === name.toLowerCase());
-  if (index !== -1) {
+
+  if (qty <= 0) {
+    // Remove the card entirely when the quantity is zero or negative
+    if (index !== -1) {
+      collection.splice(index, 1);
+    }
+  } else if (index !== -1) {
+    // Update existing card quantity
     collection[index].qty = qty;
   } else {
+    // Insert new card
     collection.push({ name, qty });
   }
+
   saveToDisk();
 }
 
