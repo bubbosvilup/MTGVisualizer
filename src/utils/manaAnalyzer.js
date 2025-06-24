@@ -146,7 +146,7 @@ export function analyzeManaSources(cards) {
     }
 
     producedColors.forEach((color) => {
-      if (sources.hasOwnProperty(color)) {
+      if (Object.prototype.hasOwnProperty.call(sources, color)) {
         sources[color] += qty;
       }
     });

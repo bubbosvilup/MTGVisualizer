@@ -11,7 +11,7 @@ export function parseCollectionFromText(text) {
     line = line.replace(/\(.*?\)/g, '').trim();
 
     // Estrai quantità e nome
-    const match = line.match(/^(\d+)[x\s]*([\w\s'\/:,!?.-]+)$/i);
+    const match = line.match(/^(\d+)[x\s]*([\w\s'/:,!?.-]+)$/i);
     if (!match) continue;
 
     const qty = parseInt(match[1]);

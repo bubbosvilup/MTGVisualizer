@@ -145,7 +145,11 @@ function TabCollection() {
     const already = collection.find((c) => c.name.toLowerCase() === lowerName);
     const newQty = already ? already.qty + 1 : 1;
 
-    await patchCard(cardName, newQty, { silent: true });
+    const ok = await patchCard(cardName, newQty, { silent: true });
+    if (!ok) {
+      showTempMessage(`❌ Carta non trovata: ${capitalizeWords(cardName)}`);
+      return;
+    }
 
     // Mostra toast personalizzato
     showTempMessage(`✅ Aggiunto 1x ${capitalizeWords(cardName)} (ora ne hai ${newQty}x)`);
@@ -176,13 +180,20 @@ function TabCollection() {
         throw new Error('Nessuna carta valida trovata nel testo.');
       }
       const entries = Object.entries(parsed);
-
+      const invalid = [];
       for (const [name, qty] of entries) {
         const current = collection.find((c) => c.name.toLowerCase() === name.toLowerCase());
         const newQty = (current ? current.qty : 0) + qty;
-        await patchCard(name, newQty, { silent: true });
+        const ok = await patchCard(name, newQty, { silent: true });
+        if (!ok) invalid.push(name);
       }
-      showTempMessage(`✅ ${entries.length} carte importate con successo!`);
+      const successCount = entries.length - invalid.length;
+      if (successCount > 0) {
+        showTempMessage(`✅ ${successCount} carte importate con successo!`);
+      }
+      if (invalid.length > 0) {
+        showTempMessage(`❌ Non trovate: ${invalid.join(', ')}`, 5000);
+      }
     } catch (error) {
       console.error('❌ Errore durante limport da testo:', error);
       showTempMessage(`❌ Errore: ${error.message}`, 5000);
@@ -255,11 +266,18 @@ function TabCollection() {
   };
 
   const patchCard = async (name, newQty, { silent = false } = {}) => {
+    const match = scryfallData.find((c) => c.name.toLowerCase() === name.toLowerCase());
+    if (!match) {
+      if (!silent) {
+        showTempMessage(`❌ Carta non valida: ${capitalizeWords(name)}`);
+      }
+      return false;
+    }
     try {
       const response = await fetch('/api/collection', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, qty: newQty }),
+        body: JSON.stringify({ name: match.name, qty: newQty }),
       });
 
       if (!response.ok) {
@@ -268,22 +286,31 @@ function TabCollection() {
 
       setCollection((prev) => {
         if (newQty <= 0) {
-          return prev.filter((c) => c.name.toLowerCase() !== name.toLowerCase());
+          return prev.filter((c) => c.name.toLowerCase() !== match.name.toLowerCase());
         }
-        const index = prev.findIndex((c) => c.name.toLowerCase() === name.toLowerCase());
+        const base = {
+          name: match.name,
+          image: match.image || '',
+          price: typeof match.price === 'number' ? match.price : null,
+          colors: match.colors || [],
+          type: match.type || '',
+        };
+        const index = prev.findIndex((c) => c.name.toLowerCase() === match.name.toLowerCase());
         if (index !== -1) {
-          return prev.map((c, i) => (i === index ? { ...c, qty: newQty } : c));
+          return prev.map((c, i) => (i === index ? { ...c, qty: newQty, ...base } : c));
         }
         return [...prev, { name, qty: newQty }];
       });
       if (!silent) {
         showTempMessage('✅ Salvato!');
       }
+      return true;
     } catch (err) {
       console.error('❌ Errore PATCH:', err);
       if (!silent) {
         showTempMessage('❌ Errore salvataggio');
       }
+      return false;
     }
   };
 

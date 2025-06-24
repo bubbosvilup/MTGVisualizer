@@ -1,1 +1,6 @@
 server/
+script/
+src/utils/extractCommanderDecks.js
+src/utils/scraperDeck.js
+src/utils/scraperIDs.js
+src/utils/updateDecks.js
