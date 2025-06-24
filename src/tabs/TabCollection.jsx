@@ -24,6 +24,16 @@ function TabCollection() {
   const modalRef = useRef();
   const scrollPositionRef = useRef(0);
 
+  // Scroll alla carta evidenziata appena viene aggiunta
+  useEffect(() => {
+    if (highlightedCard) {
+      const el = document.querySelector(`[data-name='${highlightedCard}']`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }, [highlightedCard]);
+
   // Ref per il timeout del debounce
   const debounceTimeoutRef = useRef(null);
   // Ref per il container della ricerca
@@ -485,6 +495,7 @@ function TabCollection() {
                 {filteredCollection.slice(0, visibleCount).map((card, index) => (
                   <div
                     key={index}
+                    data-name={card.name.toLowerCase()}
                     className={`card-box ${
                       highlightedCard === card.name.toLowerCase() ? 'highlighted' : ''
                     }`}

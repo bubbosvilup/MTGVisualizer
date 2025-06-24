@@ -55,3 +55,11 @@
   background: linear-gradient(135deg, #3aa9e3, #2e8bcc);
   box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
 }
+
+.collection-import button:disabled {
+  background: #666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.6;
+}
