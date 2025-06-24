@@ -30,7 +30,9 @@ dist-ssr/
 *.sw?
 
 # Custom project data
-src/data/scyfall-max.json
+src/data/scryfall-max.json
+server/data/collection.json
+
 
 # Decks (large local datasets)
 public/decks_backup/

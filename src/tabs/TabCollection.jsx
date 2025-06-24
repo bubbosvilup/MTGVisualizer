@@ -299,7 +299,7 @@ function TabCollection() {
         if (index !== -1) {
           return prev.map((c, i) => (i === index ? { ...c, qty: newQty, ...base } : c));
         }
-        return [...prev, { name, qty: newQty }];
+        return [...prev, { ...base, qty: newQty }];
       });
       if (!silent) {
         showTempMessage('✅ Salvato!');

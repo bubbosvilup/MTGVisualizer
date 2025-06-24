@@ -79,10 +79,10 @@
 
 /* 🔍 BARRA DI RICERCA - Modernizzata */
 .search-bar {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   position: relative;
-  max-width: 600px;
-  margin-left: auto;
+  max-width: 400px;
+  margin-left: none;
   margin-right: auto;
 }
 
@@ -934,6 +934,9 @@
   position: relative;
   width: 100%;
   max-width: 400px;
+  margin-left: none;
+  margin-right: auto;
+  margin-bottom: 1rem;
 }
 
 .add-card-input {
