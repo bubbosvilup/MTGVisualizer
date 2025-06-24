@@ -145,7 +145,7 @@ function TabCollection() {
     const already = collection.find((c) => c.name.toLowerCase() === lowerName);
     const newQty = already ? already.qty + 1 : 1;
 
-    await patchCard(cardName, newQty);
+    await patchCard(cardName, newQty, { silent: true });
 
     // Mostra toast personalizzato
     showTempMessage(`✅ Aggiunto 1x ${capitalizeWords(cardName)} (ora ne hai ${newQty}x)`);
@@ -175,21 +175,13 @@ function TabCollection() {
       if (Object.keys(parsed).length === 0) {
         throw new Error('Nessuna carta valida trovata nel testo.');
       }
-      const entries = Object.entries(parsed).map(([name, qty]) => ({ name, qty }));
+      const entries = Object.entries(parsed);
 
-      const response = await fetch('/api/collection', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(entries),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Errore dal server: ${response.status}`);
+      for (const [name, qty] of entries) {
+        const current = collection.find((c) => c.name.toLowerCase() === name.toLowerCase());
+        const newQty = (current ? current.qty : 0) + qty;
+        await patchCard(name, newQty, { silent: true });
       }
-
-      const updatedCollection = await response.json();
-
-      setCollection(updatedCollection); // Aggiorna lo stato globale
       showTempMessage(`✅ ${entries.length} carte importate con successo!`);
     } catch (error) {
       console.error('❌ Errore durante limport da testo:', error);
@@ -204,9 +196,10 @@ function TabCollection() {
     threshold: 0.3,
   });
 
-  const searchResults = searchQuery
+  const searchResultsRaw = searchQuery
     ? fuse.search(searchQuery).map((result) => result.item)
     : collection;
+  const searchResults = Array.isArray(searchResultsRaw) ? searchResultsRaw : [];
 
   const filteredCollection = searchResults.filter((card) => {
     const colorMatch =
@@ -261,7 +254,7 @@ function TabCollection() {
     setTimeout(() => setShowNotification(false), duration);
   };
 
-  const patchCard = async (name, newQty) => {
+  const patchCard = async (name, newQty, { silent = false } = {}) => {
     try {
       const response = await fetch('/api/collection', {
         method: 'PATCH',
@@ -276,16 +269,21 @@ function TabCollection() {
       setCollection((prev) => {
         if (newQty <= 0) {
           return prev.filter((c) => c.name.toLowerCase() !== name.toLowerCase());
-        } else {
-          return prev.map((c) =>
-            c.name.toLowerCase() === name.toLowerCase() ? { ...c, qty: newQty } : c
-          );
         }
+        const index = prev.findIndex((c) => c.name.toLowerCase() === name.toLowerCase());
+        if (index !== -1) {
+          return prev.map((c, i) => (i === index ? { ...c, qty: newQty } : c));
+        }
+        return [...prev, { name, qty: newQty }];
       });
-      showTempMessage('✅ Salvato!');
+      if (!silent) {
+        showTempMessage('✅ Salvato!');
+      }
     } catch (err) {
       console.error('❌ Errore PATCH:', err);
-      showTempMessage('❌ Errore salvataggio');
+      if (!silent) {
+        showTempMessage('❌ Errore salvataggio');
+      }
     }
   };
 
@@ -376,13 +374,16 @@ function TabCollection() {
                 {isSearching ? (
                   <li className="searching-indicator">Ricerca...</li>
                 ) : (
-                  addResults.map((card) => (
-                    <li key={card.id} onClick={() => addCardToCollection(card.name)}>
-                      <img src={card.image} alt={card.name} className="result-img" />
-                      <span className="result-name">{card.name}</span>
-                      <span className="result-qty">Possiedi: {getOwnedQuantity(card.name)}</span>
-                    </li>
-                  ))
+                  addResults.map((card) => {
+                    const imgSrc = card.image_uris?.normal || card.image || null;
+                    return (
+                      <li key={card.id || card.name} onClick={() => addCardToCollection(card.name)}>
+                        {imgSrc && <img src={imgSrc} alt={card.name} className="result-img" />}
+                        <span className="result-name">{card.name}</span>
+                        <span className="result-qty">Possiedi: {getOwnedQuantity(card.name)}</span>
+                      </li>
+                    );
+                  })
                 )}
               </ul>
             )}
@@ -449,12 +450,14 @@ function TabCollection() {
                     }`}
                     onClick={() => setSelectedCard(card)}
                   >
-                    <img
-                      src={card.image.replace('/small/', '/normal/')}
-                      alt={card.name}
-                      className="card-image"
-                      loading="lazy"
-                    />
+                    {card.image && (
+                      <img
+                        src={card.image.replace('/small/', '/normal/')}
+                        alt={card.name}
+                        className="card-image"
+                        loading="lazy"
+                      />
+                    )}
                     <div className="card-info">
                       <p className="card-name">{card.name}</p>
                       <p className="card-type">{card.type}</p>
@@ -502,11 +505,13 @@ function TabCollection() {
             </button>
             <h2>{selectedCard.name}</h2>
             <div className="modal-body">
-              <img
-                src={selectedCard.image.replace('/small/', '/normal/')}
-                alt={selectedCard.name}
-                className="modal-card-image"
-              />
+              {selectedCard.image && (
+                <img
+                  src={selectedCard.image.replace('/small/', '/normal/')}
+                  alt={selectedCard.name}
+                  className="modal-card-image"
+                />
+              )}
               <div className="modal-card-details">
                 <p>
                   <strong>Tipo:</strong> {selectedCard.type}

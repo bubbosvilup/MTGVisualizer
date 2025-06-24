@@ -2,7 +2,7 @@
 import React from 'react';
 import '../styles/DeckCard.css';
 
-function DeckCard({ deck, onClick }) {
+function DeckCard({ deck, onClick = () => {} }) {
   const imageUrl = deck.commanderImage || 'https://via.placeholder.com/223x310?text=Commander';
   const commanderName = deck.commanderName || 'Unknown Commander';
 

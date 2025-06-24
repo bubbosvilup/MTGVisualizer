@@ -80,7 +80,9 @@ function MoxfieldImport({ onImport }) {
         onChange={(e) => setListText(e.target.value)}
         placeholder="Incolla qui la lista del deck da Moxfield (es. 1 Sol Ring)"
       />
-      <button onClick={handleImport}>Importa nel Builder</button>
+      <button onClick={handleImport} disabled={!listText.trim()}>
+        Importa nel Builder
+      </button>
       {errorCards.length > 0 && (
         <div className="import-errors">
           <strong>Carte non trovate:</strong> {errorCards.join(', ')}
