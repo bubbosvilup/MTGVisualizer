@@ -6,6 +6,11 @@ const path = require('path');
 const filePath = path.join(__dirname, 'collection.json');
 let collection = [];
 
+// Rimuove eventuali carte con quantità zero o negativa
+function sanitizeCollection() {
+  collection = collection.filter((c) => typeof c.qty === 'number' && c.qty > 0);
+}
+
 // 📥 Carica dal file all'avvio
 function loadFromDisk() {
   if (fs.existsSync(filePath)) {
@@ -17,6 +22,7 @@ function loadFromDisk() {
       } else {
         collection = JSON.parse(raw);
         console.log(`📂 Collezione caricata da ${filePath} (${collection.length} carte)`);
+        sanitizeCollection();
       }
     } catch (err) {
       console.error('❌ Errore nel parsing di collection.json:', err);
@@ -45,6 +51,7 @@ function getCollection() {
 
 function setCollection(newData) {
   collection = newData;
+  sanitizeCollection();
   saveToDisk();
 }
 
@@ -63,7 +70,7 @@ function updateCard(name, qty) {
     // Insert new card
     collection.push({ name, qty });
   }
-
+  sanitizeCollection();
   saveToDisk();
 }
 

@@ -266,6 +266,7 @@ function TabCollection() {
   };
 
   const patchCard = async (name, newQty, { silent = false } = {}) => {
+    if (newQty < 0) newQty = 0;
     const match = scryfallData.find((c) => c.name.toLowerCase() === name.toLowerCase());
     if (!match) {
       if (!silent) {
@@ -313,7 +314,18 @@ function TabCollection() {
       return false;
     }
   };
-
+  const clearCollection = async () => {
+    if (!window.confirm('Svuotare tutta la collezione?')) return;
+    try {
+      const response = await fetch('/api/collection', { method: 'DELETE' });
+      if (!response.ok) throw new Error();
+      setCollection([]);
+      showTempMessage('✅ Collezione svuotata');
+    } catch (err) {
+      console.error('❌ Errore durante lo svuotamento:', err);
+      showTempMessage('❌ Errore svuotamento');
+    }
+  };
   // Gestione scroll quando si apre il modale
   useEffect(() => {
     if (selectedCard) {
@@ -444,6 +456,7 @@ function TabCollection() {
         </div>
 
         <CollectionImport onImport={handleImportFromText} />
+        <button onClick={clearCollection}>🧹 Svuota Collezione</button>
       </div>
 
       {loading ? (

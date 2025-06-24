@@ -29,4 +29,10 @@ router.patch('/', (req, res) => {
   res.json({ message: 'Carta aggiornata o aggiunta', name, qty });
 });
 
+// DELETE /api/collection (svuota la collezione)
+router.delete('/', (req, res) => {
+  setCollection([]);
+  res.json({ message: 'Collezione svuotata' });
+});
+
 module.exports = router;
