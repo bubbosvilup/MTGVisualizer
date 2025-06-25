@@ -7,6 +7,7 @@ import { useDecks } from '../context/useDecks';
 import CollectionImport from '../components/CollectionImport';
 import CollectionImportModal from '../components/CollectionImportModal';
 import Toast from '../components/Toast';
+import CardViewer from '../components/CardViewer';
 
 function TabCollection() {
   const { collection, setCollection } = useDecks();
@@ -20,10 +21,8 @@ function TabCollection() {
   const [addResults, setAddResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [cardDetails, setCardDetails] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [importText, setImportText] = useState('');
-  const modalRef = useRef();
   const scrollPositionRef = useRef(0);
   const importModalRef = useRef(null);
   // Ref per il timeout del debounce
@@ -351,12 +350,6 @@ function TabCollection() {
   useEffect(() => {
     if (selectedCard) {
       scrollPositionRef.current = window.scrollY;
-      const modalElement = modalRef.current;
-      if (modalElement) {
-        const rect = modalElement.getBoundingClientRect();
-        const scrollTo = window.scrollY + rect.top - 50; // 50px di margine
-        window.scrollTo({ top: scrollTo, behavior: 'smooth' });
-      }
     } else if (!importModalOpen) {
       window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
     }
@@ -371,27 +364,6 @@ function TabCollection() {
       window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
     }
   }, [importModalOpen, selectedCard]);
-  // Fetch dettagli carta da CardTrader
-  useEffect(() => {
-    if (!selectedCard) return;
-    const fetchCardDetails = async () => {
-      try {
-        const res = await fetch(`/api/cardtrader/${selectedCard.name}`);
-        if (!res.ok) {
-          setCardDetails({ error: true });
-          return;
-        }
-        const data = await res.json();
-        setCardDetails(data);
-      } catch (err) {
-        setCardDetails({ error: true });
-        console.error('Errore nel caricamento dei dettagli della carta:', err);
-      }
-    };
-    fetchCardDetails();
-  }, [selectedCard]);
-
-  // Chiudi modale al click fuori
   useEffect(() => {
     if (!selectedCard) return;
     const handleClick = (e) => {
@@ -422,6 +394,20 @@ function TabCollection() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  const viewerCard = useMemo(() => {
+    if (!selectedCard) return null;
+    const match = scryfallData.find(
+      (c) => c.name.toLowerCase() === selectedCard.name.toLowerCase()
+    );
+    const base = match || selectedCard;
+    return {
+      ...base,
+      image_uris: { normal: base.image_uris?.normal || base.image },
+      type_line: base.type_line || base.type,
+      prices: { eur: base.prices?.eur ?? base.price },
+    };
+  }, [selectedCard]);
 
   return (
     <div className="tab-collection">
@@ -569,59 +555,7 @@ function TabCollection() {
           )}
         </>
       )}
-
-      {selectedCard && (
-        <div className="modal-overlay" onClick={() => setSelectedCard(null)}>
-          <div ref={modalRef} className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-modal" onClick={() => setSelectedCard(null)}>
-              ✖
-            </button>
-            <h2>{selectedCard.name}</h2>
-            <div className="modal-body">
-              {selectedCard.image && (
-                <img
-                  src={selectedCard.image.replace('/small/', '/normal/')}
-                  alt={selectedCard.name}
-                  className="modal-card-image"
-                />
-              )}
-              <div className="modal-card-details">
-                <p>
-                  <strong>Tipo:</strong> {selectedCard.type}
-                </p>
-                {cardDetails?.mana_cost && (
-                  <p>
-                    <strong>Costo di Mana:</strong> {cardDetails.mana_cost}
-                  </p>
-                )}
-                {cardDetails?.oracle_text && (
-                  <p>
-                    <strong>Testo Oracolo:</strong>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: cardDetails.oracle_text.replace(/\n/g, '<br />'),
-                      }}
-                    ></span>
-                  </p>
-                )}
-                {cardDetails?.power && cardDetails?.toughness && (
-                  <p>
-                    <strong>Forza/Costituzione:</strong> {cardDetails.power}/{cardDetails.toughness}
-                  </p>
-                )}
-                {cardDetails?.flavor_text && (
-                  <p className="flavor-text">
-                    <em>{cardDetails.flavor_text}</em>
-                  </p>
-                )}
-                <a href={cardDetails?.scryfall_uri} target="_blank" rel="noopener noreferrer">
-                  Vedi su Scryfall
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {viewerCard && <CardViewer card={viewerCard} onClose={() => setSelectedCard(null)} />}
       {showNotification && <Toast message={notification} />}
     </div>
   );

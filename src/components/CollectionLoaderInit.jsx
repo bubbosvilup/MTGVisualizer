@@ -10,18 +10,21 @@ function CollectionLoaderInit() {
       let data = [];
       try {
         const res = await fetch('/api/collection');
+        if (!res.ok) {
+          throw new Error(`Backend returned ${res.status}`);
+        }
         data = await res.json();
       } catch (err) {
         console.error('❌ Errore nel caricamento della collezione dal backend:', err);
-      }
-      // Se fallisce o array vuoto, prova fallback
-      if (!Array.isArray(data) || data.length === 0) {
         try {
           const res = await fetch('/server/data/collection.json');
+          if (!res.ok) {
+            throw new Error(`Fallback returned ${res.status}`);
+          }
           data = await res.json();
           console.warn('⚠️ Collezione caricata dal file statico collection.json');
-        } catch (err) {
-          console.error('❌ Errore anche nel caricamento da collection.json:', err);
+        } catch (err2) {
+          console.error('❌ Errore anche nel caricamento da collection.json:', err2);
           data = [];
         }
       }
