@@ -1,11 +1,11 @@
 // TabCollection.jsx
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import '../styles/TabCollection.css';
-import parseCollectionFromText from '../utils/parseCollection';
 import scryfallData from '../data/scryfall-min.json';
 import Fuse from 'fuse.js';
 import { useDecks } from '../context/useDecks';
 import CollectionImport from '../components/CollectionImport';
+import CollectionImportModal from '../components/CollectionImportModal';
 import Toast from '../components/Toast';
 
 function TabCollection() {
@@ -21,6 +21,8 @@ function TabCollection() {
   const [isSearching, setIsSearching] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardDetails, setCardDetails] = useState(null);
+  const [importModalOpen, setImportModalOpen] = useState(false);
+  const [importText, setImportText] = useState('');
   const modalRef = useRef();
   const scrollPositionRef = useRef(0);
 
@@ -168,34 +170,9 @@ function TabCollection() {
   // Funzione per capitalizzare ogni parola
   const capitalizeWords = (str) => str.replace(/\b\w/g, (char) => char.toUpperCase());
 
-  const handleImportFromText = async (text) => {
-    setLoading(true);
-    try {
-      const parsed = parseCollectionFromText(text);
-      if (Object.keys(parsed).length === 0) {
-        throw new Error('Nessuna carta valida trovata nel testo.');
-      }
-      const entries = Object.entries(parsed);
-      const invalid = [];
-      for (const [name, qty] of entries) {
-        const current = collection.find((c) => c.name.toLowerCase() === name.toLowerCase());
-        const newQty = (current ? current.qty : 0) + qty;
-        const ok = await patchCard(name, newQty, { silent: true });
-        if (!ok) invalid.push(name);
-      }
-      const successCount = entries.length - invalid.length;
-      if (successCount > 0) {
-        showTempMessage(`✅ ${successCount} carte importate con successo!`);
-      }
-      if (invalid.length > 0) {
-        showTempMessage(`❌ Non trovate: ${invalid.join(', ')}`, 5000);
-      }
-    } catch (error) {
-      console.error('❌ Errore durante limport da testo:', error);
-      showTempMessage(`❌ Errore: ${error.message}`, 5000);
-    } finally {
-      setLoading(false);
-    }
+  const handleImportFromText = (text) => {
+    setImportText(text);
+    setImportModalOpen(true);
   };
 
   const fuse = new Fuse(collection, {
@@ -259,6 +236,54 @@ function TabCollection() {
     setNotification(message);
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), duration);
+  };
+
+  const addCardsFromModal = async (cards) => {
+    setImportModalOpen(false);
+    setLoading(true);
+    try {
+      for (const { name, qty } of cards) {
+        const current = collection.find((c) => c.name.toLowerCase() === name.toLowerCase());
+        const newQty = (current ? current.qty : 0) + qty;
+        await patchCard(name, newQty, { silent: true });
+      }
+      showTempMessage(`✅ ${cards.length} carte importate con successo!`);
+    } catch (err) {
+      console.error('Errore import aggiunta:', err);
+      showTempMessage("❌ Errore durante l'import", 5000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const overwriteCollection = async (cards) => {
+    setImportModalOpen(false);
+    setLoading(true);
+    try {
+      const response = await fetch('/api/collection', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cards),
+      });
+      if (!response.ok) throw new Error();
+      const enriched = cards.map((entry) => {
+        const match = scryfallData.find((c) => c.name.toLowerCase() === entry.name.toLowerCase());
+        return {
+          ...entry,
+          image: match?.image || '',
+          price: typeof match?.price === 'number' ? match.price : null,
+          colors: match?.colors || [],
+          type: match?.type || '',
+        };
+      });
+      setCollection(enriched);
+      showTempMessage('✅ Collezione sovrascritta');
+    } catch (err) {
+      console.error('Errore sovrascrittura:', err);
+      showTempMessage('❌ Errore sovrascrittura', 5000);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const patchCard = async (name, newQty, { silent = false } = {}) => {
@@ -452,6 +477,14 @@ function TabCollection() {
         </div>
 
         <CollectionImport onImport={handleImportFromText} />
+        {importModalOpen && (
+          <CollectionImportModal
+            initialText={importText}
+            onCancel={() => setImportModalOpen(false)}
+            onAdd={addCardsFromModal}
+            onOverwrite={overwriteCollection}
+          />
+        )}
         <button onClick={clearCollection}>🧹 Svuota Collezione</button>
       </div>
 
