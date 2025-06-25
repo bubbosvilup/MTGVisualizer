@@ -18,21 +18,10 @@ function TabCollection() {
   const [addQuery, setAddQuery] = useState('');
   const [addResults, setAddResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [highlightedCard, setHighlightedCard] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardDetails, setCardDetails] = useState(null);
   const modalRef = useRef();
   const scrollPositionRef = useRef(0);
-
-  // Scroll alla carta evidenziata appena viene aggiunta
-  useEffect(() => {
-    if (highlightedCard) {
-      const el = document.querySelector(`[data-name='${highlightedCard}']`);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-    }
-  }, [highlightedCard]);
 
   // Ref per il timeout del debounce
   const debounceTimeoutRef = useRef(null);
@@ -163,10 +152,6 @@ function TabCollection() {
 
     // Mostra toast personalizzato
     showTempMessage(`✅ Aggiunto 1x ${capitalizeWords(cardName)} (ora ne hai ${newQty}x)`);
-
-    // Evidenzia la carta nella griglia
-    setHighlightedCard(lowerName);
-    setTimeout(() => setHighlightedCard(''), 1000);
 
     setAddQuery('');
     setAddResults([]);
@@ -493,14 +478,7 @@ function TabCollection() {
               )}
               <div className="collection-grid">
                 {filteredCollection.slice(0, visibleCount).map((card, index) => (
-                  <div
-                    key={index}
-                    data-name={card.name.toLowerCase()}
-                    className={`card-box ${
-                      highlightedCard === card.name.toLowerCase() ? 'highlighted' : ''
-                    }`}
-                    onClick={() => setSelectedCard(card)}
-                  >
+                  <div key={index} className="card-box" onClick={() => setSelectedCard(card)}>
                     {card.image && (
                       <img
                         src={card.image.replace('/small/', '/normal/')}
