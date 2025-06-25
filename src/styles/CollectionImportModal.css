@@ -57,6 +57,10 @@
   cursor: pointer;
   font-weight: 600;
 }
+.import-modal button:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
 
 .import-modal button.cancel {
   background: #666;
@@ -78,6 +82,12 @@
 }
 
 .import-modal .errors {
+  color: #ff7676;
+}
+
+.invalid-list {
+  margin: 0;
+  padding-left: 1.2rem;
   color: #ff7676;
 }
 

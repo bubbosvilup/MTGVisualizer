@@ -7,6 +7,7 @@ import TabDeckBuilder from './tabs/TabDeckBuilder';
 import DeckLoaderInit from './components/DeckLoaderInit';
 import StartupModal from './components/StartupModal';
 import CollectionLoaderInit from './components/CollectionLoaderInit';
+import Footer from './components/Footer';
 import './styles/App.css';
 
 function App() {
@@ -37,10 +38,7 @@ function App() {
         {tab === 'matchingLists' && <TabMatchingLists />}
         {tab === 'builder' && <TabDeckBuilder />}
       </main>
-      <footer className="mtg-footer">
-        <span>“Gather your deck. Ignite your spark.”</span>
-        <span className="pw-icon">&#9875;</span>
-      </footer>
+      <Footer />
     </div>
   );
 }

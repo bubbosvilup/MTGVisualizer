@@ -50,11 +50,22 @@ const CollectionImportModal = forwardRef(function CollectionImportModal(
           <>
             <p className="validate-msg">Riconosciute correttamente {validCards.length} carte</p>
             {invalidCards.length > 0 && (
-              <p className="errors">Non riconosciute: {invalidCards.join(', ')}</p>
+              <div className="errors">
+                <p>Non riconosciute:</p>
+                <ul className="invalid-list">
+                  {invalidCards.map((c) => (
+                    <li key={c}>{c}</li>
+                  ))}
+                </ul>
+              </div>
             )}
             <div className="actions">
-              <button onClick={() => onOverwrite(validCards)}>Sovrascrivi collezione</button>
-              <button onClick={() => onAdd(validCards)}>Aggiungi a Collezione</button>
+              <button onClick={() => onOverwrite(validCards)} disabled={validCards.length === 0}>
+                Sovrascrivi collezione
+              </button>
+              <button onClick={() => onAdd(validCards)} disabled={validCards.length === 0}>
+                Aggiungi a Collezione
+              </button>
             </div>
           </>
         )}

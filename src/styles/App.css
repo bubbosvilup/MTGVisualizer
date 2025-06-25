@@ -52,8 +52,7 @@ header h1,
 .deck-card-name,
 .commander-name,
 .step-label,
-.results-section h3,
-.mtg-footer {
+.results-section h3 {
   font-family: 'Cinzel', serif;
   letter-spacing: 1px;
 }
@@ -149,19 +148,4 @@ main {
 .progress-fill::after {
   background: linear-gradient(90deg, transparent 0%, #fbbf24 50%, transparent 100%);
   animation: shimmer 2s infinite;
-}
-
-.mtg-footer {
-  text-align: center;
-  color: #fbbf24;
-  font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  margin-top: 2rem;
-  letter-spacing: 1px;
-  padding-bottom: 1.5rem;
-}
-.pw-icon {
-  font-size: 1.5rem;
-  margin-left: 0.5rem;
-  vertical-align: middle;
 }
