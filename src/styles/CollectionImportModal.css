@@ -62,9 +62,18 @@
   background: #666;
 }
 
+.actions button {
+  min-width: 120px;
+}
+
+.actions button:hover {
+  transition: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
 .import-modal .actions {
+  min-width: 320px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
 }
 

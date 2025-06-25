@@ -1,4 +1,5 @@
 import React, { useState, forwardRef } from 'react';
+import { createPortal } from 'react-dom';
 import parseCollectionFromText from '../utils/parseCollection';
 import scryfallData from '../data/scryfall-min.json';
 import '../styles/CollectionImportModal.css';
@@ -34,7 +35,7 @@ const CollectionImportModal = forwardRef(function CollectionImportModal(
     setValidated(false);
   };
 
-  return (
+  return createPortal(
     <div className="import-modal-overlay" onClick={onCancel} ref={ref}>
       <div className="import-modal" onClick={(e) => e.stopPropagation()}>
         <h3>Verifica Lista Carte</h3>
@@ -61,7 +62,8 @@ const CollectionImportModal = forwardRef(function CollectionImportModal(
           Annulla
         </button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 });
 

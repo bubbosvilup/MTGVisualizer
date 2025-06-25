@@ -366,14 +366,9 @@ function TabCollection() {
   useEffect(() => {
     if (importModalOpen) {
       scrollPositionRef.current = window.scrollY;
-      const modalEl = importModalRef.current;
-      if (modalEl) {
-        const rect = modalEl.getBoundingClientRect();
-        const scrollTop = window.scrollY + rect.top - 50;
-        window.scrollTo({ top: scrollTop, behavior: 'smooth' });
-      }
-    } else if (!selectedCard) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (!selectedCard) {
+      window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
     }
   }, [importModalOpen, selectedCard]);
   // Fetch dettagli carta da CardTrader
