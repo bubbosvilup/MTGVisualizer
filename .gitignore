@@ -41,3 +41,6 @@ public/decks_updated/
 
 # Scripts output (if any, adjust if needed)
 *.jsonl
+
+# Agent
+agent.md
