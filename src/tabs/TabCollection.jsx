@@ -6,6 +6,7 @@ import scryfallData from '../data/scryfall-min.json';
 import Fuse from 'fuse.js';
 import { useDecks } from '../context/useDecks';
 import CollectionImport from '../components/CollectionImport';
+import Toast from '../components/Toast';
 
 function TabCollection() {
   const { collection, setCollection } = useDecks();
@@ -578,11 +579,7 @@ function TabCollection() {
           </div>
         </div>
       )}
-      {showNotification && (
-        <div className="notification-toast">
-          <p>{notification}</p>
-        </div>
-      )}
+      {showNotification && <Toast message={notification} />}
     </div>
   );
 }
