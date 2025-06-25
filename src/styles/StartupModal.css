@@ -1,12 +1,9 @@
-* {
-  overflow: hidden;
-}
-
 .startup-modal-overlay {
-  position: realative;
-  margin-top: 30%;
-  margin-bottom: auto;
-  inset: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,7 +24,6 @@
 .startup-modal-overlay.hiding {
   opacity: 0;
   pointer-events: none;
-  overflow: hidden;
 }
 
 .startup-modal {
@@ -69,13 +65,29 @@
   font-size: 1.8rem;
   color: #fbbf24;
   font-family: 'Cinzel', serif;
-  overflow: hidden;
 }
 
 .startup-modal p {
   margin: 0;
   color: #ffffff;
   opacity: 0.9;
+}
+
+.donation-message {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.donation-message a {
+  color: #fbbf24;
+  text-decoration: underline;
+}
+
+.startup-modal-overlay.visible .donation-message.visible {
+  opacity: 1;
 }
 
 @keyframes spin {
