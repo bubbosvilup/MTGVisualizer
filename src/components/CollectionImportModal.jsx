@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import parseCollectionFromText from '../utils/parseCollection';
 import scryfallData from '../data/scryfall-min.json';
 import '../styles/CollectionImportModal.css';
 
-function CollectionImportModal({ initialText, onCancel, onAdd, onOverwrite }) {
+const CollectionImportModal = forwardRef(function CollectionImportModal(
+  { initialText, onCancel, onAdd, onOverwrite },
+  ref
+) {
   const [text, setText] = useState(initialText);
   const [validated, setValidated] = useState(false);
   const [validCards, setValidCards] = useState([]);
@@ -32,7 +35,7 @@ function CollectionImportModal({ initialText, onCancel, onAdd, onOverwrite }) {
   };
 
   return (
-    <div className="import-modal-overlay" onClick={onCancel}>
+    <div className="import-modal-overlay" onClick={onCancel} ref={ref}>
       <div className="import-modal" onClick={(e) => e.stopPropagation()}>
         <h3>Verifica Lista Carte</h3>
         <textarea
@@ -60,6 +63,6 @@ function CollectionImportModal({ initialText, onCancel, onAdd, onOverwrite }) {
       </div>
     </div>
   );
-}
+});
 
 export default CollectionImportModal;

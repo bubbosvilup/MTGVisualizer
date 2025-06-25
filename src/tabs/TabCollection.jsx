@@ -25,7 +25,7 @@ function TabCollection() {
   const [importText, setImportText] = useState('');
   const modalRef = useRef();
   const scrollPositionRef = useRef(0);
-
+  const importModalRef = useRef(null);
   // Ref per il timeout del debounce
   const debounceTimeoutRef = useRef(null);
   // Ref per il container della ricerca
@@ -357,11 +357,25 @@ function TabCollection() {
         const scrollTo = window.scrollY + rect.top - 50; // 50px di margine
         window.scrollTo({ top: scrollTo, behavior: 'smooth' });
       }
-    } else {
+    } else if (!importModalOpen) {
       window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
     }
-  }, [selectedCard]);
+  }, [selectedCard, importModalOpen]);
 
+  // Gestione scroll per il modale di importazione collezione
+  useEffect(() => {
+    if (importModalOpen) {
+      scrollPositionRef.current = window.scrollY;
+      const modalEl = importModalRef.current;
+      if (modalEl) {
+        const rect = modalEl.getBoundingClientRect();
+        const scrollTop = window.scrollY + rect.top - 50;
+        window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+      }
+    } else if (!selectedCard) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [importModalOpen, selectedCard]);
   // Fetch dettagli carta da CardTrader
   useEffect(() => {
     if (!selectedCard) return;
@@ -479,6 +493,7 @@ function TabCollection() {
         <CollectionImport onImport={handleImportFromText} />
         {importModalOpen && (
           <CollectionImportModal
+            ref={importModalRef}
             initialText={importText}
             onCancel={() => setImportModalOpen(false)}
             onAdd={addCardsFromModal}
