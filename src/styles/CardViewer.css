@@ -1,43 +1,83 @@
 .card-viewer-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .card-viewer {
   position: relative;
-  background: rgba(26, 26, 46, 0.95);
-  padding: 1.5rem;
-  border-radius: 16px;
-  max-width: 600px;
+  background: linear-gradient(145deg, rgba(26, 26, 46, 0.98), rgba(46, 26, 66, 0.95));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+  max-width: 650px;
   width: 90%;
   color: #fff;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .close-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background: none;
-  border: none;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
 .card-container {
   width: 100%;
-  max-width: 360px;
-  perspective: 800px;
+  max-width: 380px;
+  perspective: 1000px;
+  position: relative;
 }
 
 .card-container.flipped .card-face.front {
@@ -50,9 +90,19 @@
 .card-face {
   width: 100%;
   backface-visibility: hidden;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  transition: transform 0.6s ease;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.card-face:hover {
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 20px rgba(108, 99, 255, 0.3);
 }
 
 .card-face.back {
@@ -63,26 +113,136 @@
 }
 
 .flip-btn {
-  background: linear-gradient(135deg, #6c63ff, #a78bfa);
+  background: linear-gradient(135deg, #6c63ff, #a78bfa, #ec4899);
   color: #fff;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(108, 99, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.flip-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.flip-btn:hover::before {
+  left: 100%;
+}
+
+.flip-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
+}
+
+.flip-btn:active {
+  transform: translateY(0);
 }
 
 .card-info {
   text-align: center;
+  max-width: 100%;
+}
+
+.card-info h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(135deg, #fff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .type-line {
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.oracle-text {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.oracle-text::-webkit-scrollbar {
+  width: 4px;
+}
+
+.oracle-text::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.oracle-text::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
 }
 
 .price {
   color: #fbbf24;
   font-weight: 700;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  text-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card-viewer {
+    padding: 1.5rem;
+    margin: 1rem;
+    width: calc(100% - 2rem);
+  }
+
+  .card-container {
+    max-width: 300px;
+  }
+
+  .card-info h3 {
+    font-size: 1.3rem;
+  }
+
+  .oracle-text {
+    font-size: 0.85rem;
+    padding: 0.75rem;
+  }
+}
+
+/* Miglioramenti per l'accessibilità */
+@media (prefers-reduced-motion: reduce) {
+  .card-viewer-overlay,
+  .card-viewer,
+  .card-face,
+  .flip-btn {
+    animation: none;
+    transition: none;
+  }
 }
