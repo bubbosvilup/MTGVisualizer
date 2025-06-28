@@ -1,5 +1,5 @@
 // TabCollection.jsx
-import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import '../styles/TabCollection.css';
 import scryfallData from '../data/scryfall-min.json';
 import Fuse from 'fuse.js';
@@ -8,6 +8,8 @@ import CollectionImport from '../components/CollectionImport';
 import CollectionImportModal from '../components/CollectionImportModal';
 import Toast from '../components/Toast';
 import CardViewer from '../components/CardViewer';
+import CollectionAddSearch from '../components/CollectionAddSearch';
+import capitalizeWords from '../utils/capitalizeWords';
 
 function TabCollection() {
   const { collection, setCollection } = useDecks();
@@ -17,129 +19,13 @@ function TabCollection() {
   const [filterColor, setFilterColor] = useState('');
   const [notification, setNotification] = useState('');
   const [showNotification, setShowNotification] = useState(false);
-  const [addQuery, setAddQuery] = useState('');
-  const [addResults, setAddResults] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [importText, setImportText] = useState('');
   const scrollPositionRef = useRef(0);
   const importModalRef = useRef(null);
-  // Ref per il timeout del debounce
-  const debounceTimeoutRef = useRef(null);
-  // Ref per il container della ricerca
-  const addBarRef = useRef(null);
 
-  const scryfallFuse = useMemo(() => {
-    return new Fuse(scryfallData, {
-      keys: ['name'],
-      threshold: 0.4,
-      distance: 100,
-      minMatchCharLength: 2,
-      ignoreLocation: true,
-    });
-  }, []);
-
-  // Funzione di ricerca debounced
-  const performSearch = useCallback(
-    (query) => {
-      if (query.length <= 1) {
-        setAddResults([]);
-        setIsSearching(false);
-        return;
-      }
-
-      const lowerVal = query.toLowerCase();
-      let results = [];
-
-      results = scryfallFuse.search(query).map((r) => r.item);
-
-      // Deduplica per nome
-      const seen = new Set();
-      const deduped = results.filter((card) => {
-        const name = card.name.toLowerCase();
-        if (seen.has(name)) return false;
-        seen.add(name);
-        return true;
-      });
-
-      // Se esiste un match esatto, lo mettiamo in cima
-      const exactMatch = scryfallData.find((card) => card.name.toLowerCase() === lowerVal);
-
-      if (exactMatch) {
-        const alreadyIn = deduped.find((card) => card.name.toLowerCase() === lowerVal);
-        if (!alreadyIn) deduped.unshift(exactMatch);
-        else {
-          const filtered = deduped.filter((c) => c.name.toLowerCase() !== lowerVal);
-          deduped.splice(0, deduped.length, exactMatch, ...filtered);
-        }
-      }
-
-      setAddResults(deduped.slice(0, 10));
-      setIsSearching(false);
-    },
-    [scryfallFuse]
-  );
-
-  // Handler per l'input con debounce
-  const handleAddQueryChange = useCallback(
-    (value) => {
-      setAddQuery(value);
-
-      if (debounceTimeoutRef.current) {
-        clearTimeout(debounceTimeoutRef.current);
-      }
-
-      const trimmedValue = value.trim();
-      if (trimmedValue.length <= 1) {
-        setAddResults([]);
-        setIsSearching(false);
-        return;
-      }
-
-      setIsSearching(true);
-
-      debounceTimeoutRef.current = setTimeout(() => {
-        performSearch(trimmedValue);
-      }, 300);
-    },
-    [performSearch]
-  );
-
-  // Cleanup del timeout al dismount
-  useEffect(() => {
-    return () => {
-      if (debounceTimeoutRef.current) {
-        clearTimeout(debounceTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  // Effect per gestire il click outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (addBarRef.current && !addBarRef.current.contains(event.target)) {
-        // Pulisci tutto quando clicchi fuori
-        setAddResults([]);
-        setIsSearching(false);
-        setAddQuery(''); // Aggiungi questa riga per pulire anche l'input
-
-        // Pulisci anche il timeout pendente se esiste
-        if (debounceTimeoutRef.current) {
-          clearTimeout(debounceTimeoutRef.current);
-          debounceTimeoutRef.current = null;
-        }
-      }
-    };
-
-    if (addResults.length > 0 || isSearching || addQuery.trim().length > 0) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [addResults.length, isSearching, addQuery]); // Aggiungi addQuery alle dipendenze
+  // Posizione scroll quando si aprono i modali
 
   const addCardToCollection = async (cardName) => {
     const lowerName = cardName.toLowerCase();
@@ -151,24 +37,7 @@ function TabCollection() {
       showTempMessage(`❌ Carta non trovata: ${capitalizeWords(cardName)}`);
       return;
     }
-
-    // Mostra toast personalizzato
-    showTempMessage(`✅ Aggiunto 1x ${capitalizeWords(cardName)} (ora ne hai ${newQty}x)`);
-
-    setAddQuery('');
-    setAddResults([]);
-    setIsSearching(false);
   };
-
-  // Funzione per ottenere la quantità posseduta di una carta
-  const getOwnedQuantity = (cardName) => {
-    const owned = collection.find((c) => c.name.toLowerCase() === cardName.toLowerCase());
-    return owned ? owned.qty : 0;
-  };
-
-  // Funzione per capitalizzare ogni parola
-  const capitalizeWords = (str) => str.replace(/\b\w/g, (char) => char.toUpperCase());
-
   const handleImportFromText = (text) => {
     setImportText(text);
     setImportModalOpen(true);
@@ -364,18 +233,6 @@ function TabCollection() {
       window.scrollTo({ top: scrollPositionRef.current, behavior: 'smooth' });
     }
   }, [importModalOpen, selectedCard]);
-  useEffect(() => {
-    if (!selectedCard) return;
-    const handleClick = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        setSelectedCard(null);
-        setCardDetails(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [selectedCard]);
-
   // Ripristina la posizione dello scroll quando la collezione filtrata cambia
   useEffect(() => {
     if (scrollPositionRef.current) {
@@ -413,36 +270,7 @@ function TabCollection() {
     <div className="tab-collection">
       <div className="collection-controls">
         <div className="top-controls">
-          <div ref={addBarRef} className="add-bar-container">
-            <div className="input-with-icon">
-              <span className="icon-search"></span>
-              <input
-                type="text"
-                value={addQuery}
-                onChange={(e) => handleAddQueryChange(e.target.value)}
-                placeholder="Aggiungi una carta..."
-                className="add-card-input"
-              />
-            </div>
-            {(isSearching || addResults.length > 0) && (
-              <ul className="add-results-list">
-                {isSearching ? (
-                  <li className="searching-indicator">Ricerca...</li>
-                ) : (
-                  addResults.map((card) => {
-                    const imgSrc = card.image_uris?.normal || card.image || null;
-                    return (
-                      <li key={card.id || card.name} onClick={() => addCardToCollection(card.name)}>
-                        {imgSrc && <img src={imgSrc} alt={card.name} className="result-img" />}
-                        <span className="result-name">{card.name}</span>
-                        <span className="result-qty">Possiedi: {getOwnedQuantity(card.name)}</span>
-                      </li>
-                    );
-                  })
-                )}
-              </ul>
-            )}
-          </div>
+          <CollectionAddSearch onAddCard={addCardToCollection} collection={collection} />
           <div className="search-bar">
             <input
               type="text"

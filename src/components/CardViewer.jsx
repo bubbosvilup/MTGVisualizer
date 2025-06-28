@@ -128,7 +128,7 @@ function CardViewer({ card, onClose }) {
 
           <img
             className="card-face back"
-            src="/fr7g5swymhc41.png"
+            src="   /fr7g5swymhc41.png"
             alt="Retro della carta Magic"
             loading="lazy"
           />
