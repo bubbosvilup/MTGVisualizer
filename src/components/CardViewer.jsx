@@ -210,58 +210,13 @@ function CardViewer({ card, onClose }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isFlipping, setIsFlipping] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-
   const cardRef = useRef(null);
   const overlayRef = useRef(null);
-  const audioContextRef = useRef(null);
-
-  // Audio context per effetti sonori procedurali
-  const initAudioContext = useCallback(() => {
-    if (!audioContextRef.current && soundEnabled) {
-      try {
-        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
-      } catch (error) {
-        console.warn('Audio context not supported', error);
-      }
-    }
-  }, [soundEnabled]);
-
-  const playSound = useCallback(
-    (frequency, duration, type = 'sine') => {
-      if (!audioContextRef.current || !soundEnabled) return;
-
-      try {
-        const oscillator = audioContextRef.current.createOscillator();
-        const gainNode = audioContextRef.current.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContextRef.current.destination);
-
-        oscillator.frequency.setValueAtTime(frequency, audioContextRef.current.currentTime);
-        oscillator.type = type;
-
-        gainNode.gain.setValueAtTime(0.1, audioContextRef.current.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(
-          0.01,
-          audioContextRef.current.currentTime + duration
-        );
-
-        oscillator.start(audioContextRef.current.currentTime);
-        oscillator.stop(audioContextRef.current.currentTime + duration);
-      } catch (error) {
-        console.warn('Audio playback failed', error);
-      }
-    },
-    [soundEnabled]
-  );
-
   // Flip con effetti avanzati
   const handleFlip = useCallback(() => {
     if (isFlipping) return;
 
     setIsFlipping(true);
-    playSound(600, 0.3, 'square');
 
     // Haptic feedback
     if (navigator.vibrate) {
@@ -282,7 +237,6 @@ function CardViewer({ card, onClose }) {
 
     setTimeout(() => {
       setShowBack((prev) => !prev);
-      playSound(800, 0.2, 'triangle');
     }, 200);
 
     setTimeout(() => {
@@ -298,7 +252,7 @@ function CardViewer({ card, onClose }) {
         `;
       }
     }, 600);
-  }, [isFlipping, playSound]);
+  }, [isFlipping]);
 
   // Hooks personalizzati
   const particles = useParticleSystem(true);
@@ -312,7 +266,6 @@ function CardViewer({ card, onClose }) {
     const handleKey = (e) => {
       switch (e.key) {
         case 'Escape':
-          playSound(400, 0.2);
           onClose?.();
           break;
         case ' ':
@@ -323,11 +276,6 @@ function CardViewer({ card, onClose }) {
         case 'f':
         case 'F':
           handleFlip();
-          break;
-        case 's':
-        case 'S':
-          setSoundEnabled((prev) => !prev);
-          playSound(800, 0.1);
           break;
         case 'ArrowLeft':
         case 'ArrowRight':
@@ -341,37 +289,30 @@ function CardViewer({ card, onClose }) {
 
     document.addEventListener('keydown', handleKey);
     document.body.style.overflow = 'hidden';
-    initAudioContext();
 
     return () => {
       document.removeEventListener('keydown', handleKey);
       document.body.style.overflow = 'unset';
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
     };
-  }, [onClose, handleFlip, playSound, initAudioContext]);
+  }, [onClose, handleFlip]);
 
   const handleOverlayClick = useCallback(
     (e) => {
       if (e.target === overlayRef.current) {
-        playSound(400, 0.2);
         onClose?.();
       }
     },
-    [onClose, playSound]
+    [onClose]
   );
 
   const handleImageLoad = useCallback(() => {
     setIsLoading(false);
-    playSound(1000, 0.1, 'sine');
-  }, [playSound]);
+  }, []);
 
   const handleImageError = useCallback(() => {
     setIsLoading(false);
     setImageError(true);
-    playSound(300, 0.3, 'sawtooth');
-  }, [playSound]);
+  }, []);
 
   // Memoizza le informazioni della carta per performance
   const cardInfo = useMemo(() => {
@@ -437,15 +378,6 @@ function CardViewer({ card, onClose }) {
       <div className="card-viewer" onClick={(e) => e.stopPropagation()}>
         {/* Controlli avanzati */}
         <div className="controls-panel">
-          <button
-            className={`sound-toggle ${soundEnabled ? 'enabled' : 'disabled'}`}
-            onClick={() => setSoundEnabled((prev) => !prev)}
-            aria-label={soundEnabled ? 'Disattiva suoni' : 'Attiva suoni'}
-            title="Toggle suoni (S)"
-          >
-            {soundEnabled ? '🔊' : '🔇'}
-          </button>
-
           <button
             className="close-btn"
             onClick={onClose}
@@ -584,7 +516,7 @@ function CardViewer({ card, onClose }) {
         {/* Shortcuts info */}
         <div className="shortcuts-info">
           <small>
-            <kbd>Esc</kbd> Chiudi • <kbd>Spazio</kbd>/<kbd>F</kbd> Gira • <kbd>S</kbd> Suoni
+            <kbd>Esc</kbd> Chiudi • <kbd>Spazio</kbd>/<kbd>F</kbd> Gira
           </small>
         </div>
       </div>

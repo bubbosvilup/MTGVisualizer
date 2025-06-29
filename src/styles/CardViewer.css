@@ -139,33 +139,6 @@
   z-index: 10;
 }
 
-.sound-toggle {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--text-primary);
-  font-size: 1.2rem;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s var(--transition-fast);
-  backdrop-filter: blur(10px);
-}
-
-.sound-toggle:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
-}
-
-.sound-toggle.disabled {
-  opacity: 0.5;
-  filter: grayscale(1);
-}
-
 .close-btn {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -698,7 +671,6 @@
     gap: 8px;
   }
 
-  .sound-toggle,
   .close-btn {
     width: 36px;
     height: 36px;
@@ -767,7 +739,6 @@
 
 /* ===== FOCUS STYLES ===== */
 .flip-btn:focus-visible,
-.sound-toggle:focus-visible,
 .close-btn:focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 2px;

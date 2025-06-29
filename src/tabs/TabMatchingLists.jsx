@@ -16,15 +16,13 @@ function TabMatchingLists() {
   // Stati di loading
   const [isCreatingWishlist, setIsCreatingWishlist] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0, currentCard: '' });
-
+  //ia code ahead
   const parseLine = (line) => {
-    const match = line.match(/^(\d+)\s+(.+)$/);
+    const match = line.match(/^(\d+)\s*x?\s*(.*)$/i);
     if (!match) return null;
     const qty = parseInt(match[1], 10);
     let rest = match[2].trim();
-    // Taglia eventuale parentesi (set) o collector code alla fine
     rest = rest.replace(/\s+\([^)]*\).*$/, '');
-    // Rimuovi eventuali codice collector tipo "(ONE) 123" o "E01-12" dopo nome
     rest = rest.replace(/\s+[A-Z]{2,}\d+$/i, '');
     return { name: rest.trim(), quantity: qty };
   };
