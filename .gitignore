@@ -30,7 +30,6 @@ dist-ssr/
 *.sw?
 
 # Custom project data
-src/data/scryfall-max.json
 server/data/collection.json
 
 
