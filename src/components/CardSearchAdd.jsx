@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import Fuse from 'fuse.js';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import '../styles/CardSearchAdd.css';
 
 function CardSearchAdd({ onAdd }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+  const scryfallData = useScryfall();
 
   const fuse = useMemo(
     () =>
@@ -14,7 +15,7 @@ function CardSearchAdd({ onAdd }) {
         threshold: 0.35,
         ignoreLocation: true,
       }),
-    []
+    [scryfallData]
   );
 
   const handleChange = (e) => {

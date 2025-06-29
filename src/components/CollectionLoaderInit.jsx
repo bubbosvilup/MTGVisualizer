@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useDecks } from '../context/useDecks';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 
 function CollectionLoaderInit() {
   const { setCollection } = useDecks();
+  const scryfallData = useScryfall();
 
   useEffect(() => {
     const fetchCollection = async () => {
@@ -44,7 +45,7 @@ function CollectionLoaderInit() {
       setCollection(enriched);
     };
     fetchCollection();
-  }, [setCollection]);
+  }, [setCollection, scryfallData]);
 
   return null;
 }

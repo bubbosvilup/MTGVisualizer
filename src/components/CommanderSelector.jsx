@@ -1,11 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import Fuse from 'fuse.js';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import '../styles/CommanderSelector.css';
 
 function CommanderSelector({ commander, onSelect }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+  const scryfallData = useScryfall();
 
   const commanders = useMemo(() => {
     return scryfallData.filter(
@@ -13,7 +14,7 @@ function CommanderSelector({ commander, onSelect }) {
         card.type?.toLowerCase().includes('legendary') &&
         card.type.toLowerCase().includes('creature')
     );
-  }, []);
+  }, [scryfallData]);
 
   const fuse = useMemo(
     () =>

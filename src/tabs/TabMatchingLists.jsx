@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDecks } from '../context/useDecks';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import '../styles/TabMatchingLists.css';
 
 const CARDTRADER_API = 'https://api.cardtrader.com/api/v2/wishlists';
@@ -11,6 +11,7 @@ function TabMatchingLists() {
   const [deckListText, setDeckListText] = useState('');
   const [missingCards, setMissingCards] = useState([]);
   const [foundCards, setFoundCards] = useState([]);
+  const scryfallData = useScryfall();
 
   // Stati di loading
   const [isCreatingWishlist, setIsCreatingWishlist] = useState(false);

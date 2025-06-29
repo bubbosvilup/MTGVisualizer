@@ -1,7 +1,7 @@
 // TabCollection.jsx
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import '../styles/TabCollection.css';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import Fuse from 'fuse.js';
 import { useDecks } from '../context/useDecks';
 import CollectionImport from '../components/CollectionImport';
@@ -19,6 +19,7 @@ function TabCollection() {
   const [filterColor, setFilterColor] = useState('');
   const [notification, setNotification] = useState('');
   const [showNotification, setShowNotification] = useState(false);
+  const scryfallData = useScryfall();
   const [selectedCard, setSelectedCard] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [importText, setImportText] = useState('');
@@ -264,7 +265,7 @@ function TabCollection() {
       type_line: base.type_line || base.type,
       prices: { eur: base.prices?.eur ?? base.price },
     };
-  }, [selectedCard]);
+  }, [selectedCard, scryfallData]);
 
   return (
     <div className="tab-collection">

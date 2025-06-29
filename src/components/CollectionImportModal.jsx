@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from 'react';
 import { createPortal } from 'react-dom';
 import parseCollectionFromText from '../utils/parseCollection';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import '../styles/CollectionImportModal.css';
 
 const CollectionImportModal = forwardRef(function CollectionImportModal(
@@ -12,6 +12,7 @@ const CollectionImportModal = forwardRef(function CollectionImportModal(
   const [validated, setValidated] = useState(false);
   const [validCards, setValidCards] = useState([]);
   const [invalidCards, setInvalidCards] = useState([]);
+  const scryfallData = useScryfall();
 
   const validate = () => {
     const parsed = parseCollectionFromText(text);

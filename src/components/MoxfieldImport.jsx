@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import '../styles/MoxfieldImport.css';
 
 function MoxfieldImport({ onImport }) {
   const [listText, setListText] = useState('');
   const [errorCards, setErrorCards] = useState([]);
+  const scryfallData = useScryfall();
 
   const normalize = (name) =>
     name

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import Fuse from 'fuse.js';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import '../styles/TabCollection.css';
 
 function CollectionAddSearch({ onAddCard, collection }) {
@@ -9,6 +9,7 @@ function CollectionAddSearch({ onAddCard, collection }) {
   const [isSearching, setIsSearching] = useState(false);
   const containerRef = useRef(null);
   const debounceRef = useRef(null);
+  const scryfallData = useScryfall();
 
   const fuse = useMemo(
     () =>
@@ -19,7 +20,7 @@ function CollectionAddSearch({ onAddCard, collection }) {
         minMatchCharLength: 2,
         ignoreLocation: true,
       }),
-    []
+    [scryfallData]
   );
 
   const performSearch = useCallback(
@@ -53,7 +54,7 @@ function CollectionAddSearch({ onAddCard, collection }) {
       setResults(deduped.slice(0, 10));
       setIsSearching(false);
     },
-    [fuse]
+    [fuse, scryfallData]
   );
 
   const handleChange = useCallback(

@@ -1,12 +1,13 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { useDecks } from '../context/useDecks';
 import DeckCard from '../components/DeckCard';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 import DeckDetails from '../components/DeckDetails';
 import '../styles/TabMatching.css';
 
 function TabMatching() {
   const { decks, collection, loadingDecks } = useDecks();
+  const scryfallData = useScryfall();
   const [minCompletion, setMinCompletion] = useState(80);
   const [matchingDecks, setMatchingDecks] = useState([]);
   const [visibleCount, setVisibleCount] = useState(24);
@@ -45,7 +46,7 @@ function TabMatching() {
       }
     });
     return map;
-  }, []);
+  }, [scryfallData]);
 
   // Funzione ottimizzata per il matching ultra-veloce
   const processDecksUltraFast = useCallback(

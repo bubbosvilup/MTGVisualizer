@@ -1,7 +1,7 @@
 // DeckDetails.jsx
 import React from 'react';
 import '../styles/DeckDetails.css';
-import scryfallData from '../data/scryfall-min.json';
+import useScryfall from '../hooks/useScryfall';
 
 function DeckDetails({
   deck,
@@ -11,6 +11,7 @@ function DeckDetails({
   onCopyList,
   onExportList,
 }) {
+  const scryfallData = useScryfall();
   if (!deck) return null;
   const collectionMap = new Map();
   collection.forEach((card) => {

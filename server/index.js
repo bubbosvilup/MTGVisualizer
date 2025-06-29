@@ -5,6 +5,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const collectionRoutes = require('./routes/collection');
 const cardtraderRoutes = require('./routes/cardtrader');
+const scryfallRoutes = require('./routes/scryfall');
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/api/collection', collectionRoutes);
 app.use('/api/cardtrader', cardtraderRoutes);
+app.use('/api/scryfall', scryfallRoutes);
 
 app.listen(PORT, () => {
   console.log(`✅ Server backend in ascolto su http://localhost:${PORT}`);
