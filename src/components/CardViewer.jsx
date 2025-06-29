@@ -250,7 +250,7 @@ function CardViewer({ card, onClose }) {
         oscillator.start(audioContextRef.current.currentTime);
         oscillator.stop(audioContextRef.current.currentTime + duration);
       } catch (error) {
-        console.warn('Audio playback failed');
+        console.warn('Audio playback failed', error);
       }
     },
     [soundEnabled]

@@ -32,7 +32,16 @@ async function fetchProducts(blueprintId, token) {
   return res.json();
 }
 
+function computePriceStats(products) {
+  const prices = products.map((p) => p.price).filter((v) => typeof v === 'number');
+  const minPrice = prices.length ? Math.min(...prices) : null;
+  const maxPrice = prices.length ? Math.max(...prices) : null;
+  const avgPrice = prices.length ? prices.reduce((sum, v) => sum + v, 0) / prices.length : null;
+  return { minPrice, maxPrice, avgPrice };
+}
+
 module.exports = {
   fetchBlueprint,
   fetchProducts,
+  computePriceStats,
 };

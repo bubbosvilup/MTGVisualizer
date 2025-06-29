@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config();
-const { fetchBlueprint, fetchProducts } = require('../utils/cardtraderApi');
+const { fetchBlueprint, fetchProducts, computePriceStats } = require('../utils/cardtraderApi');
 
 router.get('/:cardName', async (req, res) => {
   try {
@@ -24,10 +24,9 @@ router.get('/:cardName', async (req, res) => {
     console.log(`[CardTrader] Using blueprint: ${blueprint.name} (id: ${blueprintId})`);
     // Fetch marketplace products for this blueprint
     console.log(`[CardTrader] Fetching products for blueprintId: ${blueprintId}`);
-    const prices = productsData.map((p) => p.price).filter((v) => typeof v === 'number');
-    const minPrice = prices.length ? Math.min(...prices) : null;
-    const maxPrice = prices.length ? Math.max(...prices) : null;
-    const avgPrice = prices.length ? prices.reduce((sum, v) => sum + v, 0) / prices.length : null;
+    console.log(`[CardTrader] Fetching products for blueprintId: ${blueprintId}`);
+    const productsData = await fetchProducts(blueprintId, token);
+    const { minPrice, maxPrice, avgPrice } = computePriceStats(productsData);
 
     console.log(`[CardTrader] Products found: ${productsData.length}. Prices computed`);
 
