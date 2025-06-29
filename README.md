@@ -110,5 +110,6 @@ l'env che create sarà già presente nel .gitignore quindi siete nel chill
 
 ## 💪 Autore
 
-**Nicco** – mtg enthusiast, fullstack dev, data nerd.
+**Nicco** MTG enthusiast, fullstack dev, data nerd.
+[Hail the OpenSource]
 

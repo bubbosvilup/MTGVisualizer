@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDecks } from '../context/useDecks';
 import useScryfall from '../hooks/useScryfall';
+import CardViewer from '../components/CardViewer';
 import '../styles/TabMatchingLists.css';
 
 const CARDTRADER_API = 'https://api.cardtrader.com/api/v2/wishlists';
@@ -11,11 +12,26 @@ function TabMatchingLists() {
   const [deckListText, setDeckListText] = useState('');
   const [missingCards, setMissingCards] = useState([]);
   const [foundCards, setFoundCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
   const scryfallData = useScryfall();
 
   // Stati di loading
   const [isCreatingWishlist, setIsCreatingWishlist] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0, currentCard: '' });
+
+  const viewerCard = useMemo(() => {
+    if (!selectedCard) return null;
+    const match = scryfallData.find(
+      (c) => c.name.toLowerCase() === selectedCard.name.toLowerCase()
+    );
+    const base = match || selectedCard;
+    return {
+      ...base,
+      image_uris: { normal: base.image_uris?.normal || base.image },
+      type_line: base.type_line || base.type,
+      prices: { eur: base.prices?.eur ?? base.price },
+    };
+  }, [selectedCard, scryfallData]);
   //ia code ahead
   const parseLine = (line) => {
     const match = line.match(/^(\d+)\s*x?\s*(.*)$/i);
@@ -353,7 +369,12 @@ function TabMatchingLists() {
           <h3>❌ Carte Mancanti ({missingCards.length})</h3>
           <div className="card-grid">
             {missingCards.map((card, index) => (
-              <div className="card-box" key={`${card.name}-${index}`}>
+              <div
+                className="card-box"
+                key={`${card.name}-${index}`}
+                onClick={() => setSelectedCard(card)}
+                style={{ cursor: 'pointer' }}
+              >
                 {card.image && <img src={card.image} alt={card.name} />}
                 <div>
                   <strong>{card.name}</strong>
@@ -373,7 +394,12 @@ function TabMatchingLists() {
           <h3>✅ Carte Possedute ({foundCards.length})</h3>
           <div className="card-grid">
             {foundCards.map((card, index) => (
-              <div className="card-box" key={`${card.name}-${index}`}>
+              <div
+                className="card-box"
+                key={`${card.name}-${index}`}
+                onClick={() => setSelectedCard(card)}
+                style={{ cursor: 'pointer' }}
+              >
                 {card.image && <img src={card.image} alt={card.name} />}
                 <div>
                   <strong>{card.name}</strong>
@@ -385,6 +411,7 @@ function TabMatchingLists() {
           </div>
         </div>
       )}
+      {viewerCard && <CardViewer card={viewerCard} onClose={() => setSelectedCard(null)} />}
     </div>
   );
 }

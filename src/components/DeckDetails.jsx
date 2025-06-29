@@ -10,6 +10,7 @@ function DeckDetails({
   onExportMissing,
   onCopyList,
   onExportList,
+  onCardClick,
 }) {
   const scryfallData = useScryfall();
   if (!deck) return null;
@@ -58,7 +59,12 @@ function DeckDetails({
       </div>
       <div className="deck-cards-grid">
         {cardsToShow.map((card, index) => (
-          <div key={index} className={`deck-card-detail ${card.missing ? 'missing' : 'owned'}`}>
+          <div
+            key={index}
+            className={`deck-card-detail ${card.missing ? 'missing' : 'owned'}`}
+            onClick={() => onCardClick?.(card)}
+            style={{ cursor: onCardClick ? 'pointer' : 'default' }}
+          >
             <img
               src={card.image || 'https://via.placeholder.com/223x310?text=Card'}
               alt={card.name}
