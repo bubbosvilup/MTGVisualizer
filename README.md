@@ -1,10 +1,12 @@
 # MTG Visualizer
 
-MTG Visualizer è una Single Page Application (SPA) sviluppata in **React** con **Vite**, pensata per aiutare i giocatori di Magic: The Gathering (formato Commander) a:
+MTG Visualizer è una Single Page Application (SPA) costruita con **React** e **Vite**.
+Nasce per aiutare i giocatori di Magic: The Gathering (formato Commander) a:
 
-- Caricare e gestire la propria collezione di carte
-- Verificare quali deck possono essere costruiti in base alla collezione
-- Trovare carte mancanti e prezzi
+Gestire la propria collezione di carte
+
+- Scoprire quali mazzi possono essere montati con le carte possedute
+- Recuperare prezzi e carte mancanti
 - Esportare liste e wishlist
 
 ---
@@ -18,7 +20,7 @@ MTG Visualizer è una Single Page Application (SPA) sviluppata in **React** con 
 
 ---
 
-## 📁 Struttura principali delle tab
+## 📁 Sezioni principali
 
 ### 📃 Collezione
 
@@ -44,16 +46,16 @@ MTG Visualizer è una Single Page Application (SPA) sviluppata in **React** con 
 
 ---
 
-## 🚀 Funzionalità pianificate (Deck Builder)
+## 🔮 Piani futuri
 
 > In fase di sviluppo
 
-- Costruzione mazzi Commander da zero
-- Analisi della curva di mana e archetipi
-- Suggerimenti di carte da EDHREC
-- Integrazione video YouTube per il comandante scelto
-- Salvataggio e esportazione mazzi personalizzati
-- English Language
+- Creazione di mazzi Commander da zero con salvataggio persistente
+- Analisi dinamica di curve di mana, archetipi e sinergie
+- Suggerimenti basati su EDHREC
+- Integrazione di video YouTube per i comandanti
+- Wishlist automatizzate e gestione dei preferiti
+- Possibilità di usare l'interfaccia in inglese
 
 ---
 
@@ -68,7 +70,7 @@ MTG Visualizer è una Single Page Application (SPA) sviluppata in **React** con 
 
 - Deck cEDH esclusi tramite regex nel nome (`/cedh/i`)
 - Mazzi con meno di 95 carte scartati
-- Sistema di blacklist per carte fastidiose (feature futura)
+- Sistema di blacklist per carte sgradite (in sviluppo)
 
 ---
 
