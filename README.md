@@ -50,12 +50,12 @@ Gestire la propria collezione di carte
 
 > In fase di sviluppo
 
-- Creazione di mazzi Commander da zero con salvataggio persistente
-- Analisi dinamica di curve di mana, archetipi e sinergie
-- Suggerimenti basati su EDHREC
-- Integrazione di video YouTube per i comandanti
-- Wishlist automatizzate e gestione dei preferiti
-- Possibilità di usare l'interfaccia in inglese
+- Creazione di mazzi Commander da zero con salvataggio persistente [75%]
+- Analisi dinamica di curve di mana, archetipi e sinergie [60%]
+- Suggerimenti basati su EDHREC [not started]
+- Integrazione di video YouTube per i comandanti [not started]
+- Wishlist automatizzate e gestione dei preferiti [not started]
+- Possibilità di usare l'interfaccia in inglese [not started]
 
 ---
 
@@ -88,6 +88,23 @@ Gestire la propria collezione di carte
 npm install
 npm run dev
 ```
+
+nel caso in cui il server non sia up (probabile)
+prima di runnare il front:
+
+```bash
+cd server
+node index.js
+```
+
+per avere anche la funzione di export della wishlist in automatico
+create un .env nella root e dentro metteteci:
+
+```bash
+VITE_CARDTRADER_TOKEN= la vostra key di CardTrader
+```
+
+l'env che create sarà già presente nel .gitignore quindi siete nel chill
 
 ---
 
