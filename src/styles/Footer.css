@@ -5,6 +5,7 @@
   position: relative;
   overflow: hidden;
   box-shadow: 0 -5px 30px rgba(188, 19, 254, 0.2);
+  margin-top: 1rem;
 }
 
 .site-footer::before {
