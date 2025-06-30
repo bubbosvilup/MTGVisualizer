@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useDecks } from '../context/useDecks';
 import DeckCard from '../components/DeckCard';
 import useScryfall from '../hooks/useScryfall';
 import DeckDetails from '../components/DeckDetails';
 import CardViewer from '../components/CardViewer';
+import useViewerCard from '../hooks/useViewerCard';
 import '../styles/TabMatching.css';
 
 function TabMatching() {
@@ -21,19 +22,7 @@ function TabMatching() {
   const scrollPositionRef = useRef(0);
   const [searchCommanderQuery, setSearchCommanderQuery] = useState('');
 
-  const viewerCard = useMemo(() => {
-    if (!selectedCard) return null;
-    const match = scryfallData.find(
-      (c) => c.name.toLowerCase() === selectedCard.name.toLowerCase()
-    );
-    const base = match || selectedCard;
-    return {
-      ...base,
-      image_uris: { normal: base.image_uris?.normal || base.image },
-      type_line: base.type_line || base.type,
-      prices: { eur: base.prices?.eur ?? base.price },
-    };
-  }, [selectedCard, scryfallData]);
+  const viewerCard = useViewerCard(selectedCard);
 
   const PLACEHOLDER_IMAGE =
     'https://cards.scryfall.io/art_crop/front/0/0/0000579f-7b35-4ed3-b44c-db2a538066fe.jpg';

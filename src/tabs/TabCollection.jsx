@@ -1,5 +1,5 @@
 // TabCollection.jsx
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import '../styles/TabCollection.css';
 import useScryfall from '../hooks/useScryfall';
 import Fuse from 'fuse.js';
@@ -10,6 +10,7 @@ import Toast from '../components/Toast';
 import CardViewer from '../components/CardViewer';
 import CollectionAddSearch from '../components/CollectionAddSearch';
 import capitalizeWords from '../utils/capitalizeWords';
+import useViewerCard from '../hooks/useViewerCard';
 
 function TabCollection() {
   const { collection, setCollection } = useDecks();
@@ -253,19 +254,7 @@ function TabCollection() {
     };
   }, []);
 
-  const viewerCard = useMemo(() => {
-    if (!selectedCard) return null;
-    const match = scryfallData.find(
-      (c) => c.name.toLowerCase() === selectedCard.name.toLowerCase()
-    );
-    const base = match || selectedCard;
-    return {
-      ...base,
-      image_uris: { normal: base.image_uris?.normal || base.image },
-      type_line: base.type_line || base.type,
-      prices: { eur: base.prices?.eur ?? base.price },
-    };
-  }, [selectedCard, scryfallData]);
+  const viewerCard = useViewerCard(selectedCard);
 
   return (
     <div className="tab-collection">

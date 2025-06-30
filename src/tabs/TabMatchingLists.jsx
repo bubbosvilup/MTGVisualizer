@@ -1,8 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useDecks } from '../context/useDecks';
 import useScryfall from '../hooks/useScryfall';
 import CardViewer from '../components/CardViewer';
-import '../styles/TabMatchingLists.css';
+import useViewerCard from '../hooks/useViewerCard';
 
 const CARDTRADER_API = 'https://api.cardtrader.com/api/v2/wishlists';
 const TOKEN = import.meta.env.VITE_CARDTRADER_TOKEN;
@@ -19,20 +19,8 @@ function TabMatchingLists() {
   const [isCreatingWishlist, setIsCreatingWishlist] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState({ current: 0, total: 0, currentCard: '' });
 
-  const viewerCard = useMemo(() => {
-    if (!selectedCard) return null;
-    const match = scryfallData.find(
-      (c) => c.name.toLowerCase() === selectedCard.name.toLowerCase()
-    );
-    const base = match || selectedCard;
-    return {
-      ...base,
-      image_uris: { normal: base.image_uris?.normal || base.image },
-      type_line: base.type_line || base.type,
-      prices: { eur: base.prices?.eur ?? base.price },
-    };
-  }, [selectedCard, scryfallData]);
-  //ia code ahead
+  const viewerCard = useViewerCard(selectedCard);
+  //AI code ahead
   const parseLine = (line) => {
     const match = line.match(/^(\d+)\s*x?\s*(.*)$/i);
     if (!match) return null;
@@ -46,9 +34,11 @@ function TabMatchingLists() {
   const normalizeForComparison = (name) =>
     name
       .toLowerCase()
-      .replace(/[^a-z0-9/ ]/g, '') // rimuove punteggiatura tranne /
+      .replace(/[^a-z0-9/ ]/g, '')
       .replace(/\s+/g, ' ')
       .trim();
+
+  //end of AI code
 
   const handleMatch = () => {
     const lines = deckListText
