@@ -29,8 +29,11 @@ dist-ssr/
 *.sln
 *.sw?
 
-# Custom project data
-server/data/collection.json
+#bulks
+server/data/** 
+!server/data/
+!server/data/scryfall-prints-enriched.json
+!server/data/scryfall-min.json
 
 
 # Decks (large local datasets)
