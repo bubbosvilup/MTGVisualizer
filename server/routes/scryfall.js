@@ -8,9 +8,11 @@ const router = express.Router();
 
 const minPath = path.join(__dirname, '..', 'data', 'scryfall-min.json');
 const maxPath = path.join(__dirname, '..', 'data', 'scryfall-max.json');
+const printsPath = path.join(__dirname, '..', 'data', 'scryfall-prints-enriched.json');
 
 let minCache = null;
 let maxCache = null;
+let printsCache = null;
 
 function loadData(filePath) {
   const raw = fs.readFileSync(filePath, 'utf-8');
@@ -33,6 +35,16 @@ router.get('/max', (req, res) => {
     res.json(maxCache);
   } catch (err) {
     console.error('❌ Failed to read scryfall-max.json:', err);
+    res.status(500).json({ error: 'Failed to load data' });
+  }
+});
+
+router.get('/prints', (req, res) => {
+  try {
+    if (!printsCache) printsCache = loadData(printsPath);
+    res.json(printsCache);
+  } catch (err) {
+    console.error('❌ Failed to read scryfall-prints-enriched.json:', err);
     res.status(500).json({ error: 'Failed to load data' });
   }
 });

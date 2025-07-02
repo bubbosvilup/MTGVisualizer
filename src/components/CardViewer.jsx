@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import usePrints from '../hooks/usePrints';
+
+const TOKEN = import.meta.env.VITE_CARDTRADER_TOKEN;
 import '../styles/CardViewer.css';
 
 // Hook personalizzato per gestire le particelle con performance ottimizzate
@@ -205,7 +208,7 @@ const useTiltEffect = (cardRef, isFlipping) => {
   };
 };
 
-function CardViewer({ card, onClose }) {
+function CardViewer({ card, onClose, onUpdate }) {
   const [showBack, setShowBack] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isFlipping, setIsFlipping] = useState(false);
@@ -313,6 +316,71 @@ function CardViewer({ card, onClose }) {
     setIsLoading(false);
     setImageError(true);
   }, []);
+
+  const printsData = usePrints();
+  const cardPrints = useMemo(() => {
+    if (!card) return [];
+    const entry = printsData.find((p) => p.name.toLowerCase() === card.name.toLowerCase());
+    return entry ? entry.prints : [];
+  }, [printsData, card]);
+  const setOptions = useMemo(() => Array.from(new Set(cardPrints.map((p) => p.set))), [cardPrints]);
+
+  const [selectedSet, setSelectedSet] = useState(card?.preferredSet || setOptions[0] || '');
+  const [currentImage, setCurrentImage] = useState(card?.image);
+  const [avgPrice, setAvgPrice] = useState(card?.price ?? null);
+
+  useEffect(() => {
+    setSelectedSet(card?.preferredSet || setOptions[0] || '');
+    setCurrentImage(card?.image);
+    setAvgPrice(card?.price ?? null);
+  }, [card, setOptions]);
+
+  const fetchAvgPrice = async (blueprintId) => {
+    try {
+      const url = `https://api.cardtrader.com/api/v2/marketplace/products?blueprint_id=${blueprintId}`;
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          Accept: 'application/json',
+        },
+      });
+      const data = await res.json();
+      const offers = data[String(blueprintId)] || [];
+      const prices = offers
+        .slice(0, 5)
+        .map((o) => o.price?.cents)
+        .filter((c) => typeof c === 'number')
+        .map((c) => c / 100);
+      const price =
+        prices.length > 0
+          ? parseFloat((prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(2))
+          : null;
+      return price;
+    } catch (err) {
+      console.error('❌ Errore fetch prezzo:', err);
+      return null;
+    }
+  };
+
+  const handleSetChange = async (e) => {
+    const code = e.target.value;
+    setSelectedSet(code);
+    const print = cardPrints.find((p) => p.set === code);
+    if (!print) return;
+    setCurrentImage(print.image);
+    let price = null;
+    if (print.blueprint) {
+      price = await fetchAvgPrice(print.blueprint);
+    }
+    setAvgPrice(price);
+    onUpdate?.({
+      name: card.name,
+      preferredSet: code,
+      preferredBlueprint: print.blueprint,
+      image: print.image,
+      price,
+    });
+  };
 
   // Memoizza le informazioni della carta per performance
   const cardInfo = useMemo(() => {
@@ -428,7 +496,7 @@ function CardViewer({ card, onClose }) {
 
           <img
             className="card-face front"
-            src={card.image_uris?.normal || card.image}
+            src={currentImage || card.image_uris?.normal || card.image}
             alt={`Fronte della carta ${card.name}`}
             onLoad={handleImageLoad}
             onError={handleImageError}
@@ -487,6 +555,24 @@ function CardViewer({ card, onClose }) {
             />
           )}
 
+          {setOptions.length > 0 && (
+            <div className="set-selector">
+              <label>
+                Set:
+                <select value={selectedSet} onChange={handleSetChange}>
+                  {setOptions.map((s) => (
+                    <option key={s} value={s}>
+                      {s.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <span className="set-price">
+                {avgPrice != null ? `${avgPrice.toFixed(2)} €` : '-- €'}
+              </span>
+            </div>
+          )}
+
           <div className="stats-grid">
             {cardInfo.power && cardInfo.toughness && (
               <div className="stat-item">
@@ -504,10 +590,10 @@ function CardViewer({ card, onClose }) {
               </div>
             )}
 
-            {cardInfo.price && (
+            {avgPrice != null && (
               <div className="stat-item price-item">
                 <span className="stat-label">💰</span>
-                <span className="stat-value">{cardInfo.price}</span>
+                <span className="stat-value">{avgPrice.toFixed(2)} €</span>
               </div>
             )}
           </div>

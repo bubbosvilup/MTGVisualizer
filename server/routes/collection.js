@@ -21,12 +21,12 @@ router.post('/', (req, res) => {
 
 // PATCH /api/collection (aggiunge/aggiorna singola carta)
 router.patch('/', (req, res) => {
-  const { name, qty } = req.body;
-  if (!name || typeof qty !== 'number') {
-    return res.status(400).json({ error: 'Richiesta non valida. Servono name e qty' });
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ error: 'Richiesta non valida. Serve name' });
   }
-  updateCard(name, qty);
-  res.json({ message: 'Carta aggiornata o aggiunta', name, qty });
+  updateCard(req.body);
+  res.json({ message: 'Carta aggiornata o aggiunta', card: req.body });
 });
 
 // DELETE /api/collection (svuota la collezione)

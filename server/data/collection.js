@@ -55,20 +55,24 @@ function setCollection(newData) {
   saveToDisk();
 }
 
-function updateCard(name, qty) {
+function updateCard(data) {
+  const { name, qty, ...rest } = data;
   const index = collection.findIndex((c) => c.name.toLowerCase() === name.toLowerCase());
 
-  if (qty <= 0) {
-    // Remove the card entirely when the quantity is zero or negative
+  if (typeof qty === 'number' && qty <= 0) {
     if (index !== -1) {
       collection.splice(index, 1);
     }
   } else if (index !== -1) {
-    // Update existing card quantity
-    collection[index].qty = qty;
+    collection[index] = {
+      ...collection[index],
+      ...(typeof qty === 'number' ? { qty } : {}),
+      ...rest,
+    };
+  } else if (typeof qty === 'number' && qty > 0) {
+    collection.push({ name, qty, ...rest });
   } else {
-    // Insert new card
-    collection.push({ name, qty });
+    collection.push({ name, qty: 1, ...rest });
   }
   sanitizeCollection();
   saveToDisk();

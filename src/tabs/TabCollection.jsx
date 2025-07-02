@@ -18,8 +18,8 @@ function TabCollection() {
   const [visibleCount, setVisibleCount] = useState(100);
   const [loading, setLoading] = useState(false);
   const [filterColor, setFilterColor] = useState('');
-  const [notification, setNotification] = useState('');
-  const [showNotification, setShowNotification] = useState(false);
+  const [setNotification] = useState('');
+  const [setShowNotification] = useState(false);
   const scryfallData = useScryfall();
   const [selectedCard, setSelectedCard] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
@@ -156,12 +156,11 @@ function TabCollection() {
     }
   };
 
-  const patchCard = async (name, newQty, { silent = false } = {}) => {
-    if (newQty < 0) newQty = 0;
-    const match = scryfallData.find((c) => c.name.toLowerCase() === name.toLowerCase());
+  const patchCardData = async (data, { silent = false } = {}) => {
+    const match = scryfallData.find((c) => c.name.toLowerCase() === data.name.toLowerCase());
     if (!match) {
       if (!silent) {
-        showTempMessage(`❌ Carta non valida: ${capitalizeWords(name)}`);
+        showTempMessage(`❌ Carta non valida: ${capitalizeWords(data.name)}`);
       }
       return false;
     }
@@ -169,7 +168,7 @@ function TabCollection() {
       const response = await fetch('/api/collection', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: match.name, qty: newQty }),
+        body: JSON.stringify({ ...data, name: match.name }),
       });
 
       if (!response.ok) {
@@ -177,22 +176,35 @@ function TabCollection() {
       }
 
       setCollection((prev) => {
-        if (newQty <= 0) {
-          return prev.filter((c) => c.name.toLowerCase() !== match.name.toLowerCase());
-        }
+        const index = prev.findIndex((c) => c.name.toLowerCase() === match.name.toLowerCase());
         const base = {
           name: match.name,
-          image: match.image || '',
-          price: typeof match.price === 'number' ? match.price : null,
+          image: data.image || match.image || '',
+          price:
+            typeof data.price === 'number'
+              ? data.price
+              : typeof match.price === 'number'
+                ? match.price
+                : null,
           colors: match.colors || [],
           type: match.type || '',
         };
-        const index = prev.findIndex((c) => c.name.toLowerCase() === match.name.toLowerCase());
-        if (index !== -1) {
-          return prev.map((c, i) => (i === index ? { ...c, qty: newQty, ...base } : c));
+        if (data.qty !== undefined && data.qty <= 0) {
+          return prev.filter((c) => c.name.toLowerCase() !== match.name.toLowerCase());
         }
-        return [...prev, { ...base, qty: newQty }];
+
+        if (index !== -1) {
+          return prev.map((c, i) => (i === index ? { ...c, ...base, ...data } : c));
+        }
+        return [...prev, { ...base, ...data }];
       });
+      if (selectedCard && selectedCard.name.toLowerCase() === match.name.toLowerCase()) {
+        setSelectedCard((prev) =>
+          prev
+            ? { ...prev, ...data, image: data.image || prev.image, price: data.price ?? prev.price }
+            : prev
+        );
+      }
       if (!silent) {
         showTempMessage('✅ Salvato!');
       }
@@ -205,6 +217,7 @@ function TabCollection() {
       return false;
     }
   };
+  const patchCard = (name, newQty, opts) => patchCardData({ name, qty: newQty }, opts);
   const clearCollection = async () => {
     if (!window.confirm('Svuotare tutta la collezione?')) return;
     try {
@@ -358,7 +371,7 @@ function TabCollection() {
                         </button>
                       </div>
                       <p className="card-price">
-                        {card.price ? `€ ${card.price.toFixed(2)}` : 'N/A'}
+                        {card.price ? `€ ${card.price.toFixed(2)}` : '--€'}
                       </p>
                     </div>
                   </div>
@@ -373,8 +386,13 @@ function TabCollection() {
           )}
         </>
       )}
-      {viewerCard && <CardViewer card={viewerCard} onClose={() => setSelectedCard(null)} />}
-      {showNotification && <Toast message={notification} />}
+      {viewerCard && (
+        <CardViewer
+          card={viewerCard}
+          onClose={() => setSelectedCard(null)}
+          onUpdate={patchCardData}
+        />
+      )}
     </div>
   );
 }
