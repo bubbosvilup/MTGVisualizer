@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 require('dotenv').config();
-const { fetchBlueprint, fetchProducts, computePriceStats } = require('../utils/cardtraderApi');
+const { fetchBlueprint, fetchProducts, computePriceStats } = require('../utils/cardtraderAPI');
 
 router.get('/:cardName', async (req, res) => {
   try {

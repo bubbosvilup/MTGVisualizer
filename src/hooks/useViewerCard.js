@@ -9,12 +9,12 @@ export default function useViewerCard(selectedCard) {
     const match = scryfallData.find(
       (c) => c.name.toLowerCase() === selectedCard.name.toLowerCase()
     );
-    const base = match || selectedCard;
+    const merged = match ? { ...match, ...selectedCard } : selectedCard;
     return {
-      ...base,
-      image_uris: { normal: base.image_uris?.normal || base.image },
-      type_line: base.type_line || base.type,
-      prices: { eur: base.prices?.eur ?? base.price },
+      ...merged,
+      image_uris: { normal: merged.image_uris?.normal || merged.image },
+      type_line: merged.type_line || merged.type,
+      prices: { eur: merged.prices?.eur ?? merged.price },
     };
   }, [selectedCard, scryfallData]);
 }

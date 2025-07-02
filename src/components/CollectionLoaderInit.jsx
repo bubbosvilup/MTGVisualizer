@@ -72,8 +72,8 @@ function CollectionLoaderInit() {
         const first = printsEntry?.prints[0];
         const image = preferred?.image || first?.image || match?.image || '';
         const blueprint = preferred?.blueprint || first?.blueprint;
-        let price = entry.price ?? null;
-        if (!price && entry.preferredBlueprint) {
+        let price = entry.price ?? match?.price ?? null;
+        if (price == null && entry.preferredBlueprint) {
           price = await fetchAvgPrice(entry.preferredBlueprint);
           if (price !== null) {
             try {
