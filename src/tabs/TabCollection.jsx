@@ -18,8 +18,8 @@ function TabCollection() {
   const [visibleCount, setVisibleCount] = useState(100);
   const [loading, setLoading] = useState(false);
   const [filterColor, setFilterColor] = useState('');
-  const [setNotification] = useState('');
-  const [setShowNotification] = useState(false);
+  const [notification, setNotification] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
   const scryfallData = useScryfall();
   const [selectedCard, setSelectedCard] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
@@ -393,6 +393,7 @@ function TabCollection() {
           onUpdate={patchCardData}
         />
       )}
+      {showNotification && <Toast message={notification} />}
     </div>
   );
 }
